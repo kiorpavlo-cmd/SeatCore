@@ -1,0 +1,41 @@
+export default [
+  {
+    files: ["src/**/*.js"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: Object.fromEntries(
+        [
+          "window",
+          "document",
+          "localStorage",
+          "globalThis",
+          "console",
+          "location",
+          "crypto",
+          "setTimeout",
+          "clearTimeout",
+          "structuredClone",
+          "CustomEvent",
+          "URL",
+          "Blob",
+          "FileReader",
+          "FormData",
+          "alert",
+          "confirm",
+          "prompt",
+          "Event",
+          "MutationObserver",
+          "AbortSignal",
+          "requestAnimationFrame",
+        ].map((x) => [x, "readonly"]),
+      ),
+    },
+    rules: {
+      "no-undef": "error",
+      "no-dupe-args": "error",
+      "no-dupe-keys": "error",
+      "no-unreachable": "error",
+    },
+  },
+];

@@ -1,0 +1,236 @@
+#account-page {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #f8f8f8;
+  color: #363636;
+}
+#account-page * {
+  box-sizing: border-box;
+}
+.account-titlebar {
+  height: 43px;
+  flex: none;
+  background: #393939;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+.account-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 26px;
+}
+.account-scroll h2 {
+  font-size: 23px;
+  margin: 0 0 26px;
+}
+.account-panel {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 15px;
+  padding: 26px;
+  margin-bottom: 25px;
+}
+.account-panel h3 {
+  margin: 0 0 24px;
+  font-size: 17px;
+}
+.account-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 18px;
+}
+.account-field {
+  display: block;
+  min-width: 0;
+  font-size: 14px;
+}
+.account-field.wide {
+  grid-column: 1/-1;
+}
+.account-field > span {
+  display: block;
+  margin-bottom: 8px;
+}
+.account-field input,
+.account-field textarea,
+.account-field select {
+  width: 100%;
+  border: 1px solid #d7d7d7;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font: inherit;
+  padding: 11px;
+  outline-color: #118c4f;
+}
+.account-field textarea {
+  height: 128px;
+  resize: vertical;
+}
+.account-field small {
+  display: block;
+  color: #888;
+  margin-top: 6px;
+}
+.account-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin: 17px 0;
+  font-size: 14px;
+}
+.account-check input {
+  accent-color: #118b4a;
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.account-footer {
+  height: 94px;
+  flex: none;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  padding: 20px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.account-green {
+  background: #10894a;
+  color: white;
+  border-radius: 6px;
+  font-weight: 700;
+  padding: 13px 18px;
+}
+.account-search {
+  width: min(420px, 100%);
+  padding: 12px;
+  border: 1px solid #bbb;
+  border-radius: 7px;
+  font-size: 15px;
+}
+.account-tablebox {
+  border: 1px solid #ddd;
+  border-radius: 9px;
+  overflow-x: auto;
+  background: #fff;
+}
+.account-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+  text-align: left;
+}
+.account-table th {
+  padding: 17px;
+  font-size: 13px;
+  border-bottom: 1px solid #ddd;
+  font-weight: 500;
+}
+.account-table td {
+  padding: 19px 17px;
+  font-size: 13px;
+}
+.account-table tr:hover td {
+  background: #e5f6eb;
+}
+.account-table td strong {
+  color: #078c4b;
+  display: block;
+  font-size: 15px;
+}
+.account-table td small {
+  color: #888;
+}
+.account-role {
+  background: #f1f1f1;
+  padding: 7px;
+  border-radius: 7px;
+}
+.account-modal-bg {
+  position: fixed;
+  inset: 0;
+  background: #0008;
+  z-index: 150;
+  display: grid;
+  place-items: center;
+}
+.account-modal {
+  width: min(580px, 94vw);
+  max-height: 88vh;
+  background: white;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 20px #0003;
+}
+.account-modal-header {
+  padding: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.account-modal-header strong {
+  font-size: 21px;
+}
+.account-modal-header button {
+  font-size: 24px;
+}
+.account-modal-body {
+  overflow: auto;
+  padding: 12px 26px 24px;
+}
+.account-modal-footer {
+  padding: 20px 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.account-colors {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin: 10px 0 20px;
+}
+.account-color {
+  height: 34px;
+  width: 34px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+}
+.account-color.active {
+  outline: 2px solid #444;
+  outline-offset: 2px;
+}
+.account-permissions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 15px;
+}
+.account-permissions label {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: 13px;
+}
+.account-permissions input {
+  accent-color: #118b4a;
+}
+@media (max-width: 800px) {
+  .account-scroll {
+    padding: 15px;
+  }
+  .account-fields {
+    grid-template-columns: 1fr;
+  }
+  .account-field.wide {
+    grid-column: auto;
+  }
+}

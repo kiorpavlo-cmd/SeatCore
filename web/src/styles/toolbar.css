@@ -1,0 +1,163 @@
+/* Этап 4 — Блокировка времени и заметки */
+.toolbar-pop {
+  position: fixed;
+  z-index: 80;
+  background: white;
+  border: 1px solid #e4e4e4;
+  border-radius: 12px;
+  box-shadow: 0 8px 22px #0003;
+  color: #393939;
+  font-size: 15px;
+  overflow: auto;
+  max-height: calc(100vh - 75px);
+}
+.toolbar-pop * {
+  box-sizing: border-box;
+}
+.toolbar-block {
+  width: 530px;
+  padding: 22px;
+}
+.toolbar-notes {
+  width: 385px;
+  padding: 22px;
+}
+.toolbar-pop h3 {
+  font-size: 17px;
+  margin: 0 0 22px;
+}
+.toolbar-group {
+  margin-bottom: 18px;
+}
+.toolbar-group-title {
+  margin-bottom: 9px;
+}
+.toolbar-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.toolbar-chip {
+  padding: 8px 13px;
+  border: 1px solid #d0d0d0;
+  border-radius: 22px;
+  background: white;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.toolbar-chip.on {
+  border-color: #bce4c9;
+  background: #bce4c9;
+}
+.toolbar-divider {
+  border: 0;
+  border-top: 1px solid #ddd;
+  margin: 18px 0;
+}
+.toolbar-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.toolbar-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+.toolbar-field input,
+.toolbar-field select {
+  width: 100%;
+  height: 46px;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  color: #333;
+}
+.toolbar-field input:focus,
+.toolbar-field select:focus {
+  outline: 1px solid #0d8b4e;
+  border-color: #0d8b4e;
+}
+.toolbar-save {
+  width: 100%;
+  height: 47px;
+  background: #108a4b;
+  border-radius: 6px;
+  color: white;
+  font-weight: 700;
+  margin-top: 9px;
+}
+.toolbar-notes-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid #ddd;
+  border-radius: 9px;
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+.toolbar-notes-tabs button {
+  border-radius: 7px;
+  padding: 12px 4px;
+  font-weight: 600;
+}
+.toolbar-notes-tabs button.on {
+  background: #9cd5b0;
+}
+.toolbar-notes textarea {
+  width: 100%;
+  height: 320px;
+  resize: vertical;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  padding: 13px;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.toolbar-small {
+  font-size: 12px;
+  color: #888;
+  margin-top: 7px;
+}
+.toolbar-table-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+.toolbar-table-grid button {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 9px 3px;
+  font-size: 12px;
+}
+.toolbar-table-grid button.on {
+  background: #bce4c9;
+  border-color: #108a4b;
+}
+.toolbar-repeat-days {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.toolbar-repeat-days button {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px;
+}
+.toolbar-repeat-days button.on {
+  background: #bce4c9;
+  border-color: #108a4b;
+}
+@media (max-width: 700px) {
+  .toolbar-block,
+  .toolbar-notes {
+    width: calc(100vw - 20px);
+  }
+  .toolbar-fields {
+    grid-template-columns: 1fr;
+  }
+}

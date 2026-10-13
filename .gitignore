@@ -1,0 +1,43 @@
+node_modules/
+.env
+.DS_Store
+server/data/
+web/dist/
+web/.cache/
+web/test-results/
+web/playwright-report/
+
+# Dependencies and builds
+node_modules/
+web/dist/
+web/.cache/
+web/test-results/
+web/playwright-report/
+
+# Databases
+server/data/
+data/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.sqlite-journal
+*.db
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# Local backups
+*.backup-*
+*.bak
+*.tar.gz
+*.zip
+backups/
+EatApp-Backups/
+
+# macOS
+.DS_Store

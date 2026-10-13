@@ -1,0 +1,16 @@
+{
+  "name": "eatapp-server",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/index.js",
+    "dev": "node --watch --env-file-if-exists=.env src/index.js",
+    "test": "node --test tests/*.test.js",
+    "backup": "node --env-file-if-exists=.env scripts/backup.js",
+    "check": "node scripts/check.js && npm test"
+  }
+}

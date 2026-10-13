@@ -1,0 +1,318 @@
+#customField-root {
+  width: 100%;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  background: #f7f7f7;
+  color: #262626;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.customField-header {
+  height: 42px;
+  background: #393939;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.customField-layout {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  min-height: calc(100% - 42px);
+  background: #fafafa;
+}
+
+.customField-menu {
+  border-right: 1px solid #ddd;
+  background: #fff;
+  padding: 20px 12px;
+}
+
+.customField-menu button {
+  display: block;
+  width: 100%;
+  padding: 16px 12px;
+  margin-bottom: 5px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  text-align: left;
+  font-size: 16px;
+  color: #292929;
+  cursor: pointer;
+}
+
+.customField-menu button.active {
+  background: #e1f3e9;
+  font-weight: 700;
+}
+
+.customField-content {
+  padding: 27px 23px;
+  min-width: 0;
+}
+
+.customField-content h2 {
+  font-size: 23px;
+  margin: 0 0 16px;
+}
+
+.customField-muted {
+  color: #777;
+  margin-bottom: 38px;
+}
+
+.customField-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.customField-primary {
+  background: #108747;
+  color: white;
+  border: 1px solid #108747;
+  border-radius: 6px;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.customField-primary:hover {
+  background: #08733a;
+}
+
+.customField-toolbar input {
+  width: 310px;
+  max-width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.customField-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+}
+
+.customField-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 690px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.customField-table th,
+.customField-table td {
+  padding: 18px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.customField-table tr:last-child td {
+  border-bottom: none;
+}
+
+.customField-table th {
+  font-weight: 500;
+}
+
+.customField-table code {
+  font-size: 13px;
+}
+
+.customField-empty {
+  text-align: center;
+  color: #999;
+  padding: 35px !important;
+}
+
+.customField-status {
+  border-radius: 5px;
+  padding: 5px 9px;
+  font-size: 12px;
+}
+
+.customField-status.on {
+  background: #e2f4e9;
+  color: #098244;
+}
+
+.customField-status.off {
+  background: #eee;
+  color: #666;
+}
+
+.customField-link {
+  background: none;
+  border: 0;
+  color: #108747;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#customField-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.23);
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+.customField-dialog {
+  width: min(575px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px #0003;
+  padding: 26px;
+  color: #292929;
+}
+
+.customField-dialog-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.customField-dialog-head h2 {
+  font-size: 23px;
+  margin: 0;
+}
+
+.customField-dialog-head button {
+  border: 0;
+  background: transparent;
+  font-size: 27px;
+  cursor: pointer;
+}
+
+#customField-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#customField-form label {
+  margin: 13px 0 7px;
+  font-size: 14px;
+}
+
+#customField-form input:not([type="checkbox"]),
+#customField-form select,
+#customField-form textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d8d8d8;
+  border-radius: 7px;
+  padding: 12px;
+  font: inherit;
+  background: #fff;
+  color: #222;
+}
+
+#customField-form small {
+  color: #8a8a8a;
+  margin-top: 5px;
+}
+
+#customField-options-wrap[hidden] {
+  display: none;
+}
+
+#customField-options-wrap label {
+  display: block;
+}
+
+#customField-form .customField-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.customField-checkbox input {
+  accent-color: #108747;
+  width: 17px;
+  height: 17px;
+}
+
+.customField-modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-top: 36px;
+}
+
+.customField-modal-footer > div {
+  display: flex;
+  gap: 8px;
+}
+
+.customField-secondary {
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.customField-danger {
+  border: 0;
+  color: #d22;
+  background: none;
+  cursor: pointer;
+}
+
+.customField-nav-link {
+  display: block;
+  width: 100%;
+  padding: 12px 22px;
+  color: #eee;
+  background: transparent;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.customField-nav-link:hover {
+  background: #282828;
+}
+
+@media (max-width: 800px) {
+  .customField-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .customField-menu {
+    display: flex;
+    padding: 8px;
+  }
+
+  .customField-menu button {
+    font-size: 13px;
+  }
+
+  .customField-content {
+    padding: 20px 12px;
+  }
+
+  .customField-modal-footer {
+    flex-wrap: wrap;
+  }
+}

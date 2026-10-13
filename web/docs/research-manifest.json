@@ -1,0 +1,454 @@
+{
+  "source": "/Users/user/Desktop/EatApp-Research",
+  "files": [
+    {
+      "path": "EatApp-Audit.zip",
+      "bytes": 1633,
+      "sha256": "f7d1c86ac9b3fc02281b6edc8526190b746514e31886ab219f13d2b48edb75e2"
+    },
+    {
+      "path": "EatApp-Full-Research.zip",
+      "bytes": 91431,
+      "sha256": "2d8e03cc3b777ccb32c914a519e1a86900b4dcf6f5065256e8b5826c82293398"
+    },
+    {
+      "path": "EatApp-Map-V2.zip",
+      "bytes": 6872,
+      "sha256": "effb8b6e77b70ba2bfbe259887bd0ac9103c4124062f4679f1176b1f1ed169bd"
+    },
+    {
+      "path": "EatApp-Navigation.zip",
+      "bytes": 2250,
+      "sha256": "a6f4a431638bd5b601ef697f72d2b61f55e69d49f471f3db1e60626da754cb85"
+    },
+    {
+      "path": "EatApp-V3.zip",
+      "bytes": 24882,
+      "sha256": "e75fdd1a1560c7307166ab8c7559ebaf0656e06839116e2fd05a1d4134447cc6"
+    },
+    {
+      "path": "EatApp-V4.zip",
+      "bytes": 11786,
+      "sha256": "29b5db1fdb5f55f59367862bb51f4fd4020739c89fd62afb2ce16c199ae181f8"
+    },
+    {
+      "path": "EatApp-V5.zip",
+      "bytes": 26413,
+      "sha256": "5b3d49ed79db478afd1a234e73c165689c03d323d888ed7c2c3010efffbfeaa8"
+    },
+    {
+      "path": "EatApp-V6.zip",
+      "bytes": 4480,
+      "sha256": "d1d6e52078776300be9b401e19e4e35387eeb0db9a84a11d9bd9f032bb774e5b"
+    },
+    {
+      "path": "audit/final/EatApp-Site-Map.html",
+      "bytes": 85062,
+      "sha256": "90d3d4baac60567108b73a5720668e433e7c0ff1e0ad39aa3f5009264fc1c18f"
+    },
+    {
+      "path": "audit/final/site-map.json",
+      "bytes": 545542,
+      "sha256": "0d766ea01b2da31bd2a74f4f1d85d056b22015af7d328d237b6c5625c301137d"
+    },
+    {
+      "path": "audit/final/summary.json",
+      "bytes": 1362,
+      "sha256": "770552f853e2b889e8d8d4e026807c5835da572a4e826c6f2b38884d89cb5492"
+    },
+    {
+      "path": "audit/menu-test.json",
+      "bytes": 4636,
+      "sha256": "fa0be065d25058aceab4c932980c3164c9c19f9d46f5c58cdc189889c85f12b5"
+    },
+    {
+      "path": "audit/navigation/site-map.json",
+      "bytes": 29192,
+      "sha256": "112bec1120728f9923a1216e31c12bad350a9be4ed8bc74084dfdf67a2d109c4"
+    },
+    {
+      "path": "audit/navigation-elements.json",
+      "bytes": 51681,
+      "sha256": "1df3dbd778b6a4fc42a68f5fc4999fc396d49484373aad537d0ffadc1e7e11f5"
+    },
+    {
+      "path": "audit/pages.json",
+      "bytes": 7789,
+      "sha256": "086bd283c01751ea7c879dfe20d81b0728760c7797135dfd06282c3cbabe79e9"
+    },
+    {
+      "path": "audit/routes.json",
+      "bytes": 9,
+      "sha256": "3cf5c15b295b5eb52543a809dca25acb0b2f75344c8e809db44ccc53506cfd50"
+    },
+    {
+      "path": "audit/summary.json",
+      "bytes": 297,
+      "sha256": "3df7f95e66d82d54657c5e291becbcc1184b6c19f1b058f4d9f793fc7e0da6fa"
+    },
+    {
+      "path": "audit/v2/errors.json",
+      "bytes": 1365,
+      "sha256": "df33dfb5bb51f304c03d2842b5d6903e492f0b1a308f6d9d6d52005c670977a1"
+    },
+    {
+      "path": "audit/v2/pages.json",
+      "bytes": 230210,
+      "sha256": "d0fcf654e74a4973abb8dac3e5f3350ae8009eb7f91fa64540596099715ad4a1"
+    },
+    {
+      "path": "audit/v2/summary.json",
+      "bytes": 920,
+      "sha256": "716f6c1ea833603d85eb9416cacd9226656190098809672bec2739d41e7bc8af"
+    },
+    {
+      "path": "audit/v3/errors.json",
+      "bytes": 142,
+      "sha256": "dbaa70f24a0a9fc032fca92541b6378fa63eaa6aae17351e4418416c1e358cf5"
+    },
+    {
+      "path": "audit/v3/menu-inventory.json",
+      "bytes": 62177,
+      "sha256": "f0f8d91524f7cf4bcd5e76b6d39527663ff6b72c75a4327145eabaa17a188ae6"
+    },
+    {
+      "path": "audit/v3/pages.json",
+      "bytes": 817571,
+      "sha256": "0ddb420387b9910b0d82d991378e087db253280c59f6339bbda9a38fc1fca6ea"
+    },
+    {
+      "path": "audit/v3/summary.json",
+      "bytes": 1292,
+      "sha256": "630e77ab25e48de3d629b7f7cce8c9570665c6fac67776230f99fbf36f2f99df"
+    },
+    {
+      "path": "audit/v4/pages.json",
+      "bytes": 431431,
+      "sha256": "7c5e3fb611d9cd3f547816be6a4757bd830cf748084bce8851d8d6ba38c0726d"
+    },
+    {
+      "path": "audit/v4/summary.json",
+      "bytes": 1997,
+      "sha256": "4a276d72970861dba0da4426928f22026bb281ead44266520e1bc3b666e115a1"
+    },
+    {
+      "path": "audit/v5/components.json",
+      "bytes": 659192,
+      "sha256": "dec6de74f6fbcc115b9a6a146121e0b141f42d99ff8a99b783020fd80a5b4594"
+    },
+    {
+      "path": "audit/v5/summary.json",
+      "bytes": 174,
+      "sha256": "287e7e05a710c9ec7bd928abd81d8d3901d5dda3b9305fc2d82fd8a99830f47b"
+    },
+    {
+      "path": "audit/v6/errors.json",
+      "bytes": 364,
+      "sha256": "35a06088f90a35682c1d82ac038f02d70380c4d65452d1b46bb1ec7694562701"
+    },
+    {
+      "path": "audit/v6/interactions.json",
+      "bytes": 119273,
+      "sha256": "41c866422d92278eeae7861d33017cd7e319a043462736840364f11f03b54497"
+    },
+    {
+      "path": "audit/v6/summary.json",
+      "bytes": 161,
+      "sha256": "70352137f7958d572f6cfa3c44d5f09a705f65c87c04cf5608c02b5675eb154a"
+    },
+    {
+      "path": "audit-eatapp.cjs",
+      "bytes": 7931,
+      "sha256": "d8b1bedc502028f7d1bf6f005ec40a7af2749b44120efc105972cf4f88f8624f"
+    },
+    {
+      "path": "build-eatapp-report.py",
+      "bytes": 6877,
+      "sha256": "10ce6e0627b7163d302cfc1681efa6f6864d1a54900297e07154d45d3098013b"
+    },
+    {
+      "path": "diagnose-eatapp.cjs",
+      "bytes": 2100,
+      "sha256": "9a818d463678deaa72fc610f7a1397a86a40773ee2e49724c4478f8b1dde3e20"
+    },
+    {
+      "path": "eatapp-diagnostics.json",
+      "bytes": 918,
+      "sha256": "0feb52c456948278e8781ad5859c5947e1bcd0fcdfa89d231b9881558533ba15"
+    },
+    {
+      "path": "eatapp-v3.cjs",
+      "bytes": 9897,
+      "sha256": "8ec27bff86ebae7c0b8ac178505ee79e200ee3b41d873806f2d477d75fa57239"
+    },
+    {
+      "path": "eatapp-v4.cjs",
+      "bytes": 6187,
+      "sha256": "928b5c65bce8480f0d0bcbfe2308e9eb220f0f74771235c6eef5bac00dd9a40f"
+    },
+    {
+      "path": "eatapp-v5.cjs",
+      "bytes": 7157,
+      "sha256": "4ebc1962df1867b3b29e77431449da99ad42f64aeaa5405d78b037d4fede3444"
+    },
+    {
+      "path": "eatapp-v6.cjs",
+      "bytes": 9424,
+      "sha256": "876327ead66dcf11cf7fd082786ed5501ebd447045d258942fd46c9c20d7f7f9"
+    },
+    {
+      "path": "inspect-navigation.cjs",
+      "bytes": 3338,
+      "sha256": "afd322f08d2fc55668f8baed306f7058bd0717aad45668016e6eedb764f3301e"
+    },
+    {
+      "path": "map-eatapp-v2.cjs",
+      "bytes": 6075,
+      "sha256": "41b0a89c5f9c4db3aea1f7f5719ca0b921a07ab82a5d5c384bfd2e7b16b726d9"
+    },
+    {
+      "path": "map-eatapp.cjs",
+      "bytes": 6404,
+      "sha256": "7a4c6905f219db140fc14dcd0d8f58a2695128a30765096cdf2b9525b9a4cb4d"
+    },
+    {
+      "path": "open-eatapp.cjs",
+      "bytes": 898,
+      "sha256": "7abf974a89b97d3760d92a54983191a51195e4b91f3e19f15fea5eb4f332742d"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 1179,
+      "sha256": "627e08ebfc1e919da6522ef5d52645b9417727ed7eddb6c15236f0ebcb6fa1f4"
+    },
+    {
+      "path": "package.json",
+      "bytes": 282,
+      "sha256": "eafb4e6f85eab3f5cf92754c232b729cac55a6286f8a5f21e6eff46558a8e3c4"
+    },
+    {
+      "path": "test-menu.cjs",
+      "bytes": 3257,
+      "sha256": "f93d92c4adef6988fa123ce3c5a61e57ef5e35e77cf9f4f3a48a3564ad7057be"
+    }
+  ],
+  "archives": [
+    {
+      "path": "EatApp-Audit.zip",
+      "members": [
+        {
+          "name": "audit/",
+          "bytes": 0
+        },
+        {
+          "name": "audit/summary.json",
+          "bytes": 297
+        },
+        {
+          "name": "audit/pages.json",
+          "bytes": 7789
+        },
+        {
+          "name": "audit/routes.json",
+          "bytes": 9
+        }
+      ]
+    },
+    {
+      "path": "EatApp-Full-Research.zip",
+      "members": [
+        {
+          "name": "v3/",
+          "bytes": 0
+        },
+        {
+          "name": "v3/summary.json",
+          "bytes": 1292
+        },
+        {
+          "name": "v3/errors.json",
+          "bytes": 142
+        },
+        {
+          "name": "v3/menu-inventory.json",
+          "bytes": 62177
+        },
+        {
+          "name": "v3/pages.json",
+          "bytes": 817571
+        },
+        {
+          "name": "v4/",
+          "bytes": 0
+        },
+        {
+          "name": "v4/summary.json",
+          "bytes": 1997
+        },
+        {
+          "name": "v4/pages.json",
+          "bytes": 431431
+        },
+        {
+          "name": "v5/",
+          "bytes": 0
+        },
+        {
+          "name": "v5/summary.json",
+          "bytes": 174
+        },
+        {
+          "name": "v5/components.json",
+          "bytes": 659192
+        },
+        {
+          "name": "v6/",
+          "bytes": 0
+        },
+        {
+          "name": "v6/summary.json",
+          "bytes": 161
+        },
+        {
+          "name": "v6/errors.json",
+          "bytes": 364
+        },
+        {
+          "name": "v6/interactions.json",
+          "bytes": 119273
+        },
+        {
+          "name": "final/",
+          "bytes": 0
+        },
+        {
+          "name": "final/summary.json",
+          "bytes": 1362
+        },
+        {
+          "name": "final/site-map.json",
+          "bytes": 545542
+        },
+        {
+          "name": "final/EatApp-Site-Map.html",
+          "bytes": 85062
+        }
+      ]
+    },
+    {
+      "path": "EatApp-Map-V2.zip",
+      "members": [
+        {
+          "name": "audit/v2/",
+          "bytes": 0
+        },
+        {
+          "name": "audit/v2/summary.json",
+          "bytes": 920
+        },
+        {
+          "name": "audit/v2/errors.json",
+          "bytes": 1365
+        },
+        {
+          "name": "audit/v2/pages.json",
+          "bytes": 230210
+        }
+      ]
+    },
+    {
+      "path": "EatApp-Navigation.zip",
+      "members": [
+        {
+          "name": "audit/navigation/",
+          "bytes": 0
+        },
+        {
+          "name": "audit/navigation/site-map.json",
+          "bytes": 29192
+        }
+      ]
+    },
+    {
+      "path": "EatApp-V3.zip",
+      "members": [
+        {
+          "name": "audit/v3/",
+          "bytes": 0
+        },
+        {
+          "name": "audit/v3/summary.json",
+          "bytes": 1292
+        },
+        {
+          "name": "audit/v3/errors.json",
+          "bytes": 142
+        },
+        {
+          "name": "audit/v3/menu-inventory.json",
+          "bytes": 62177
+        },
+        {
+          "name": "audit/v3/pages.json",
+          "bytes": 817571
+        }
+      ]
+    },
+    {
+      "path": "EatApp-V4.zip",
+      "members": [
+        {
+          "name": "audit/v4/",
+          "bytes": 0
+        },
+        {
+          "name": "audit/v4/summary.json",
+          "bytes": 1997
+        },
+        {
+          "name": "audit/v4/pages.json",
+          "bytes": 431431
+        }
+      ]
+    },
+    {
+      "path": "EatApp-V5.zip",
+      "members": [
+        {
+          "name": "audit/v5/",
+          "bytes": 0
+        },
+        {
+          "name": "audit/v5/summary.json",
+          "bytes": 174
+        },
+        {
+          "name": "audit/v5/components.json",
+          "bytes": 659192
+        }
+      ]
+    },
+    {
+      "path": "EatApp-V6.zip",
+      "members": [
+        {
+          "name": "audit/v6/",
+          "bytes": 0
+        },
+        {
+          "name": "audit/v6/summary.json",
+          "bytes": 161
+        },
+        {
+          "name": "audit/v6/errors.json",
+          "bytes": 364
+        },
+        {
+          "name": "audit/v6/interactions.json",
+          "bytes": 119273
+        }
+      ]
+    }
+  ],
+  "excluded": ["browser profiles and caches", "node_modules", ".DS_Store"]
+}

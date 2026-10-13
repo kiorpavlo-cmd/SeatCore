@@ -1,0 +1,125 @@
+/* Этап 3 — боковая навигация */
+.sidebar {
+  overflow: hidden;
+}
+.sidebar #navigation {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: #777 transparent;
+}
+.sidebar #navigation::-webkit-scrollbar {
+  width: 5px;
+}
+.sidebar #navigation::-webkit-scrollbar-thumb {
+  background: #707070;
+  border-radius: 8px;
+}
+.sidebar .side-bottom {
+  margin-top: 0;
+  flex: none;
+  border-top: 1px solid #666;
+  background: #393939;
+}
+.sidebar .nav {
+  flex: none;
+  font-size: 18px;
+}
+.sidebar .nav span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sidebar .nav .nav-arrow {
+  margin-left: auto;
+  font-size: 18px;
+}
+.sidebar .nav.expanded {
+  background: #1c1c1c;
+}
+.sidebar .nav-children {
+  padding: 5px 0 10px;
+}
+.sidebar .nav-child,
+.sidebar .nav-heading {
+  display: block;
+  width: 100%;
+  text-align: left;
+  color: #eee;
+}
+.sidebar .nav-child {
+  min-height: 43px;
+  padding: 10px 12px 10px 36px;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 21px;
+}
+.sidebar .nav-child:hover {
+  background: #4b4b4b;
+}
+.sidebar .nav-child.active {
+  background: #5a5a5a;
+}
+.sidebar .nav-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #bbb;
+  margin: 12px 0 7px;
+  padding-left: 5px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.sidebar .nav-heading:after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: #777;
+}
+.sidebar .nav-spacer {
+  height: 3px;
+}
+.sidebar .account {
+  cursor: pointer;
+}
+.sidebar .venue-switcher {
+  padding: 10px 0;
+  border-top: 1px solid #777;
+}
+.sidebar .venue-search {
+  width: 100%;
+  height: 41px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0 12px;
+  color: #333;
+}
+.sidebar .venue-option {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  padding: 16px 8px;
+  text-align: left;
+  font-weight: 600;
+}
+.sidebar .venue-language {
+  padding: 13px 8px;
+  border-top: 1px solid #777;
+}
+.sidebar .venue-language select {
+  background: #393939;
+  color: white;
+  border: 0;
+  width: 100%;
+  padding: 8px 0;
+}
+.sidebar .side-bottom .account {
+  padding-top: 11px;
+  padding-bottom: 11px;
+}

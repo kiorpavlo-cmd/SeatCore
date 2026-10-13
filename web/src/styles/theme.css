@@ -1,0 +1,431 @@
+/* Оформление по оригиналу Eat App, октябрь 2026. */
+:root {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+}
+.sidebar {
+  width: 300px;
+  background: var(--eat-dark);
+}
+.side-top {
+  height: 44px;
+}
+.reserve {
+  background: #ffcc80;
+  width: 129px;
+  margin-bottom: 18px;
+}
+.sidebar .nav {
+  min-height: 42px;
+}
+.sidebar .nav span {
+  font-weight: 400;
+  font-size: 16px;
+}
+.sidebar .nav.active,
+.sidebar .nav-child.active {
+  background: #1c1d1b;
+}
+.sidebar .nav-child {
+  min-height: 44px;
+  font-size: 16px;
+}
+.sidebar .nav-children {
+  padding-top: 5px;
+}
+.left-panel {
+  width: 482px;
+  background: var(--eat-surface);
+  border: 5px solid #e9e9e9;
+  border-top: 0;
+  border-radius: 14px;
+}
+.topbar {
+  height: 42px;
+  background: var(--eat-dark);
+}
+.tabs {
+  height: 44px;
+}
+.tab {
+  flex: 1;
+  padding: 0 10px;
+  font-size: 16px;
+}
+.tab.selected,
+.room.active {
+  color: var(--eat-green);
+}
+.tab.selected em {
+  background: var(--eat-green);
+}
+.search-line {
+  padding: 12px 10px;
+}
+.chips {
+  padding: 0 10px 12px;
+  border-bottom: 1px solid #d9d9d9;
+}
+.chip {
+  padding: 7px 14px;
+  font-size: 16px;
+}
+.panel-content > .empty {
+  padding-top: 62px;
+}
+.empty strong {
+  font-size: 20px;
+  font-weight: 600;
+}
+.panel-bottom {
+  border-top: 0;
+  padding: 10px;
+}
+.walkin-head {
+  padding: 12px 10px;
+  cursor: pointer;
+}
+.walkin-numbers button {
+  flex: none;
+}
+.floor-section,
+.floor {
+  background: var(--eat-surface);
+}
+.floor-tabs {
+  height: 44px;
+}
+.floor-canvas {
+  width: 700px;
+  height: 610px;
+  min-height: 0;
+}
+.floor {
+  border: 5px solid #e9e9e9;
+  border-top: 0;
+  border-left: 0;
+}
+.floor-actions {
+  gap: 0;
+}
+.room {
+  font-size: 16px;
+}
+.decor {
+  background: #e3e8f7;
+}
+.table-object.long {
+  height: 62px;
+}
+.table-object.wide {
+  width: 62px;
+}
+.table-object.long:before,
+.table-object.long:after {
+  width: 22px;
+  height: 6px;
+  top: -5px;
+}
+.table-object.long:after {
+  top: auto;
+  bottom: -5px;
+}
+.table-object.wide:before,
+.table-object.wide:after {
+  width: 6px;
+  height: 22px;
+  top: 10px;
+  left: -6px;
+}
+.table-object.wide:after {
+  left: auto;
+  right: -6px;
+}
+.table-object.chosen {
+  outline: 0;
+  border-color: var(--eat-green);
+  background: #cce3cc;
+  box-shadow: 0 3px 12px #43864f55;
+}
+.fit-floor {
+  position: absolute;
+  right: 36px;
+  bottom: 38px;
+  left: auto;
+  top: auto;
+  background: var(--eat-green);
+  height: 50px;
+}
+.green {
+  background: var(--eat-green);
+  border-color: var(--eat-green);
+}
+.outline-green,
+.assign,
+.link-green {
+  color: var(--eat-green);
+  border-color: var(--eat-green);
+}
+.booking-form {
+  width: 378px;
+}
+.booking-form-scroll {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.booking-form-scroll > .booking-fields {
+  flex: none;
+}
+.booking-form-scroll > .booking-row,
+.booking-form-scroll > .booking-detail {
+  flex: none;
+}
+.booking-form-scroll {
+  overflow-y: auto;
+  padding-bottom: 86px;
+  position: relative;
+}
+.booking-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 378px;
+  background: #fff;
+  z-index: 8;
+  padding: 18px;
+}
+.booking-row {
+  min-height: 62px;
+}
+.booking-row select {
+  border: 0;
+  background: transparent;
+  min-width: 0;
+  color: #454545;
+  font-size: 14px;
+}
+.booking-row input[type="checkbox"] {
+  margin-left: auto;
+  flex: none;
+}
+.booking-row .row-name {
+  min-width: 110px;
+  font-size: 14px;
+}
+.booking-row .row-value {
+  min-width: 0;
+}
+.booking-header #bookingMinimize {
+  right: 60px;
+  font-size: 26px;
+}
+.booking-header #bookingClose {
+  right: 16px;
+}
+.booking-detail {
+  border-bottom: 1px solid #ddd;
+  padding: 0 16px;
+}
+.booking-detail summary {
+  cursor: pointer;
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #666;
+}
+.booking-detail summary:after {
+  content: "›";
+  margin-left: auto;
+  font-size: 23px;
+}
+.booking-detail summary span {
+  font-size: 13px;
+  color: #999;
+}
+.booking-detail input:not([type="checkbox"]),
+.booking-detail textarea {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 12px;
+}
+.booking-detail textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+.booking-detail label {
+  display: block;
+  margin: 8px 0;
+}
+.booking-detail p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #777;
+}
+#bookingScreen.minimized {
+  top: auto;
+  left: auto;
+  right: 20px;
+  bottom: 20px;
+  width: 400px;
+  height: 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px #0002;
+  cursor: pointer;
+  overflow: hidden;
+}
+#bookingScreen.minimized .booking-content {
+  display: none;
+}
+.booking-plan-header {
+  height: 78px;
+}
+.booking-map-inner {
+  margin-top: 0;
+}
+.booking-selected {
+  display: flex;
+  width: max-content;
+  font-size: 15px;
+  padding: 4px 12px;
+}
+@media (max-width: 1150px) {
+  .sidebar {
+    width: 235px;
+  }
+  .left-panel {
+    width: 400px;
+  }
+  .tab {
+    font-size: 13px;
+  }
+  .sidebar .nav span {
+    font-size: 14px;
+  }
+  .floor-canvas {
+    margin-left: 0;
+  }
+}
+@media (max-width: 900px) {
+  .booking-form,
+  .booking-footer {
+    width: 310px;
+  }
+  .booking-row {
+    padding-left: 10px;
+    padding-right: 10px;
+    gap: 6px;
+  }
+  .booking-row .row-name {
+    min-width: 84px;
+  }
+}
+@media (max-width: 750px) {
+  .sidebar {
+    width: 60px;
+  }
+  .left-panel {
+    width: 48%;
+  }
+  .sidebar .nav > span:first-child {
+    display: block !important;
+  }
+  .sidebar .nav > span:nth-child(2) {
+    display: none;
+  }
+  .tab {
+    font-size: 11px;
+    padding: 0 4px;
+  }
+  .topbar {
+    gap: 6px;
+    padding: 0 8px;
+  }
+  .date-controls,
+  .top-actions {
+    gap: 6px;
+  }
+}
+
+.filter-panel {
+  width: 420px;
+  max-width: calc(100vw - 24px);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: min(560px, calc(100vh - 100px));
+}
+.filter-tabs {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+.filter-tabs button {
+  border-radius: 7px;
+  font-size: 14px;
+  padding: 12px 6px;
+}
+.filter-tabs .active {
+  background: #a5d1ad;
+}
+.filter-scroll {
+  overflow: auto;
+  padding: 2px 18px 24px;
+  min-height: 0;
+  flex: 1;
+}
+.filter-footer {
+  padding: 18px;
+  border-top: 1px solid #ddd;
+  background: white;
+}
+.filter-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #ddd;
+  border-radius: 18px;
+  padding: 7px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.filter-check:has(input:checked) {
+  background: #cce3d0;
+  border-color: #cce3d0;
+}
+.filter-check input {
+  accent-color: var(--eat-green);
+}
+.card-choice {
+  display: block;
+  margin: 12px 0;
+  cursor: pointer;
+}
+.card-preview {
+  border: 1px solid #ddd;
+  border-right: 4px solid var(--eat-green);
+  border-radius: 5px;
+  padding: 12px;
+  margin-top: 6px;
+  background: #fafafa;
+}
+.card-preview small {
+  display: block;
+  margin-top: 6px;
+}
+.compact-card {
+  min-height: 54px;
+}
+.compact-card .res-detail small {
+  display: none;
+}
+.booking-detail select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}

@@ -1,0 +1,10 @@
+/* Shared design values; keep original selectors and feature-specific geometry. */
+:root {
+  --eat-green: #43864f;
+  --eat-surface: #f8f8f8;
+  --eat-dark: #393a38;
+  --eat-border: #ddd;
+  --eat-muted: #777;
+  --eat-radius: 8px;
+  --eat-danger: #bc3030;
+}
