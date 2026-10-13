@@ -5,6 +5,6 @@ export const sidebar = `<aside class="sidebar">
     <nav id="navigation" aria-label="Основная навигация"></nav>
     <div class="side-bottom">
       <div class="account"><div class="avatar">THV</div><div><strong id="restaurant-sidebar-name"></strong><small id="restaurant-sidebar-email"></small></div><span>⌄</span></div>
-      <div class="logout"><strong>eat</strong><button>⇥ Выйти</button></div>
+      <div class="logout"><strong>Mio!</strong><button>⇥ Выйти</button></div>
     </div>
   </aside>`;
