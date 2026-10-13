@@ -6,6 +6,8 @@ import { routeApi } from "./http/routes.js";
 import { serveStatic } from "./http/static.js";
 import { json } from "./http/respond.js";
 import { AppError } from "./domain/errors.js";
+import { AuthService } from "./auth/service.js";
+import { routeAuth } from "./auth/routes.js";
 export function createApp({
   database = ":memory:",
   seed,
@@ -15,6 +17,7 @@ export function createApp({
 }) {
   const store = new DatabaseStore(database, seed);
   const state = new StateService(store);
+  const auth = new AuthService(store.db);
   const server = createServer(async (request, response) => {
     try {
       const host = request.headers.host;
@@ -69,7 +72,9 @@ export function createApp({
           "Недопустимый источник запроса",
         );
       const url = new URL(request.url, "http://" + host);
-      if (url.pathname.startsWith("/api/"))
+      if (url.pathname.startsWith("/api/auth/"))
+        await routeAuth(request, response, url, auth, Boolean(publicHost));
+      else if (url.pathname.startsWith("/api/"))
         await routeApi(request, response, url, state);
       else await serveStatic(request, response, url.pathname, staticDirectory);
     } catch (error) {
