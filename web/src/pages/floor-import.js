@@ -177,9 +177,9 @@ export function createPage(app) {
         room = "room-" + crypto.randomUUID();
         app.state.rooms[room] = name;
         app.floor.positions[room] = [];
-        const backgrounds = storage.read("eatapp-ru-backgrounds-v1", {});
+        const backgrounds = storage.read("mio-ru-backgrounds-v1", {});
         backgrounds[room] = prepared.data;
-        storage.write("eatapp-ru-backgrounds-v1", backgrounds);
+        storage.write("mio-ru-backgrounds-v1", backgrounds);
       }
       app.state.room = room;
       app.floor.persistPositions();

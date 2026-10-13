@@ -14,7 +14,7 @@ export function createEditor({ state, render, floor, hidePop }) {
     const beforeRooms = structuredClone(state.rooms);
     let showUnassigned = state.showUnassigned !== false;
     let activeTab = "tables";
-    const backgrounds = storage.read("eatapp-ru-backgrounds-v1", {});
+    const backgrounds = storage.read("mio-ru-backgrounds-v1", {});
     const root = document.createElement("div");
     root.id = "floorEditor";
     root.className = "floor-editor";
@@ -143,9 +143,9 @@ ${Object.keys(editingPositions)
       };
       root.querySelector("#editorSave").onclick = () => {
         state.showUnassigned = root.querySelector("#showUnassigned").checked;
-        storage.write("eatapp-ru-backgrounds-v1", backgrounds);
+        storage.write("mio-ru-backgrounds-v1", backgrounds);
         persistPositions();
-        storage.write("eatapp-ru-demo-v1", state);
+        storage.write("mio-ru-demo-v1", state);
         root.remove();
         render();
       };

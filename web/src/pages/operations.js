@@ -161,7 +161,7 @@ export function createPage(app) {
   }
   function settings() {
     const support = {
-      email: "support@eatapp.example",
+      email: "support@mio.example",
       phone: "+1 202-555-0147",
       hours: "Пн–Пт, 09:00–18:00 (UTC)",
       languages: "Русский, English",
@@ -171,7 +171,7 @@ export function createPage(app) {
       <div class="settings-card">
         <h2>Техническая поддержка</h2>
         <p>Если у вас возникли вопросы или проблемы
-        при работе с EatApp, свяжитесь с поддержкой.</p>
+        при работе с Mio!, свяжитесь с поддержкой.</p>
 
         <h3>Электронная почта</h3>
         <p>${esc(support.email)}</p>

@@ -2,9 +2,9 @@ import {
   STORAGE_KEYS,
   projectCollection,
 } from "../../../server/contracts/storage.js";
-export const SERVER_MARKER = "eatapp-server-connected-v1";
-const BACKUP_KEY = "eatapp-browser-before-server-v1",
-  UNSAVED_KEY = "eatapp-server-unsaved-v1";
+export const SERVER_MARKER = "mio-server-connected-v1";
+const BACKUP_KEY = "mio-browser-before-server-v1",
+  UNSAVED_KEY = "mio-server-unsaved-v1";
 const nameByKey = Object.fromEntries(
   Object.entries(STORAGE_KEYS).map(([name, key]) => [key, name]),
 );

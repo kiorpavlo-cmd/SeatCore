@@ -4,7 +4,7 @@ import { storage } from "../services/storage.js";
 
 export function createPage(app) {
   "use strict";
-  const KEY = "eatapp-ru-stage10-v1";
+  const KEY = "mio-ru-stage10-v1";
   const TYPE_NAMES = {
     text: "Текстовое поле",
     boolean: "Да / Нет",

@@ -27,7 +27,7 @@ app.server.on("error", async (error) => {
         signal: AbortSignal.timeout(1000),
       });
       const health = await response.json();
-      if (response.ok && health.service === "EatApp server") {
+      if (response.ok && health.service === "Mio! server") {
         console.log("Сервер уже работает: " + address(options.port));
         openSite(address(options.port));
         return;
@@ -36,7 +36,7 @@ app.server.on("error", async (error) => {
   }
   console.error(
     error.code === "EADDRINUSE"
-      ? "Адрес занят. Проверьте ранее запущенный сервер EatApp."
+      ? "Адрес занят. Проверьте ранее запущенный сервер Mio!."
       : error.message,
   );
   process.exitCode = 1;
@@ -44,7 +44,7 @@ app.server.on("error", async (error) => {
 app.server.listen(options.port, options.host, () => {
   const port = app.server.address().port;
   const url = address(port);
-  console.log("EatApp: " + url);
+  console.log("Mio!: " + url);
   console.log("База данных: " + options.database);
   if (process.argv.includes("--open") && process.platform === "darwin")
     openSite(url);

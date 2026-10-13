@@ -220,7 +220,7 @@ ${Object.keys(editingPositions)
         const error = validateReservation(
           { ...record, waitlist: isWait },
           state.reservations,
-          storage.read("eatapp-ru-time-blocks-v1", []),
+          storage.read("mio-ru-time-blocks-v1", []),
           floor.blocked,
         );
         if (error) return alert(error);

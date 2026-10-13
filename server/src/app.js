@@ -33,7 +33,7 @@ export function createApp({
       if (publicHost) {
         const authorization = request.headers.authorization || "";
         const expected = createHash("sha256")
-          .update("eatapp:" + accessPassword)
+          .update("mio:" + accessPassword)
           .digest();
         let valid = false;
         if (authorization.startsWith("Basic ") &&
@@ -49,7 +49,7 @@ export function createApp({
         }
         if (!valid) {
           response.writeHead(401, {
-            "www-authenticate": 'Basic realm="EatApp Test"',
+            "www-authenticate": 'Basic realm="Mio! Test"',
             "cache-control": "no-store",
             "content-type": "text/plain; charset=utf-8",
           });
@@ -82,7 +82,7 @@ export function createApp({
           },
         });
       else response.destroy();
-      if (!error.status) console.error("EatApp server:", error.message);
+      if (!error.status) console.error("Mio! server:", error.message);
     }
   });
   server.requestTimeout = 15000;

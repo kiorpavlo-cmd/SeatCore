@@ -397,7 +397,7 @@ export function createPage(app) {
     if (content) content.style.display = "";
   }
   window.addEventListener("storage", (e) => {
-    if (e.key === "eatapp-ru-demo-v1" && activeView) {
+    if (e.key === "mio-ru-demo-v1" && activeView) {
       try {
         Object.assign(state, JSON.parse(e.newValue) || {});
       } catch {}

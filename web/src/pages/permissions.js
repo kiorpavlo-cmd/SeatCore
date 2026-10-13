@@ -3,7 +3,7 @@ import { storage } from "../services/storage.js";
 
 export function createPage(app) {
   "use strict";
-  const STORAGE_KEY = "eatapp-ru-permissions-v1";
+  const STORAGE_KEY = "mio-ru-permissions-v1";
   const roles = [
     "Сотрудник",
     "Кол-центр",

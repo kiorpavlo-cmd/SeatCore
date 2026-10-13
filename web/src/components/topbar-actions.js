@@ -4,8 +4,8 @@ import { storage } from "../services/storage.js";
 export function createTopbarActions(app) {
   const { state } = app;
   ("use strict");
-  const KEY_BLOCKS = "eatapp-ru-time-blocks-v1";
-  const KEY_NOTES = "eatapp-ru-daily-notes-v1";
+  const KEY_BLOCKS = "mio-ru-time-blocks-v1";
+  const KEY_NOTES = "mio-ru-daily-notes-v1";
   const read = (key, fallback) => storage.read(key, fallback);
   let blocks = read(KEY_BLOCKS, []);
   let notes = read(KEY_NOTES, {});

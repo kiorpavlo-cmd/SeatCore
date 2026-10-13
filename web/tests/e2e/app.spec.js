@@ -21,7 +21,7 @@ const legacy = {
 test.beforeEach(async ({ page }) => {
   await page.addInitScript((data) => {
     if (!sessionStorage.getItem("seeded")) {
-      localStorage.setItem("eatapp-ru-demo-v1", JSON.stringify(data));
+      localStorage.setItem("mio-ru-demo-v1", JSON.stringify(data));
       sessionStorage.setItem("seeded", "1");
     }
   }, legacy);

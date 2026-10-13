@@ -229,7 +229,7 @@ it("оставляет черновик доступным для экспорт
   const browser = createStorage({
     getItem: (key) => memory.get(key) ?? null,
     setItem(key, value) {
-      if (key === "eatapp-server-unsaved-v1") throw new Error("Нет места");
+      if (key === "mio-server-unsaved-v1") throw new Error("Нет места");
       memory.set(key, value);
     },
   });

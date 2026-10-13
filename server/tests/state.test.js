@@ -29,7 +29,7 @@ function fixture(t, file = ":memory:") {
 const update = (service, snapshot, changes, mutationId) =>
   service.commit({ baseRevision: snapshot.revision, changes, mutationId });
 test("Сохраняет запись в настоящей SQLite и перечитывает после открытия", (t) => {
-  const directory = mkdtempSync(path.join(tmpdir(), "eatapp-db-"));
+  const directory = mkdtempSync(path.join(tmpdir(), "mio-db-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const file = path.join(directory, "test.sqlite");
   const first = new DatabaseStore(file, seed),
@@ -168,7 +168,7 @@ test("Миграция сохраняет прежние идентификат�
     baseRevision: initial.revision,
     mutationId: "import",
     legacy: {
-      "eatapp-ru-demo-v1": JSON.stringify({
+      "mio-ru-demo-v1": JSON.stringify({
         ...initial.collections.app,
         date: "2026-10-13",
         search: "Личный поиск",
@@ -255,7 +255,7 @@ test("CRUD работает через те же серверные правил
   assert.equal(removed.collections.app.reservations.length, 0);
 });
 test("Резервная копия SQLite открывается и сохраняет данные", async (t) => {
-  const directory = mkdtempSync(path.join(tmpdir(), "eatapp-backup-"));
+  const directory = mkdtempSync(path.join(tmpdir(), "mio-backup-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const { service, store } = fixture(t);
   update(
@@ -288,7 +288,7 @@ test("Миграция сохраняет старый журнал, дальн�
     baseRevision: 0,
     mutationId: "legacy-audit",
     legacy: {
-      "eatapp-ru-resources-v1": JSON.stringify({ audit: [old], shifts: [] }),
+      "mio-ru-resources-v1": JSON.stringify({ audit: [old], shifts: [] }),
     },
   });
   assert.ok(

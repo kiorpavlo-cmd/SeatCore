@@ -7,7 +7,7 @@ import { storage } from "../services/storage.js";
 export function createPage(app) {
   const { state } = app;
   ("use strict");
-  const KEY = "eatapp-ru-stage9-v1";
+  const KEY = "mio-ru-stage9-v1";
 
   const initial = {
     guests: [],

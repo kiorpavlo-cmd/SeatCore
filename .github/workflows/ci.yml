@@ -1,4 +1,4 @@
-name: Проверка EatApp
+name: Проверка Mio!
 on: [push, pull_request]
 jobs:
   verify:

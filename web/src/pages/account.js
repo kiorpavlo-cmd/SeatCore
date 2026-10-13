@@ -5,7 +5,7 @@ import { storage } from "../services/storage.js";
 
 export function createPage(app) {
   "use strict";
-  const KEY = "eatapp-ru-account-v1";
+  const KEY = "mio-ru-account-v1";
   const defaults = {
     profile: {
       name: "THAI HOUSE Vilnius",

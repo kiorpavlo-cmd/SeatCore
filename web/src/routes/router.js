@@ -90,7 +90,7 @@ export function createRouter(app, navigation) {
       } else app.render();
       document.title =
         (section === "home" ? "Главная" : label || (section === "setup" ? "Настройка" : "Поддержка")) +
-        " — Eat App";
+        " — Mio!";
     } catch (error) {
       toast("Не удалось открыть страницу. Повторите попытку");
       console.error(error);

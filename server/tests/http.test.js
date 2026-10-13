@@ -14,10 +14,10 @@ const seed = JSON.parse(
   readFileSync(new URL("../config/seed.json", import.meta.url), "utf8"),
 );
 async function fixture(t) {
-  const directory = mkdtempSync(path.join(tmpdir(), "eatapp-http-"));
+  const directory = mkdtempSync(path.join(tmpdir(), "mio-http-"));
   writeFileSync(
     path.join(directory, "index.html"),
-    '<html lang="ru">Eat App</html>',
+    '<html lang="ru">Mio!</html>',
   );
   const app = createApp({
     seed,
@@ -39,7 +39,7 @@ test("HTTP отдаёт готовый сайт и состояние базы",
   const { url } = await fixture(t);
   const page = await fetch(url + "/");
   assert.equal(page.status, 200);
-  assert.match(await page.text(), /Eat App/);
+  assert.match(await page.text(), /Mio!/);
   const health = await (await fetch(url + "/api/health")).json();
   assert.equal(health.storage, "sqlite");
   const state = await (await fetch(url + "/api/v1/state")).json();
@@ -111,6 +111,6 @@ test("Статическая раздача не раскрывает файлы
   symlinkSync("/etc/hosts", file);
   const forbidden = await fetch(url + "/private-link");
   assert.equal(forbidden.status, 404);
-  const missing = await fetch(url + "/server/data/eatapp.sqlite");
+  const missing = await fetch(url + "/server/data/mio.sqlite");
   assert.equal(missing.status, 404);
 });

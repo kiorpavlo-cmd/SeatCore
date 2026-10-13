@@ -5,7 +5,7 @@ const config = configuration();
 const target = path.resolve(
   root,
   process.argv[2] ||
-    "data/backups/eatapp-" +
+    "data/backups/mio-" +
       new Date().toISOString().replaceAll(":", "-") +
       ".sqlite",
 );

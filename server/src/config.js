@@ -26,7 +26,7 @@ export function configuration(env = process.env) {
     publicHost,
     accessPassword,
     port,
-    database: path.resolve(root, env.DATABASE_PATH || "data/eatapp.sqlite"),
+    database: path.resolve(root, env.DATABASE_PATH || "data/mio.sqlite"),
     staticDirectory: path.resolve(root, env.WEB_DIST || "../web/dist"),
     seed: JSON.parse(readFileSync(path.join(root, "config/seed.json"), "utf8")),
   };

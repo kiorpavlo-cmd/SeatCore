@@ -1,48 +1,48 @@
 {
-  "source": "/Users/user/Desktop/EatApp-Research",
+  "source": "/Users/user/Desktop/Mio!-Research",
   "files": [
     {
-      "path": "EatApp-Audit.zip",
+      "path": "Mio!-Audit.zip",
       "bytes": 1633,
       "sha256": "f7d1c86ac9b3fc02281b6edc8526190b746514e31886ab219f13d2b48edb75e2"
     },
     {
-      "path": "EatApp-Full-Research.zip",
+      "path": "Mio!-Full-Research.zip",
       "bytes": 91431,
       "sha256": "2d8e03cc3b777ccb32c914a519e1a86900b4dcf6f5065256e8b5826c82293398"
     },
     {
-      "path": "EatApp-Map-V2.zip",
+      "path": "Mio!-Map-V2.zip",
       "bytes": 6872,
       "sha256": "effb8b6e77b70ba2bfbe259887bd0ac9103c4124062f4679f1176b1f1ed169bd"
     },
     {
-      "path": "EatApp-Navigation.zip",
+      "path": "Mio!-Navigation.zip",
       "bytes": 2250,
       "sha256": "a6f4a431638bd5b601ef697f72d2b61f55e69d49f471f3db1e60626da754cb85"
     },
     {
-      "path": "EatApp-V3.zip",
+      "path": "Mio!-V3.zip",
       "bytes": 24882,
       "sha256": "e75fdd1a1560c7307166ab8c7559ebaf0656e06839116e2fd05a1d4134447cc6"
     },
     {
-      "path": "EatApp-V4.zip",
+      "path": "Mio!-V4.zip",
       "bytes": 11786,
       "sha256": "29b5db1fdb5f55f59367862bb51f4fd4020739c89fd62afb2ce16c199ae181f8"
     },
     {
-      "path": "EatApp-V5.zip",
+      "path": "Mio!-V5.zip",
       "bytes": 26413,
       "sha256": "5b3d49ed79db478afd1a234e73c165689c03d323d888ed7c2c3010efffbfeaa8"
     },
     {
-      "path": "EatApp-V6.zip",
+      "path": "Mio!-V6.zip",
       "bytes": 4480,
       "sha256": "d1d6e52078776300be9b401e19e4e35387eeb0db9a84a11d9bd9f032bb774e5b"
     },
     {
-      "path": "audit/final/EatApp-Site-Map.html",
+      "path": "audit/final/Mio!-Site-Map.html",
       "bytes": 85062,
       "sha256": "90d3d4baac60567108b73a5720668e433e7c0ff1e0ad39aa3f5009264fc1c18f"
     },
@@ -157,42 +157,42 @@
       "sha256": "70352137f7958d572f6cfa3c44d5f09a705f65c87c04cf5608c02b5675eb154a"
     },
     {
-      "path": "audit-eatapp.cjs",
+      "path": "audit-mio.cjs",
       "bytes": 7931,
       "sha256": "d8b1bedc502028f7d1bf6f005ec40a7af2749b44120efc105972cf4f88f8624f"
     },
     {
-      "path": "build-eatapp-report.py",
+      "path": "build-mio-report.py",
       "bytes": 6877,
       "sha256": "10ce6e0627b7163d302cfc1681efa6f6864d1a54900297e07154d45d3098013b"
     },
     {
-      "path": "diagnose-eatapp.cjs",
+      "path": "diagnose-mio.cjs",
       "bytes": 2100,
       "sha256": "9a818d463678deaa72fc610f7a1397a86a40773ee2e49724c4478f8b1dde3e20"
     },
     {
-      "path": "eatapp-diagnostics.json",
+      "path": "mio-diagnostics.json",
       "bytes": 918,
       "sha256": "0feb52c456948278e8781ad5859c5947e1bcd0fcdfa89d231b9881558533ba15"
     },
     {
-      "path": "eatapp-v3.cjs",
+      "path": "mio-v3.cjs",
       "bytes": 9897,
       "sha256": "8ec27bff86ebae7c0b8ac178505ee79e200ee3b41d873806f2d477d75fa57239"
     },
     {
-      "path": "eatapp-v4.cjs",
+      "path": "mio-v4.cjs",
       "bytes": 6187,
       "sha256": "928b5c65bce8480f0d0bcbfe2308e9eb220f0f74771235c6eef5bac00dd9a40f"
     },
     {
-      "path": "eatapp-v5.cjs",
+      "path": "mio-v5.cjs",
       "bytes": 7157,
       "sha256": "4ebc1962df1867b3b29e77431449da99ad42f64aeaa5405d78b037d4fede3444"
     },
     {
-      "path": "eatapp-v6.cjs",
+      "path": "mio-v6.cjs",
       "bytes": 9424,
       "sha256": "876327ead66dcf11cf7fd082786ed5501ebd447045d258942fd46c9c20d7f7f9"
     },
@@ -202,17 +202,17 @@
       "sha256": "afd322f08d2fc55668f8baed306f7058bd0717aad45668016e6eedb764f3301e"
     },
     {
-      "path": "map-eatapp-v2.cjs",
+      "path": "map-mio-v2.cjs",
       "bytes": 6075,
       "sha256": "41b0a89c5f9c4db3aea1f7f5719ca0b921a07ab82a5d5c384bfd2e7b16b726d9"
     },
     {
-      "path": "map-eatapp.cjs",
+      "path": "map-mio.cjs",
       "bytes": 6404,
       "sha256": "7a4c6905f219db140fc14dcd0d8f58a2695128a30765096cdf2b9525b9a4cb4d"
     },
     {
-      "path": "open-eatapp.cjs",
+      "path": "open-mio.cjs",
       "bytes": 898,
       "sha256": "7abf974a89b97d3760d92a54983191a51195e4b91f3e19f15fea5eb4f332742d"
     },
@@ -234,7 +234,7 @@
   ],
   "archives": [
     {
-      "path": "EatApp-Audit.zip",
+      "path": "Mio!-Audit.zip",
       "members": [
         {
           "name": "audit/",
@@ -255,7 +255,7 @@
       ]
     },
     {
-      "path": "EatApp-Full-Research.zip",
+      "path": "Mio!-Full-Research.zip",
       "members": [
         {
           "name": "v3/",
@@ -330,13 +330,13 @@
           "bytes": 545542
         },
         {
-          "name": "final/EatApp-Site-Map.html",
+          "name": "final/Mio!-Site-Map.html",
           "bytes": 85062
         }
       ]
     },
     {
-      "path": "EatApp-Map-V2.zip",
+      "path": "Mio!-Map-V2.zip",
       "members": [
         {
           "name": "audit/v2/",
@@ -357,7 +357,7 @@
       ]
     },
     {
-      "path": "EatApp-Navigation.zip",
+      "path": "Mio!-Navigation.zip",
       "members": [
         {
           "name": "audit/navigation/",
@@ -370,7 +370,7 @@
       ]
     },
     {
-      "path": "EatApp-V3.zip",
+      "path": "Mio!-V3.zip",
       "members": [
         {
           "name": "audit/v3/",
@@ -395,7 +395,7 @@
       ]
     },
     {
-      "path": "EatApp-V4.zip",
+      "path": "Mio!-V4.zip",
       "members": [
         {
           "name": "audit/v4/",
@@ -412,7 +412,7 @@
       ]
     },
     {
-      "path": "EatApp-V5.zip",
+      "path": "Mio!-V5.zip",
       "members": [
         {
           "name": "audit/v5/",
@@ -429,7 +429,7 @@
       ]
     },
     {
-      "path": "EatApp-V6.zip",
+      "path": "Mio!-V6.zip",
       "members": [
         {
           "name": "audit/v6/",

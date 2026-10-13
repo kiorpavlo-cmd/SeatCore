@@ -6,7 +6,7 @@ export async function routeApi(request, response, url, state) {
   if (path === "/api/health" && method === "GET") {
     json(response, 200, {
       status: "ok",
-      service: "EatApp server",
+      service: "Mio! server",
       storage: "sqlite",
     });
     return;

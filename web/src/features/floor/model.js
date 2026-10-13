@@ -19,14 +19,14 @@ export function createFloor({ state, save, render, openReservation }) {
   const originalTables = tablePositions.map((a) => a.slice());
 
   let editingPositions = normalizeFloor(
-    storage.read("eatapp-stage2-positions", null),
+    storage.read("mio-stage2-positions", null),
     { main: originalTables, terrace: terraceTables },
   );
-  let blocked = storage.read("eatapp-stage2-blocked", []);
+  let blocked = storage.read("mio-stage2-blocked", []);
   if (!Array.isArray(blocked)) blocked = [];
   function persistPositions() {
     storage.setItem(
-      "eatapp-stage2-positions",
+      "mio-stage2-positions",
       JSON.stringify(editingPositions),
     );
   }
@@ -184,7 +184,7 @@ export function createFloor({ state, save, render, openReservation }) {
       blocked = blocked.includes(key)
         ? blocked.filter((x) => x !== key)
         : [...blocked, key];
-      storage.setItem("eatapp-stage2-blocked", JSON.stringify(blocked));
+      storage.setItem("mio-stage2-blocked", JSON.stringify(blocked));
       closeDialog();
       render();
     };
@@ -242,7 +242,7 @@ export function createFloor({ state, save, render, openReservation }) {
                 )),
           );
       }
-      const background = storage.read("eatapp-ru-backgrounds-v1", {})[
+      const background = storage.read("mio-ru-backgrounds-v1", {})[
         state.room
       ];
       el.style.backgroundImage = background ? `url("${background}")` : "";
