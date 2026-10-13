@@ -7,7 +7,7 @@ export const root = path.resolve(
 );
 export function configuration(env = process.env) {
   const host = env.HOST || "127.0.0.1";
-  const publicHost = env.PUBLIC_HOST || "";
+  const publicHost = env.PUBLIC_HOST || env.RENDER_EXTERNAL_HOSTNAME || "";
   const accessPassword = env.ACCESS_PASSWORD || "";
   if (publicHost) {
     if (
