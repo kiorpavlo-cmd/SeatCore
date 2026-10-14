@@ -1,6 +1,7 @@
 import { storage, usePersistence, localStorageRepository } from "./storage.js";
 import { createApi } from "./api.js";
 import { createServerStorage } from "./server-storage.js";
+import { seedDemoData } from "../config/demo-data.js";
 export function disconnectedStorage(local, message, report, retry) {
   return {
     ...local,
@@ -20,11 +21,13 @@ export async function initializePersistence() {
   const announce = (detail) =>
     document.dispatchEvent(new CustomEvent("persistence:status", { detail }));
   if (import.meta.env?.VITE_DEMO_MODE === "true") {
+    seedDemoData(localStorageRepository);
     const demoRepository = {
       ...localStorageRepository,
       persistence: {
         mode: "local",
         status: "local",
+        access: { role: "owner", permissions: {} },
         message:
           "Демо: изменения хранятся только в этом браузере. Бронирования не отправляются ресторану.",
       },
@@ -45,14 +48,16 @@ export async function initializePersistence() {
     });
     usePersistence(repository);
   } catch {
-    const message = "Локальный сервер недоступен. Запустите Mio из папки проекта и нажмите здесь для повторного подключения. Сохранение приостановлено: данные хранятся в server/data/mio.sqlite.";
+    const message =
+      "Локальный сервер недоступен. Запустите Mio из папки проекта и нажмите здесь для повторного подключения. Сохранение приостановлено: данные хранятся в server/data/mio.sqlite.";
     usePersistence(
       disconnectedStorage(
         localStorageRepository,
         message,
-        (issue) => document.dispatchEvent(
-          new CustomEvent("storage:error", { detail: issue }),
-        ),
+        (issue) =>
+          document.dispatchEvent(
+            new CustomEvent("storage:error", { detail: issue }),
+          ),
         () => location.reload(),
       ),
     );
