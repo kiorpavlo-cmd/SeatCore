@@ -30,7 +30,8 @@ export function readFields() {
 export function normalizeFloor(value, fallback) {
   const source = object(value),
     result = {};
-  for (const [room, tables] of Object.entries({ ...fallback, ...source })) {
+  const rooms = Object.keys(source).length ? source : fallback;
+  for (const [room, tables] of Object.entries(rooms)) {
     result[room] = Array.isArray(tables)
       ? tables.filter(
           (row) =>

@@ -1,3 +1,6 @@
+import { ROLES } from "../../../../server/contracts/permissions.js";
+import { createApi } from "../../services/api.js";
+import { storage } from "../../services/storage.js";
 import { escapeHTML as esc } from "../../lib/dom.js";
 
 export function createUserForm(ctx) {
@@ -34,7 +37,9 @@ export function createUserForm(ctx) {
     ["mergeGuests", "Объединение гостей"],
   ];
   function userModal(id) {
-    const { data, save, paint } = ctx;
+    const { data, paint, reload } = ctx;
+    const api = createApi();
+    let pending = null;
     const existing = data.users.find((u) => String(u.id) === String(id));
     const u = existing
       ? { ...existing }
@@ -64,14 +69,15 @@ export function createUserForm(ctx) {
  <label class="account-field"><span>Имя</span><input id="uName" value="${esc(u.name)}"></label>
  <label class="account-field wide"><span>Должность</span><select id="uJob">
  ${["", "Приём гостей", "Обслуживание", "Маркетинг", "Управление", "Финансы", "Склад", "Шеф-повар", "IT-администрирование"].map((v) => `<option ${u.job === v ? "selected" : ""}>${v}</option>`).join("")}</select></label>
- <label class="account-field wide"><span>Роль</span><select id="uRole"><option value="Сотрудник" ${u.role === "Сотрудник" ? "selected" : ""}>Сотрудник</option><option value="Менеджер" ${u.role === "Менеджер" ? "selected" : ""}>Менеджер</option></select></label>
+ <label class="account-field wide"><span>Роль</span><select id="uRole">${ROLES.map((role) => `<option ${u.role === role ? "selected" : ""}>${esc(role)}</option>`).join("")}</select></label>
  </div>
  <h4>Функции</h4><div class="account-permissions">${chk("login", "Может входить")}${chk("taker", "Принимать бронирования")}${chk("server", "Обслуживать столы")}</div>
- <h4>PIN-код</h4><label class="account-field"><input id="uPin" type="password" value="${esc(u.pin || "")}" inputmode="numeric" maxlength="4" placeholder="Необязательно, 4 цифры"></label>
+ <h4>Пароль для входа</h4><label class="account-field"><input id="uPassword" aria-label="Пароль для входа" type="password" autocomplete="new-password" minlength="12" placeholder="Минимум 12 символов"></label><p>${existing?.hasPassword ? "Пароль установлен. Оставьте поле пустым, чтобы сохранить его." : "Для входа сотрудника задайте пароль. Сообщите его сотруднику лично."}</p>
+ <h4>PIN-код</h4><label class="account-field"><input id="uPin" aria-label="PIN сотрудника" type="password" value="${esc(u.pin || "")}" inputmode="numeric" maxlength="4" placeholder="Необязательно, 4 цифры"></label>
  <h4>Цвет столов официанта</h4><div class="account-colors">${colors.map((c) => `<button class="account-color ${u.color === c ? "active" : ""}" data-color="${c}" style="background:${c}" aria-label="${c}"></button>`).join("")}</div>
  <label class="account-field"><span>Внутренний номер телефона</span><input id="uExtension" value="${esc(u.extension)}" placeholder="Необязательно"></label>
  <h4>Разрешения</h4><div class="account-permissions">${permissions.map(([k, label]) => chk(k, label)).join("")}</div>
- </div><div class="account-modal-footer">${existing ? '<button id="account-remove" style="color:#d22">Удалить пользователя</button>' : "<span></span>"}<button class="account-green" id="account-confirm">${existing ? "Обновить пользователя" : "Продолжить"}</button></div></div>`;
+ </div><p id="uError" role="alert" style="color:#b42318;padding:0 24px"></p><div class="account-modal-footer">${existing ? '<button id="account-remove" style="color:#d22">Удалить пользователя</button>' : "<span></span>"}<button class="account-green" id="account-confirm">${existing ? "Обновить пользователя" : "Создать сотрудника"}</button></div></div>`;
     document.body.append(bg);
     const close = () => bg.remove();
     bg.querySelector("#account-close").onclick = close;
@@ -87,47 +93,93 @@ export function createUserForm(ctx) {
           );
         }),
     );
-    bg.querySelector("#account-confirm").onclick = () => {
-      const get = (s) => bg.querySelector(s).value.trim();
+    async function submit(method, user) {
+      await storage.flush();
+      if (storage.persistence.status === "error")
+        throw new Error("Сначала сохраните или восстановите текущие изменения");
+      const snapshot = await api.request("/v1/state");
+      const path = existing
+        ? "/v1/employees/" + encodeURIComponent(existing.id)
+        : "/v1/employees";
+      const signature = JSON.stringify([method, user]);
+      if (!pending || pending.signature !== signature)
+        pending = {
+          signature,
+          body: {
+            user,
+            baseRevision: snapshot.revision,
+            mutationId: crypto.randomUUID(),
+          },
+        };
+      await api.request(path, { method, body: pending.body });
+      bg.querySelector("#uPassword").value = "";
+      await reload();
+      close();
+      paint();
+    }
+    const passwordInput = bg.querySelector("#uPassword");
+    const loginInput = bg.querySelector('[data-ucheck="login"]');
+    const updatePassword = () =>
+      (passwordInput.required = loginInput.checked && !existing?.hasPassword);
+    loginInput.addEventListener("change", updatePassword);
+    updatePassword();
+    bg.querySelector("#account-confirm").onclick = async () => {
+      const button = bg.querySelector("#account-confirm"),
+        error = bg.querySelector("#uError");
+      error.textContent = "";
+      const get = (selector) => bg.querySelector(selector).value.trim();
       const email = get("#uEmail");
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-        return alert("Укажите корректную электронную почту.");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        error.textContent = "Укажите корректную электронную почту.";
+        return;
+      }
+      const password = passwordInput.value;
       if (
-        data.users.some(
-          (x) =>
-            x.id !== existing?.id &&
-            x.email.toLowerCase() === email.toLowerCase(),
-        )
-      )
-        return alert("Электронная почта уже используется.");
+        (loginInput.checked && !existing?.hasPassword && !password) ||
+        (password && (password.length < 12 || password.length > 1024))
+      ) {
+        error.textContent = "Задайте пароль длиной не менее 12 символов.";
+        return;
+      }
       const pin = get("#uPin");
-      if (pin && !/^\d{4}$/.test(pin))
-        return alert("PIN должен содержать 4 цифры.");
-      Object.assign(u, {
-        id: existing?.id || Date.now(),
+      if (pin && !/^\d{4}$/.test(pin)) {
+        error.textContent = "PIN должен содержать 4 цифры.";
+        return;
+      }
+      const user = {
+        ...u,
         email,
         name: get("#uName") || email.split("@")[0],
         job: get("#uJob"),
         role: get("#uRole"),
         pin,
         extension: get("#uExtension"),
-      });
+      };
+      if (password) user.password = password;
       bg.querySelectorAll("[data-ucheck]").forEach(
-        (el) => (u[el.dataset.ucheck] = el.checked),
+        (el) => (user[el.dataset.ucheck] = el.checked),
       );
-      if (existing) Object.assign(existing, u);
-      else data.users.push(u);
-      save();
-      close();
-      paint();
+      button.disabled = true;
+      try {
+        await submit(existing ? "PATCH" : "POST", user);
+      } catch (issue) {
+        error.textContent = issue.message;
+      } finally {
+        button.disabled = false;
+      }
     };
     if (existing)
-      bg.querySelector("#account-remove").onclick = () => {
-        if (confirm("Удалить пользователя из списка приложения?")) {
-          data.users = data.users.filter((x) => x.id !== existing.id);
-          save();
-          close();
-          paint();
+      bg.querySelector("#account-remove").onclick = async () => {
+        if (!confirm("Удалить сотрудника и отключить его учётную запись?"))
+          return;
+        const button = bg.querySelector("#account-remove");
+        button.disabled = true;
+        try {
+          await submit("DELETE");
+        } catch (issue) {
+          bg.querySelector("#uError").textContent = issue.message;
+        } finally {
+          button.disabled = false;
         }
       };
   }

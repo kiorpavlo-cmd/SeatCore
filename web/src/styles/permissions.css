@@ -8,7 +8,7 @@
   flex-direction: column;
   background: #fafafa;
   color: #333;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-family);
   font-size: 14px;
 }
 
@@ -253,5 +253,139 @@
   }
   .permissions-role span {
     font-size: 12px;
+  }
+}
+
+
+/* MIO V5 — Permissions: Graphite Blue */
+
+#permissions-page {
+  background: #f5f7fa;
+  color: #111827;
+  font-family: var(--font-family);
+  font-size: 13px;
+}
+
+#permissions-page .permissions-header {
+  height: 43px;
+  background: #ffffff;
+  color: #111827;
+  border-bottom: 1px solid #e5eaf1;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#permissions-page .permissions-scroll {
+  background: #f5f7fa;
+  padding: 26px 25px 40px;
+  scrollbar-gutter: stable;
+}
+
+#permissions-page .permissions-scroll h2 {
+  color: #111827;
+  font-size: 23px;
+  font-weight: 750;
+  letter-spacing: -.5px;
+}
+
+#permissions-page .permissions-description,
+#permissions-page .permissions-notice {
+  color: #718096;
+  line-height: 1.5;
+}
+
+#permissions-page .permissions-section-heading {
+  color: #111827;
+  font-size: 13px;
+}
+
+#permissions-page .permissions-card,
+#permissions-page .permissions-table {
+  background: #fff;
+  border: 1px solid #e5eaf1;
+  border-radius: 12px;
+  box-shadow: 0 3px 14px rgba(15,23,42,.035);
+}
+
+#permissions-page .permissions-card {
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+#permissions-page .permissions-card-title {
+  color: #111827;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#permissions-page .permissions-card-description {
+  color: #718096;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+#permissions-page .permissions-role span {
+  color: #334155;
+  font-size: 12px;
+  font-weight: 550;
+}
+
+#permissions-page input[type="checkbox"],
+#permissions-page input[type="radio"] {
+  accent-color: #2563eb;
+}
+
+#permissions-page .permissions-search,
+#permissions-page .permissions-override-controls input,
+#permissions-page .permissions-override-item select {
+  border: 1px solid #dbe3ee;
+  border-radius: 9px;
+  background: white;
+  color: #111827;
+}
+
+#permissions-page .permissions-search:focus-within {
+  border-color: #93b4f5;
+}
+
+#permissions-page .permissions-green,
+#permissions-page .permissions-to-top {
+  background: #2563eb;
+  color: #fff;
+  border-radius: 9px;
+  font-weight: 650;
+}
+
+#permissions-page .permissions-green:hover,
+#permissions-page .permissions-to-top:hover {
+  background: #1d4ed8;
+}
+
+#permissions-page .permissions-override-label,
+#permissions-page .permissions-override-empty {
+  color: #8793a5;
+}
+
+#permissions-page .permissions-roles {
+  border-bottom: 1px solid #e5eaf1;
+}
+
+#permissions-page .permissions-bottom {
+  position: static;
+  background: transparent;
+  padding: 12px 0 0;
+}
+
+#permissions-page button:focus-visible,
+#permissions-page input:focus-visible,
+#account-page button:focus-visible,
+#account-page input:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+@media (max-width: 1000px) {
+  #permissions-page .permissions-scroll {
+    padding: 18px 14px 30px;
   }
 }

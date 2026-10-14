@@ -1,3 +1,15 @@
+export function reservationTables(record) {
+  const values = Array.isArray(record?.tables)
+    ? record.tables
+    : record?.table == null || record.table === ""
+      ? []
+      : [record.table];
+
+  return [...new Set(
+    values.map(String).filter((value) => value.trim())
+  )];
+}
+
 const CLOSED = [
   "Отменено",
   "Отменено гостем",
@@ -41,14 +53,15 @@ export function validateReservation(
   const room = record.room || "main",
     start = stamp(record.date, record.time),
     end = start + record.duration * 60000;
-  if (record.table) {
-    if (tableBlocks.includes(room + ":" + record.table))
+  const selectedTables = reservationTables(record);
+  if (selectedTables.length) {
+    if (selectedTables.some((table) => tableBlocks.includes(room + ":" + table)))
       return "Выбранный стол заблокирован";
     const overlap = existing.some(
       (r) =>
         r.id !== record.id &&
         (r.room || "main") === room &&
-        String(r.table) === String(record.table) &&
+        reservationTables(r).some((table) => selectedTables.includes(table)) &&
         !CLOSED.includes(r.status) &&
         start < stamp(r.date, r.time) + (r.duration || 90) * 60000 &&
         end > stamp(r.date, r.time),
@@ -61,7 +74,7 @@ export function validateReservation(
       until = b.end || b.endDate + "T" + b.endTime;
     if (
       b.scope === "Выбранные столы" &&
-      (!record.table || !b.tables?.map(String).includes(String(record.table)))
+      (!selectedTables.some((table) => b.tables?.map(String).includes(table)))
     )
       continue;
     const source =

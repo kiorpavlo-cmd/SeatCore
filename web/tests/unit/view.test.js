@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { filterReservations } from "../../src/services/reservation-queries.js";
 import { tableLabel } from "../../src/features/floor/labels.js";
 import { availableTables } from "../../src/services/view-availability.js";
-import { validateFloorImport } from "../../src/pages/floor-import.js";
+import { validateFloorImport } from "../../src/features/floor/import-validator.js";
 const rows = [
   {
     id: 1,

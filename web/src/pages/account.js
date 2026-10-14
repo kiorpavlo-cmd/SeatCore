@@ -9,6 +9,7 @@ export function createPage(app) {
   const defaults = {
     profile: {
       name: "THAI HOUSE Vilnius",
+      logo: "",
       description: "",
       phone: "",
       email: "",
@@ -35,7 +36,10 @@ export function createPage(app) {
     users: [],
   };
   let data = readAccount(defaults);
-  const save = () => storage.setItem(KEY, JSON.stringify(data));
+  const save = () => {
+    storage.setItem(KEY, JSON.stringify(data));
+    window.dispatchEvent(new Event("mio-restaurant-profile-updated"));
+  };
 
   let page = "",
     query = "";
@@ -76,9 +80,7 @@ export function createPage(app) {
     ];
     const saved = String(data.profile.timezone || "");
 
-    const zones = [...new Set(
-      [local, saved, ...supported].filter(Boolean)
-    )];
+    const zones = [...new Set([local, saved, ...supported].filter(Boolean))];
 
     const offset = (zone) => {
       try {
@@ -87,9 +89,8 @@ export function createPage(app) {
           timeZoneName: "longOffset",
         }).formatToParts(new Date());
 
-        const value = parts.find(
-          (part) => part.type === "timeZoneName"
-        )?.value || "GMT";
+        const value =
+          parts.find((part) => part.type === "timeZoneName")?.value || "GMT";
 
         return value.replace("GMT", "UTC") === "UTC"
           ? "UTC+00:00"
@@ -99,20 +100,28 @@ export function createPage(app) {
       }
     };
 
-    return zones.map((zone, index) => {
-      const title = "";
+    return zones
+      .map((zone, index) => {
+        const title = "";
 
-      return `<option value="${esc(zone)}"
+        return `<option value="${esc(zone)}"
         ${zone === saved ? "selected" : ""}>
         ${esc(zone)} (${offset(zone)})${title}
       </option>`;
-    }).join("");
+      })
+      .join("");
   }
 
   function field(id, label, wide = false, textarea = false) {
     const requiredFields = [
-      "name", "phone", "email", "timezone",
-      "notificationEmails", "notificationPhones"
+      "name",
+      "phone",
+      "email",
+      "timezone",
+      "notificationEmails",
+      "notificationPhones",
+      "confirmation",
+      "terms",
     ];
     if (requiredFields.includes(id)) label += " *";
     const v = esc(data.profile[id]);
@@ -163,6 +172,20 @@ export function createPage(app) {
     return `<div class="account-titlebar">ПРОФИЛЬ РЕСТОРАНА</div><div class="account-scroll" id="account-profile-scroll">
  <h2>Профиль ресторана</h2>
  <section class="account-panel"><h3>Основная информация</h3><div class="account-fields">
+ <div class="account-logo-editor">
+   <div class="account-logo-preview" id="account-logo-preview"></div>
+   <div class="account-logo-controls">
+     <strong>Логотип ресторана</strong>
+     <span>PNG, JPG или WebP</span>
+     <div class="account-logo-buttons">
+       <button type="button" id="account-logo-upload">Загрузить логотип</button>
+       <button type="button" id="account-logo-remove">Удалить</button>
+     </div>
+     <span id="account-logo-error" role="alert"></span>
+   </div>
+   <input type="file" id="account-logo-file" accept="image/png,image/jpeg,image/webp" hidden>
+   <input type="hidden" data-p="logo" value="${esc(data.profile.logo || "")}">
+ </div>
  ${field("name", "Название ресторана", true)}
  ${field("description", "Описание ресторана (необязательно)", true, true)}
  ${field("phone", "Телефон ресторана")}
@@ -179,7 +202,7 @@ export function createPage(app) {
  <section class="account-panel"><h3>Онлайн-бронирования</h3><div class="account-fields">
  ${field("hours", "Рабочие часы ресторана (необязательно)", true, true)}
  ${field("confirmation", "Сообщение подтверждения бронирования", true, true)}
- ${field("terms", "Правила и условия бронирования", true, true)}
+ ${field("terms", "Сообщение отмены бронирования", true, true)}
  </div></section>
  <section class="account-panel"><h3>Сообщения</h3>${checks()}</section>
  </div>
@@ -201,13 +224,102 @@ export function createPage(app) {
      (u) => `<tr data-u="${u.id}">
  <td><strong>${esc(u.name)}</strong><small>${esc(u.email)}</small></td>
  <td><span class="account-role">${esc(u.role)}</span></td>
- <td>${u.login ? "Вход" : "—"}${u.taker ? ", Приём бронирований" : ""}${u.server ? ", Официант" : ""}</td>
+ <td>${u.login ? (u.hasPassword ? "Вход разрешён" : "Пароль не задан") : "Вход отключён"}${u.taker ? ", Приём бронирований" : ""}${u.server ? ", Официант" : ""}</td>
  <td>1</td><td style="color:#999">Не настроена</td><td style="color:#999">Нет данных</td>
  <td><button data-edit="${u.id}">⋮</button></td></tr>`,
    )
    .join("")}</tbody></table></div>
  </div>`;
   }
+
+  let savedSnapshot = "";
+
+  const requiredProfile = [
+    ["name", "Название ресторана"],
+    ["phone", "Телефон ресторана"],
+    ["email", "Email ресторана"],
+    ["timezone", "Часовой пояс ресторана"],
+    ["notificationEmails", "Email для уведомлений"],
+    ["notificationPhones", "Телефоны для уведомлений"],
+    ["confirmation", "Сообщение подтверждения бронирования"],
+    ["terms", "Сообщение отмены бронирования"],
+  ];
+
+  function profileValues() {
+    return Array.from(root()?.querySelectorAll("[data-p]") || []).map((el) => [
+      el.dataset.p,
+      el.type === "checkbox" ? el.checked : el.value,
+    ]);
+  }
+
+  function profileSnapshot() {
+    return JSON.stringify(profileValues());
+  }
+
+  function missingRequired() {
+    const values = new Map(profileValues());
+    return requiredProfile.filter(
+      ([key]) => !String(values.get(key) ?? "").trim(),
+    );
+  }
+
+  function profileBlocked() {
+    return (
+      page === "profile" &&
+      !!root() &&
+      (missingRequired().length > 0 || profileSnapshot() !== savedSnapshot)
+    );
+  }
+
+  function showProfileError() {
+    const missing = missingRequired();
+    const missingKeys = new Set(missing.map(([key]) => key));
+
+    root()
+      .querySelectorAll("[data-p]")
+      .forEach((el) => {
+        const bad = missingKeys.has(el.dataset.p);
+        el.style.borderColor = bad ? "#dc2626" : "";
+        const title = el.closest(".account-field")?.querySelector("span");
+        if (title) title.style.color = bad ? "#dc2626" : "";
+      });
+
+    let notice = root().querySelector("#account-validation-error");
+
+    if (!notice) {
+      notice = document.createElement("strong");
+      notice.id = "account-validation-error";
+      notice.style.cssText = "color:#dc2626;font-size:13px;margin-right:16px";
+      root().querySelector("#account-save")?.before(notice);
+    }
+
+    notice.textContent = missing.length
+      ? "Заполните обязательные поля: " +
+        missing.map(([, name]) => name).join(", ")
+      : "Сохраните изменения перед выходом.";
+
+    const first = Array.from(root().querySelectorAll("[data-p]")).find(
+      (el) => el.dataset.p === missing[0]?.[0],
+    );
+
+    if (first) {
+      first.scrollIntoView({ block: "center", behavior: "smooth" });
+      first.focus({ preventScroll: true });
+    }
+  }
+
+  function onProfileRoute(event) {
+    if (!profileBlocked()) return;
+    event.preventDefault();
+    showProfileError();
+  }
+
+  function onProfileUnload(event) {
+    if (!profileBlocked()) return;
+    event.preventDefault();
+    event.returnValue = "";
+  }
+
   function openPage(name) {
     data = readAccount(defaults);
     page = name;
@@ -222,8 +334,14 @@ export function createPage(app) {
       document.querySelector(".workspace").append(node);
     }
     paint();
+
+    savedSnapshot = profileSnapshot();
+    document.addEventListener("mio:before-route-change", onProfileRoute);
+    window.addEventListener("beforeunload", onProfileUnload);
   }
   function leave() {
+    document.removeEventListener("mio:before-route-change", onProfileRoute);
+    window.removeEventListener("beforeunload", onProfileUnload);
     root()?.remove();
     page = "";
     document.querySelector(".topbar").style.display = "";
@@ -237,6 +355,103 @@ export function createPage(app) {
     if (!root()) return;
     root().innerHTML = page === "profile" ? profile() : users();
     if (page === "profile") {
+      const logoField = root().querySelector('[data-p="logo"]');
+      const logoPreview = root().querySelector("#account-logo-preview");
+      const logoFile = root().querySelector("#account-logo-file");
+      const logoError = root().querySelector("#account-logo-error");
+      const nameField = root().querySelector('[data-p="name"]');
+
+      const refreshLogo = () => {
+        const logo = logoField.value;
+        const letter =
+          Array.from(
+            String(nameField.value || "").trim(),
+          )[0]?.toLocaleUpperCase() || "Р";
+
+        logoPreview.replaceChildren();
+
+        if (
+          String(logo).startsWith("data:image/png;base64,") ||
+          String(logo).startsWith("data:image/jpeg;base64,") ||
+          String(logo).startsWith("data:image/webp;base64,")
+        ) {
+          const image = document.createElement("img");
+          image.src = logo;
+          image.alt = "Логотип ресторана";
+          logoPreview.append(image);
+        } else {
+          logoPreview.textContent = letter;
+        }
+      };
+
+      refreshLogo();
+      nameField.addEventListener("input", refreshLogo);
+
+      root().querySelector("#account-logo-upload").onclick = () => {
+        logoFile.click();
+      };
+
+      root().querySelector("#account-logo-remove").onclick = () => {
+        logoField.value = "";
+        logoFile.value = "";
+        logoError.textContent = "";
+        refreshLogo();
+      };
+
+      logoFile.onchange = async () => {
+        const file = logoFile.files?.[0];
+        if (!file) return;
+
+        if (!["image/png", "image/jpeg", "image/webp"].includes(file.type)) {
+          logoError.textContent = "Выберите PNG, JPG или WebP.";
+          logoFile.value = "";
+          return;
+        }
+
+        try {
+          const bitmap = await window.createImageBitmap(file);
+          try {
+            const scale = Math.min(
+              1,
+              512 / Math.max(bitmap.width, bitmap.height),
+            );
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+            canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+
+            const context = canvas.getContext("2d");
+            if (!context) throw new Error("Canvas unavailable");
+            context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+
+            let result = "";
+            for (const quality of [0.9, 0.8, 0.65, 0.5, 0.35]) {
+              result = canvas.toDataURL("image/webp", quality);
+              const base64 = result.split(",")[1] || "";
+              const bytes = Math.ceil((base64.length * 3) / 4);
+              if (bytes <= 1024 * 1024) break;
+            }
+
+            const base64 = result.split(",")[1] || "";
+            if (
+              !result.startsWith("data:image/webp;base64,") ||
+              Math.ceil((base64.length * 3) / 4) > 1024 * 1024
+            ) {
+              throw new Error("Image exceeds 1 MB");
+            }
+
+            logoField.value = result;
+            logoError.textContent = "";
+            refreshLogo();
+          } finally {
+            bitmap.close();
+          }
+        } catch {
+          logoError.textContent = "Не удалось обработать изображение.";
+        } finally {
+          logoFile.value = "";
+        }
+      };
+
       document.querySelector("#account-save").onclick = () => {
         root()
           .querySelectorAll("[data-p]")
@@ -251,10 +466,12 @@ export function createPage(app) {
           ["timezone", "Часовой пояс ресторана"],
           ["notificationEmails", "Email для уведомлений"],
           ["notificationPhones", "Телефоны для уведомлений"],
+          ["confirmation", "Сообщение подтверждения бронирования"],
+          ["terms", "Сообщение отмены бронирования"],
         ];
 
         const missing = required.filter(
-          ([key]) => !String(data.profile[key] ?? "").trim()
+          ([key]) => !String(data.profile[key] ?? "").trim(),
         );
 
         const fields = root().querySelectorAll("[data-p]");
@@ -275,12 +492,14 @@ export function createPage(app) {
               const title = label?.querySelector("span");
               if (title) title.style.color = "";
 
-              if (![...fields].some((field) =>
-                required.some(([key]) =>
-                  key === field.dataset.p &&
-                  !String(field.value).trim()
+              if (
+                ![...fields].some((field) =>
+                  required.some(
+                    ([key]) =>
+                      key === field.dataset.p && !String(field.value).trim(),
+                  ),
                 )
-              )) {
+              ) {
                 document.querySelector("#account-validation-error")?.remove();
               }
             }
@@ -303,31 +522,33 @@ export function createPage(app) {
 
         const saved = save();
         if (saved) {
-          document.dispatchEvent(
-            new Event("restaurant:updated")
-          );
+          document.dispatchEvent(new Event("restaurant:updated"));
         }
         if (saved) {
           const indicator = document.querySelector("#account-saved");
           indicator.textContent = "Сохранение…";
 
-          storage.flush().then(() => {
-            if (storage.persistence.status !== "saved") {
+          storage
+            .flush()
+            .then(() => {
+              if (storage.persistence.status !== "saved") {
+                indicator.textContent = "Ошибка сохранения";
+                indicator.style.color = "#dc2626";
+                return;
+              }
+
+              indicator.textContent = "Сохранено";
+              indicator.style.color = "#088447";
+              savedSnapshot = profileSnapshot();
+
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000);
+            })
+            .catch(() => {
               indicator.textContent = "Ошибка сохранения";
               indicator.style.color = "#dc2626";
-              return;
-            }
-
-            indicator.textContent = "Сохранено";
-            indicator.style.color = "#088447";
-
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000);
-          }).catch(() => {
-            indicator.textContent = "Ошибка сохранения";
-            indicator.style.color = "#dc2626";
-          });
+            });
         }
       };
     } else {
@@ -356,6 +577,10 @@ export function createPage(app) {
     },
     save,
     paint,
+    async reload() {
+      await storage.sync();
+      data = readAccount(defaults);
+    },
   });
   return { mount: openPage, unmount: leave };
 }

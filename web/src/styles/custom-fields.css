@@ -6,13 +6,13 @@
   overflow: auto;
   background: #f7f7f7;
   color: #262626;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-family);
 }
 
 .customField-header {
   height: 42px;
-  background: #393939;
-  color: white;
+  background: #ffffff;
+  color: var(--mio-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,7 +47,7 @@
 }
 
 .customField-menu button.active {
-  background: #e1f3e9;
+  background: #eaf1ff;
   font-weight: 700;
 }
 
@@ -75,9 +75,9 @@
 }
 
 .customField-primary {
-  background: #108747;
+  background: var(--mio-primary);
   color: white;
-  border: 1px solid #108747;
+  border: 1px solid var(--mio-primary);
   border-radius: 6px;
   padding: 12px 18px;
   font-size: 15px;
@@ -86,7 +86,7 @@
 }
 
 .customField-primary:hover {
-  background: #08733a;
+  background: var(--mio-primary-hover);
 }
 
 .customField-toolbar input {
@@ -143,8 +143,8 @@
 }
 
 .customField-status.on {
-  background: #e2f4e9;
-  color: #098244;
+  background: #eaf1ff;
+  color: var(--mio-primary);
 }
 
 .customField-status.off {
@@ -155,7 +155,7 @@
 .customField-link {
   background: none;
   border: 0;
-  color: #108747;
+  color: var(--mio-primary);
   cursor: pointer;
   font-weight: 600;
 }
@@ -246,7 +246,7 @@
 }
 
 .customField-checkbox input {
-  accent-color: #108747;
+  accent-color: var(--mio-primary);
   width: 17px;
   height: 17px;
 }

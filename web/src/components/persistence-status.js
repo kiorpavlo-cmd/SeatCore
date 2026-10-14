@@ -4,6 +4,7 @@ export function installPersistenceStatus(storage) {
   function paint(state = storage.persistence) {
     button.classList.add("persistence-status");
     button.dataset.status = state.status;
+    button.hidden = state.status !== "error";
     button.textContent =
       state.mode === "local"
         ? state.status === "error"

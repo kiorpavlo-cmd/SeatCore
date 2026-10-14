@@ -35,6 +35,40 @@ const initial = () => ({
   },
 });
 describe("Подключение интерфейса к серверу", () => {
+  it("обновляет эффективные права из ответа сервера и откатывает запрещённое изменение", async () => {
+    const state = initial();
+    state.access = {
+      id: "employee",
+      permissions: { manage_reservations: false },
+    };
+    const repo = await createServerStorage({
+      local: local(),
+      api: {
+        async request(path, { body } = {}) {
+          if (body)
+            throw Object.assign(new Error("Недостаточно прав"), {
+              status: 403,
+            });
+          return structuredClone(state);
+        },
+      },
+    });
+    expect(repo.persistence.access.permissions.manage_reservations).toBe(false);
+    repo.write(STORAGE_KEYS.app, {
+      ...state.collections.app,
+      reservations: [{ id: "denied", name: "Гость" }],
+    });
+    await repo.flush();
+    expect(repo.read(STORAGE_KEYS.app, {}).reservations).toEqual([]);
+    expect(repo.persistence.status).toBe("error");
+    expect(repo.unsavedBackup().collections.app.reservations[0].id).toBe(
+      "denied",
+    );
+    state.access.permissions.manage_reservations = true;
+    state.revision++;
+    await repo.sync();
+    expect(repo.persistence.access.permissions.manage_reservations).toBe(true);
+  });
   it("оставляет фильтры и дату в браузере, сохраняет записи через API", async () => {
     const browser = local();
     browser.write(STORAGE_KEYS.app, {
@@ -244,4 +278,58 @@ it("оставляет черновик доступным для экспорт
   await repo.flush();
   expect(repo.unsavedBackup().collections.notes.day).toBe("Скачать вручную");
   expect(repo.persistence.message).toContain("до перезагрузки страницы");
+});
+
+it("обновляет бронирования, созданные в другом окне", async () => {
+  let snapshot = initial(),
+    updates = 0;
+  const api = {
+    async request() {
+      return structuredClone(snapshot);
+    },
+  };
+  const repo = await createServerStorage({
+    api,
+    local: local(),
+    onUpdate: () => updates++,
+  });
+  snapshot.revision++;
+  snapshot.collections.app.reservations = [
+    { id: "external", name: "Новая бронь" },
+  ];
+  expect(await repo.sync()).toBe(true);
+  expect(repo.read(STORAGE_KEYS.app, {}).reservations[0].id).toBe("external");
+  expect(updates).toBe(1);
+  await repo.sync();
+  expect(updates).toBe(1);
+});
+
+it("фоновое обновление не заменяет ожидающие сохранения данные", async () => {
+  let snapshot = initial(),
+    release;
+  const api = {
+    async request(path, { body } = {}) {
+      if (body) {
+        snapshot = {
+          ...snapshot,
+          revision: snapshot.revision + 1,
+          collections: { ...snapshot.collections, ...body.changes },
+        };
+        return structuredClone(snapshot);
+      }
+      return release
+        ? new Promise((resolve) => {
+            release.resolve = resolve;
+          })
+        : structuredClone(snapshot);
+    },
+  };
+  const repo = await createServerStorage({ api, local: local() });
+  release = {};
+  const sync = repo.sync();
+  repo.write(STORAGE_KEYS.notes, { day: "Несохранённая заметка" });
+  release.resolve({ ...structuredClone(snapshot), revision: 2 });
+  expect(await sync).toBe(false);
+  expect(repo.read(STORAGE_KEYS.notes, {}).day).toBe("Несохранённая заметка");
+  await repo.flush();
 });

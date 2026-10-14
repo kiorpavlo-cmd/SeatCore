@@ -77,7 +77,7 @@ export function createGuestViews(ctx) {
               ? guestDetails(guest)
               : `
             <div class="guest-guest-header">
-              <div class="guest-avatar">♙</div>
+              <div class="guest-avatar"><svg class="guest-avatar-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg></div>
               <div class="guest-guest-heading">Гость не выбран</div>
               <button class="guest-orange"
                 data-action="new-guest">+</button>
@@ -185,9 +185,13 @@ export function createGuestViews(ctx) {
           ...storedHistory,
           ...state.reservations.filter(
             (r) =>
-              (g.phone && r.phone === g.phone) ||
-              (g.email && r.email?.toLowerCase() === g.email.toLowerCase()) ||
-              r.name === [g.first, g.last].filter(Boolean).join(" "),
+              (r.guestId
+                  ? String(r.guestId) === String(g.id)
+                  : (
+                      (g.phone && r.phone === g.phone) ||
+                      (g.email &&
+                       r.email?.toLowerCase() === g.email.toLowerCase())
+                    )),
           ),
         ].map((r) => [r.id, r]),
       ).values(),
@@ -204,7 +208,7 @@ export function createGuestViews(ctx) {
 
     return `
       <div class="guest-guest-header">
-        <div class="guest-avatar">♙</div>
+        <div class="guest-avatar"><svg class="guest-avatar-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg></div>
         <div>
           <div class="guest-guest-heading">
             ${esc([g.first, g.last].filter(Boolean).join(" "))}
@@ -319,7 +323,6 @@ export function createGuestViews(ctx) {
                   placeholder="Добавьте внутренние заметки">${esc(g.notes || "")}</textarea>
               </div>
               <div class="guest-field">
-                <div class="guest-field-label">Ваучеры</div>
                 <span class="guest-muted">Нет ваучеров</span>
               </div>
             </div>

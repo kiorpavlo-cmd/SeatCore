@@ -41,3 +41,5 @@ Mio!-Backups/
 
 # macOS
 .DS_Store
+
+.cache/

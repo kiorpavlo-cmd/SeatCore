@@ -2,4 +2,5 @@
 export {
   minutes,
   validateReservation,
+  reservationTables,
 } from "../../../server/contracts/reservations.js";

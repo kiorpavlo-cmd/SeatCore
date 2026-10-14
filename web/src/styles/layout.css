@@ -1,0 +1,415 @@
+/* Keep navigation and floor controls reachable at every viewport size. */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+}
+.app {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+}
+.workspace,
+.content,
+.floor-section {
+  min-width: 0;
+  min-height: 0;
+}
+.sidebar {
+  width: clamp(220px, 20vw, 280px);
+  min-height: 0;
+}
+.sidebar .side-top,
+.sidebar .home-side-link {
+  flex-shrink: 0;
+}
+.sidebar #navigation {
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.sidebar .side-bottom {
+  position: relative;
+  z-index: 1;
+}
+.topbar {
+  height: auto;
+  min-height: 48px;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 4px 12px;
+}
+.date-controls,
+.top-actions {
+  gap: 8px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+.date-controls button,
+.top-actions button {
+  min-width: 34px;
+  min-height: 36px;
+}
+.top-actions .persistence-status {
+  max-width: 150px;
+}
+.left-panel {
+  width: clamp(310px, 33vw, 450px);
+  min-height: 0;
+}
+.left-tabs {
+  height: auto;
+  min-height: 56px;
+  flex: none;
+}
+.left-tabs .tab {
+  min-width: 0;
+  padding: 8px;
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: normal;
+}
+.search-line .search {
+  min-width: 0;
+}
+.search-line .filter-btn {
+  flex: 0 0 44px;
+}
+.chips select {
+  max-width: 100%;
+  min-height: 34px;
+  border: 1px solid #d1d1d1;
+  border-radius: 16px;
+  padding: 5px 10px;
+  background: white;
+}
+.panel-bottom {
+  min-width: 0;
+  max-height: 35%;
+  overflow: auto;
+}
+.walkin-numbers {
+  flex-wrap: wrap;
+  overflow-x: visible;
+  max-height: 180px;
+  overflow-y: auto;
+  gap: 6px;
+}
+.walkin-numbers button {
+  flex: 0 0 38px;
+  min-width: 38px;
+  height: 38px;
+}
+.floor-tabs {
+  height: auto;
+  min-height: 48px;
+  flex: 0 0 auto;
+  gap: 4px;
+  min-width: 0;
+}
+.room-tabs {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+.room-tabs .room {
+  flex: 0 0 auto;
+  max-width: 210px;
+  min-height: 48px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 12px;
+}
+.floor-actions {
+  flex: 0 0 auto;
+  padding: 0 6px;
+  gap: 2px;
+}
+.floor-actions button {
+  min-width: 38px;
+  min-height: 40px;
+  white-space: nowrap;
+}
+.floor {
+  min-width: 0;
+  min-height: 0;
+}
+.floor .fit-floor {
+  right: 14px;
+  bottom: 14px;
+  height: 44px;
+  min-width: 44px;
+}
+.floor .unassigned-floor {
+  right: auto;
+  left: 12px;
+  bottom: 12px;
+  max-width: min(260px, calc(100% - 80px));
+  max-height: 150px;
+}
+.decor,
+.plant {
+  pointer-events: none;
+}
+.popover {
+  max-width: calc(100vw - 16px);
+  max-height: calc(100dvh - 16px);
+  overscroll-behavior: contain;
+}
+.filter-panel {
+  max-height: calc(100dvh - 32px);
+}
+.filter-tabs,
+.filter-footer {
+  flex-shrink: 0;
+}
+button:focus-visible {
+  outline: 2px solid var(--eat-green);
+  outline-offset: 2px;
+}
+.booking-header {
+  flex-shrink: 0;
+}
+.booking-form {
+  min-height: 0;
+  position: relative;
+}
+.booking-footer {
+  position: static;
+  width: 100%;
+  flex-shrink: 0;
+}
+.booking-form-scroll {
+  padding-bottom: 16px;
+}
+.booking-room-header {
+  flex-wrap: wrap;
+  height: auto;
+  min-height: 48px;
+}
+.booking-room-header button {
+  max-width: 210px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.floor-editor {
+  height: 100vh;
+  height: 100dvh;
+}
+.floor-editor-body {
+  margin-left: 0;
+}
+.floor-editor-body,
+.floor-editor-map-wrap {
+  min-height: 0;
+}
+.floor-editor-tabs {
+  min-height: 56px;
+  flex-shrink: 0;
+  gap: 8px;
+  overflow-x: auto;
+}
+.floor-editor-tabs button {
+  flex-shrink: 0;
+  min-height: 40px;
+  white-space: nowrap;
+}
+.floor-editor-sidebar {
+  width: 300px;
+}
+@media (max-width: 1100px) and (min-width: 751px) {
+  .sidebar:not(.compact) {
+    width: 210px;
+  }
+  .left-panel {
+    width: 320px;
+  }
+  .left-tabs .tab {
+    font-size: 12px;
+    padding: 8px 5px;
+  }
+  .room-tabs .room {
+    max-width: 160px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 750px) {
+  .sidebar,
+  .sidebar.compact {
+    width: 54px;
+    flex-shrink: 0;
+  }
+  .sidebar .home-side-link {
+    padding: 0 8px;
+  }
+  .sidebar .nav > span:nth-child(2),
+  .sidebar .nav-arrow {
+    display: none;
+  }
+  .sidebar .nav-children,
+  .sidebar.compact .nav-children {
+    top: 70px;
+    max-height: calc(100dvh - 90px);
+    width: min(270px, calc(100vw - 62px));
+  }
+  .topbar {
+    justify-content: flex-start;
+    padding: 4px 6px;
+    gap: 4px;
+  }
+  .date-controls {
+    gap: 2px;
+  }
+  .top-actions {
+    gap: 2px;
+    flex-wrap: wrap;
+  }
+  .top-actions .navi {
+    display: block;
+    font-size: 12px;
+  }
+  .top-actions [title="Связь"],
+  .top-actions [title="Уведомления"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .content {
+    flex-direction: column;
+    overflow: auto;
+  }
+  .left-panel {
+    width: 100%;
+    flex: 0 0 auto;
+    max-height: 45%;
+    min-height: 180px;
+    border-width: 1px;
+    border-radius: 0;
+  }
+  .left-panel .panel-content {
+    flex: 1 1 auto;
+  }
+  .panel-bottom {
+    max-height: 100px;
+    padding: 6px;
+  }
+  .walkin-head {
+    padding: 6px 8px;
+  }
+  .walkin-numbers {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: none;
+  }
+  .floor-section {
+    display: flex;
+    flex: 1 0 250px;
+    min-height: 250px;
+  }
+  .floor {
+    border-width: 1px;
+  }
+  .floor-tabs {
+    min-height: 46px;
+  }
+  .room-tabs .room {
+    max-width: 150px;
+    font-size: 13px;
+    min-height: 46px;
+  }
+  .floor-actions {
+    padding: 0 3px;
+  }
+  .floor-actions button {
+    font-size: 14px;
+    min-width: 36px;
+  }
+  .left-tabs .tab {
+    font-size: 12px;
+  }
+  .booking-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: auto;
+  }
+  .booking-form {
+    flex: 0 0 auto;
+    display: flex;
+    width: 100%;
+  }
+  .booking-form-scroll {
+    overflow: visible;
+  }
+  .booking-plan-area {
+    flex: 0 0 380px;
+    min-height: 380px;
+    padding-bottom: 0;
+  }
+  .booking-footer {
+    position: static;
+    padding: 12px;
+  }
+  .floor-editor-body {
+    overflow: auto;
+  }
+  .floor-editor-sidebar {
+    flex: 0 0 auto;
+    width: 100%;
+    max-height: 35%;
+  }
+  .floor-editor-map-wrap {
+    flex: 1 0 320px;
+  }
+}
+@media (max-height: 550px) and (min-width: 751px) {
+  .panel-bottom {
+    max-height: 125px;
+  }
+  .walkin-head {
+    padding: 6px 8px;
+  }
+  .walkin-numbers {
+    max-height: 82px;
+  }
+}
+
+.floor-editor-tabs {
+  overflow: hidden;
+}
+.floor-editor-rooms {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  gap: 8px;
+  overflow-x: auto;
+  align-items: center;
+}
+.floor-editor-rooms button {
+  max-width: 210px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 750px) {
+  .floor-editor-tabs {
+    flex-wrap: wrap;
+    padding: 8px;
+  }
+  .floor-editor-rooms {
+    order: 1;
+    flex-basis: 100%;
+  }
+  .floor-editor-tabs > button {
+    font-size: 13px;
+    padding: 8px;
+  }
+}

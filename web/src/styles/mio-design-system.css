@@ -1,0 +1,335 @@
+
+/* MIO! — Unified Graphite Blue Design System
+   Existing geometry, functional states and data remain unchanged. */
+
+:root {
+  --mio-blue: #2563eb;
+  --mio-blue-hover: #1d4ed8;
+  --mio-sidebar: #182337;
+  --mio-background: #f5f7fa;
+  --mio-surface: #ffffff;
+  --mio-text: #111827;
+  --mio-muted: #718096;
+  --mio-border: #e5eaf1;
+  --mio-shadow: 0 3px 14px rgba(15,23,42,.035);
+  --eat-dark: #182337;
+  --eat-surface: #f5f7fa;
+  --eat-border: #e5eaf1;
+  --eat-muted: #718096;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-family);
+}
+
+/* Shared sidebar */
+.sidebar {
+  background: var(--mio-sidebar);
+  color: #c5cfdd;
+  border-right: 1px solid #26344a;
+}
+
+
+
+.sidebar .account small {
+  color: #a0aec2;
+}
+
+.sidebar .nav,
+.sidebar .home-side-link {
+  color: #c5cfdd;
+  border-radius: 9px;
+}
+
+.sidebar .nav.active,
+.sidebar .home-side-link.active,
+.sidebar .nav-child.active {
+  background: #304b83;
+  color: white;
+}
+
+.sidebar .nav.expanded {
+  background: #24344c;
+}
+
+.sidebar .nav:not(.active):hover,
+.sidebar .home-side-link:not(.active):hover,
+.sidebar .nav-child:not(.active):hover {
+  background: #293b56;
+  color: white;
+}
+
+.sidebar .nav-child,
+.sidebar .nav-heading {
+  color: #c5cfdd;
+}
+
+.sidebar:not(.compact) .mio-sidebar-brand {
+  display: flex;
+  flex: 0 0 80px;
+  height: 80px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 12px 78px 12px 21px;
+  background: var(--mio-sidebar);
+  color: white;
+}
+
+.sidebar .mio-sidebar-brand strong {
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -1.4px;
+  line-height: 1.15;
+}
+
+.sidebar .mio-sidebar-brand small {
+  margin-top: 3px;
+  font-size: 10.5px;
+  font-weight: 400;
+  color: #97a8c1;
+  white-space: nowrap;
+}
+
+.sidebar .side-top .icon-button {
+  color: #b9c7db;
+  border-radius: 7px;
+}
+
+.sidebar .side-bottom .logout {
+  border-top-color: #344057;
+}
+
+.sidebar .side-bottom .logout button {
+  color: #c6d2e4;
+}
+
+/* Page surfaces */
+.workspace {
+  background: var(--mio-background);
+}
+
+#operations-page,
+#setup-page,
+#account-page,
+#permissions-page,
+#guest-root,
+#customField-root,
+#overview-view {
+  background: var(--mio-background);
+  color: var(--mio-text);
+}
+
+.operations-scroll,
+.account-scroll {
+  background: var(--mio-background);
+}
+
+.page-titlebar,
+.account-titlebar,
+.guest-topbar {
+  background: #ffffff;
+  color: var(--mio-text);
+  border-bottom: 1px solid var(--mio-border);
+  text-transform: none;
+  font-weight: 700;
+}
+
+/* Content cards */
+.resource-list,
+.data-table-wrap,
+.settings-card,
+.connection-card,
+.account-panel,
+.operation-dialog,
+.toolbar-pop {
+  background: white;
+  border: 1px solid var(--mio-border);
+  border-radius: 12px;
+  box-shadow: var(--mio-shadow);
+  color: var(--mio-text);
+}
+
+.resource-row,
+.data-table th,
+.data-table td {
+  border-bottom-color: var(--mio-border);
+}
+
+.data-table th,
+.overview-flow-table th,
+.guest-letter {
+  background: #f7f9fc;
+  color: #64748b;
+}
+
+/* Inputs */
+.account-field input,
+.account-field textarea,
+.account-field select,
+.page-toolbar input,
+.guest-search,
+.overview-search,
+.overview-select,
+.toolbar-field input,
+.toolbar-field select,
+.booking-guest-grid input,
+.venue-search {
+  border: 1px solid #dbe3ee;
+  border-radius: 9px;
+  background: white;
+  color: #263551;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--mio-blue);
+  outline-offset: 2px;
+}
+
+/* Primary action buttons */
+.account-green,
+.guest-green,
+.toolbar-save {
+  background: var(--mio-blue);
+  color: white;
+  border-radius: 9px;
+  font-weight: 650;
+}
+
+.account-green:hover,
+.guest-green:hover,
+.toolbar-save:hover {
+  background: var(--mio-blue-hover);
+}
+
+/* Selected tabs and filters */
+.overview-pill.active,
+.toolbar-chip.on,
+.toolbar-notes-tabs button.on,
+.guest-guest-row.selected {
+  background: #eaf1ff;
+  color: #1d4ed8;
+  border-color: #bfd1ff;
+}
+
+.overview-search:focus {
+  border-color: var(--mio-blue);
+}
+
+.account-field input:focus,
+.account-field textarea:focus,
+.account-field select:focus {
+  outline-color: var(--mio-blue);
+}
+
+.account-check input,
+.booking-row input[type="checkbox"],
+.editor-toggle input {
+  accent-color: var(--mio-blue);
+}
+
+/* Floor plan shell: keep table state colors and geometry */
+.topbar {
+  background: #ffffff;
+  color: #334155;
+  border-bottom: 1px solid var(--mio-border);
+}
+
+.topbar .date-controls button,
+.topbar .top-actions button {
+  color: #334155;
+}
+
+.topbar .top-actions .navi {
+  border-color: #dbe3ee;
+  color: #334155;
+}
+
+.left-panel {
+  background: white;
+  border-color: #e5eaf1;
+}
+
+.floor-section,
+.floor {
+  background: #f5f7fa;
+}
+
+.floor {
+  border-color: #e5eaf1;
+}
+
+.floor-tabs,
+.left-tabs {
+  background: white;
+  border-color: #e5eaf1;
+}
+
+.floor-tabs .room.active,
+.left-tabs .tab.selected {
+  color: var(--mio-blue);
+}
+
+.left-tabs .tab.selected em {
+  background: var(--mio-blue);
+}
+
+.search-line .search,
+.chips select {
+  border-color: #dbe3ee;
+  background: white;
+  color: #334155;
+}
+
+.chip {
+  border-radius: 9px;
+}
+
+/* Overlay and booking forms */
+.booking-header {
+  background: white;
+  color: var(--mio-text);
+  border-bottom-color: var(--mio-border);
+}
+
+.booking-form,
+.booking-row,
+.booking-footer {
+  border-color: var(--mio-border);
+}
+
+.booking-label,
+.booking-row .row-name {
+  color: var(--mio-muted);
+}
+
+.toolbar-chip,
+.overview-pill,
+.overview-select {
+  border-radius: 9px;
+}
+
+.toolbar-save,
+.account-green,
+.guest-green {
+  box-shadow: 0 2px 5px rgba(37,99,235,.12);
+}
+
+/* Keep the desktop layout usable on smaller screens */
+
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar button,
+  .account-green,
+  .guest-green,
+  .toolbar-save {
+    transition: none;
+  }
+}

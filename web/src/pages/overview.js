@@ -18,7 +18,7 @@ export function createPage(app) {
   let filterSeated = false;
   let filterComing = false;
   let bookedCovers = "";
-  let allTimeslots = false;
+  let allTimeslots = true;
   let availableCovers = "";
   let selectedRoom = "all";
   let selectedShift = "";
@@ -72,9 +72,6 @@ export function createPage(app) {
     if (!root || !activeView) return;
     let content = "";
     if (activeView === "Сетка") content = gridView();
-    if (activeView === "Временная шкала") content = timelineView();
-    if (activeView === "Поток гостей") content = flowView(false);
-    if (activeView === "Оборот столов") content = flowView(true);
     if (activeView === "Список") content = listView();
 
     root.innerHTML = content;
@@ -135,11 +132,13 @@ export function createPage(app) {
         render();
       };
     const times = root.querySelector("#overview-all-times");
-    if (times)
+    if (times) {
+      times.checked = allTimeslots;
       times.onchange = (e) => {
         allTimeslots = e.target.checked;
         render();
       };
+    }
     root.querySelectorAll("[data-clear-view]").forEach(
       (b) =>
         (b.onclick = () => {
@@ -223,7 +222,7 @@ export function createPage(app) {
     const groups = Array.from({ length: 24 }, (_, i) => start + i * interval);
     return (
       toolbar(
-        `<select id="overview-available" aria-label="Доступные места" class="overview-select"><option value="">Доступные места</option>${Array.from({ length: 20 }, (_, i) => `<option value="${i + 1}" ${Number(availableCovers) === i + 1 ? "selected" : ""}>От ${i + 1} мест</option>`).join("")}</select><select id="overview-covers" aria-label="Фильтр по количеству гостей" class="overview-select"><option value="">Любое количество гостей</option>${Array.from({ length: 20 }, (_, i) => `<option value="${i + 1}" ${Number(bookedCovers) === i + 1 ? "selected" : ""}>${i + 1} гостей</option>`).join("")}</select><label><input id="overview-all-times" type="checkbox" ${allTimeslots ? "checked" : ""}> Все интервалы</label>`,
+        `<select id="overview-available" aria-label="Доступные места" class="overview-select"><option value="">Доступные места</option>${Array.from({ length: 20 }, (_, i) => `<option value="${i + 1}" ${Number(availableCovers) === i + 1 ? "selected" : ""}>От ${i + 1} мест</option>`).join("")}</select><select id="overview-covers" aria-label="Фильтр по количеству гостей" class="overview-select"><option value="">Любое количество гостей</option>${Array.from({ length: 20 }, (_, i) => `<option value="${i + 1}" ${Number(bookedCovers) === i + 1 ? "selected" : ""}>${i + 1} гостей</option>`).join("")}</select><label><input id="overview-all-times" type="checkbox" autocomplete="off" ${allTimeslots ? "checked" : ""}> Все интервалы</label>`,
       ) +
       `<div class="overview-body"><div class="overview-grid-columns">
  ${groups
@@ -285,85 +284,6 @@ export function createPage(app) {
           `<option value="${htmlEscape(key)}" ${selectedRoom === key ? "selected" : ""}>${htmlEscape(name)}</option>`,
       )
       .join("")}</select>`;
-  }
-  function timelineView() {
-    const list = records();
-    const rows = Object.entries(app.floor.positions)
-      .filter(([room]) => selectedRoom === "all" || selectedRoom === room)
-      .flatMap(([room, tables]) =>
-        tables.map((t) => ({ room, table: String(t[0]) })),
-      );
-    for (const record of list) {
-      const room = record.room || "main",
-        table = String(record.table || "");
-      if (
-        table &&
-        !rows.some((row) => row.room === room && row.table === table)
-      )
-        rows.push({ room, table });
-    }
-    const labels = Array.from({ length: 24 }, (_, i) => i * 60);
-    const tracks = [{ room: "all", table: "", name: "Без стола" }, ...rows];
-    return (
-      toolbar(roomSelector()) +
-      `<div class="overview-body"><div style="width:max-content;min-width:100%"><div class="overview-time-rail"><div class="overview-rail-label">Стол / зал</div><div class="overview-timeline" style="height:60px;min-width:1920px">${labels.map((t, i) => `<span style="position:absolute;left:${i * 80}px;top:20px">${clock(t)}</span>`).join("")}</div></div>${tracks
-        .map(
-          (row) =>
-            `<div class="overview-track-row"><div class="overview-track-name"><strong>${htmlEscape(row.name || row.table)}</strong><small>${htmlEscape(state.rooms[row.room] || "")}</small></div><div class="overview-track" style="min-width:1920px">${list
-              .filter((r) =>
-                row.table
-                  ? String(r.table) === row.table &&
-                    (r.room || "main") === row.room
-                  : !r.table,
-              )
-              .map(
-                (r) =>
-                  `<button class="overview-track-book" title="${htmlEscape(r.name)} · ${htmlEscape(r.time)} · ${Number(r.duration) || 90} мин" style="left:${(timeToMinutes(r.time) / 60) * 80}px;width:${Math.max(20, (Math.min(Number(r.duration) || 90, 1440 - timeToMinutes(r.time)) / 60) * 80)}px" data-overview-book="${htmlEscape(r.id)}">${htmlEscape(r.name)}</button>`,
-              )
-              .join("")}</div></div>`,
-        )
-        .join("")}</div>${!list.length ? emptyView() : ""}</div>`
-    );
-  }
-  function flowView(turns) {
-    const list = records();
-    const start = 0;
-    const slots = Array.from({ length: 96 }, (_, i) => start + i * 15);
-    const cells = slots.map((t) => {
-      const items = list.filter(
-        (r) => timeToMinutes(r.time) >= t && timeToMinutes(r.time) < t + 15,
-      );
-      return { time: t, items };
-    });
-    const stats = `
- <div class="overview-summary">
- <span>Всего гостей　<strong>${totalGuests(list)}</strong></span>
- <span>Ожидаются　<strong>${list.filter((r) => !SEATED.includes(r.status) && !["Завершено", "Отменено", "Отменено гостем", "Не пришёл", "Отказано"].includes(r.status)).length}</strong></span>
- <span>За столом　<strong>${list.filter((r) => SEATED.includes(r.status)).length}</strong></span>
- <span>Завершены　<strong>${list.filter((r) => r.status === "Завершено").length}</strong></span>
- <span>Без бронирования　<strong>${list.filter((r) => r.walkIn).length}</strong></span>
- <span>Неявки　<strong>${list.filter((r) => r.status === "Не пришёл").length}</strong></span>
- <span>Отмены　<strong>${list.filter((r) => ["Отменено", "Отменено гостем"].includes(r.status)).length}</strong></span>
- </div>`;
-    return (
-      toolbar(roomSelector()) +
-      (list.length
-        ? `<div class="overview-body"><table class="overview-flow-table" style="min-width:7680px">
- <thead><tr><th>◷</th>${cells.map((c) => `<th>${clock(c.time)}</th>`).join("")}</tr></thead>
- <tbody>
- <tr><td>⚒</td>${cells.map((c) => `<td>${c.items.length}</td>`).join("")}</tr>
- <tr><td>♟</td>${cells.map((c) => `<td>${totalGuests(c.items)}</td>`).join("")}</tr>
- <tr><td></td>${cells
-   .map(
-     (c) => `<td style="vertical-align:top;height:350px">
- ${c.items.map((r) => `<button class="overview-flow-card" data-overview-book="${r.id}">${turns ? htmlEscape(r.table || "Без стола") : r.guests}<small>${htmlEscape(r.time)} · ${Number(r.duration) || 90} мин</small></button>`).join("")}
- </td>`,
-   )
-   .join("")}</tr>
- </tbody></table></div>`
-        : `<div class="overview-body">${emptyView()}</div>`) +
-      stats
-    );
   }
   function listView() {
     const list = records();

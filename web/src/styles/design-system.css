@@ -1,0 +1,419 @@
+
+/*
+ MIO! Design System V4
+ Graphite Blue
+ Global UI styling; no business logic changes.
+*/
+
+:root {
+  --mio-primary: #2563eb;
+  --mio-primary-hover: #1d4ed8;
+  --mio-background: #f5f7fa;
+  --mio-surface: #ffffff;
+  --mio-sidebar: #182337;
+  --mio-sidebar-hover: #283850;
+  --mio-sidebar-active: #304b83;
+  --mio-text: #111827;
+  --mio-secondary: #64748b;
+  --mio-border: #e5eaf1;
+  --mio-radius: 10px;
+  --mio-shadow: 0 3px 14px rgba(15,23,42,.035);
+  --mio-focus: #2563eb;
+
+  /* Legacy aliases for modules using old tokens */
+  --eat-dark: #182337;
+  --eat-surface: #f5f7fa;
+  --eat-border: #e5eaf1;
+  --eat-muted: #64748b;
+  --eat-radius: 9px;
+  --eat-green: #2563eb;
+}
+
+html {
+  font-family: var(--font-family);
+}
+
+body {
+  color: var(--mio-text);
+  background: var(--mio-background);
+  -webkit-font-smoothing: antialiased;
+}
+
+.workspace {
+  background: var(--mio-background);
+}
+
+/* Universal sidebar */
+
+.sidebar {
+  background: var(--mio-sidebar);
+  color: #c5cfdd;
+  border-right: 1px solid #26344a;
+}
+
+.sidebar .mio-sidebar-brand {
+  display: none;
+}
+
+.sidebar:not(.compact) {
+  position: relative;
+}
+
+.sidebar:not(.compact) .mio-sidebar-brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 0 0 80px;
+  height: 80px;
+  padding: 12px 78px 12px 21px;
+  color: white;
+  background: var(--mio-sidebar);
+}
+
+.sidebar .mio-sidebar-brand strong {
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1.4px;
+}
+
+.sidebar .mio-sidebar-brand small {
+  margin-top: 3px;
+  font-size: 10.5px;
+  color: #97a8c1;
+  white-space: nowrap;
+}
+
+.sidebar:not(.compact) .side-top {
+  position: absolute;
+  z-index: 3;
+  top: 18px;
+  right: 9px;
+  left: auto;
+  width: auto;
+  height: 42px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  background: transparent;
+  border: 0;
+}
+
+.sidebar .side-top .icon-button {
+  min-width: 32px;
+  width: 32px;
+  height: 34px;
+  padding: 0;
+  border-radius: 7px;
+  color: #b9c7db;
+  font-size: 17px;
+}
+
+.sidebar .side-top .icon-button:hover {
+  background: #293b56;
+  color: white;
+}
+
+.sidebar .home-side-link,
+.sidebar #navigation .nav {
+  min-height: 43px;
+  border-radius: 9px;
+  color: #c5cfdd;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background .15s, color .15s;
+}
+
+.sidebar .home-side-link {
+  background: transparent;
+}
+
+.sidebar .home-side-link.active,
+.sidebar #navigation .nav.active,
+.sidebar .nav-child.active {
+  background: var(--mio-sidebar-active);
+  color: white;
+  font-weight: 650;
+}
+
+.sidebar #navigation .nav.expanded {
+  background: #24344c;
+}
+
+.sidebar .home-side-link:not(.active):hover,
+.sidebar #navigation .nav:not(.active):hover,
+.sidebar .nav-child:hover {
+  background: var(--mio-sidebar-hover);
+  color: white;
+}
+
+.sidebar .nav-icon-wrap,
+.sidebar .home-side-icon {
+  color: #bdcbe0;
+}
+
+.sidebar .home-side-link.active .home-side-icon,
+.sidebar .nav.active .nav-icon-wrap {
+  color: white;
+}
+
+.sidebar .nav-child {
+  font-size: 13px;
+  color: #c5cfdd;
+  border-radius: 8px;
+}
+
+.sidebar .side-bottom {
+  background: var(--mio-sidebar);
+  border-top: 1px solid #344057;
+}
+
+.sidebar .side-bottom .account {
+  min-height: 71px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.sidebar .side-bottom .account strong {
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.sidebar .side-bottom .account small {
+  font-size: 11px;
+  color: #a0aec2;
+}
+
+.sidebar .side-bottom .logout {
+  min-height: 49px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 13px;
+  border-top: 1px solid #344057;
+}
+
+.sidebar .side-bottom .logout > strong {
+  display: none;
+}
+
+.sidebar .side-bottom .logout button {
+  font-size: 13px;
+  color: #c6d2e4;
+  font-weight: 500;
+  border-radius: 7px;
+  padding: 9px 10px;
+}
+
+.sidebar .side-bottom .logout button:hover {
+  color: white;
+  background: #293b56;
+}
+
+/* Compact sidebar */
+
+.sidebar.compact .mio-sidebar-brand {
+  display: none;
+}
+
+/* Main operations interface */
+
+.topbar {
+  background: var(--mio-sidebar);
+  color: #eef2fa;
+  border-bottom: 1px solid #344057;
+}
+
+.topbar button {
+  border-radius: 7px;
+}
+
+.left-panel {
+  background: var(--mio-surface);
+  border-color: var(--mio-border);
+}
+
+.floor-section {
+  background: var(--mio-background);
+}
+
+.floor {
+  background: #fafbfe;
+}
+
+.floor-tabs {
+  background: #fff;
+  border-bottom: 1px solid var(--mio-border);
+}
+
+.room-tabs .room {
+  color: #536177;
+  font-weight: 550;
+}
+
+.room-tabs .room.active {
+  color: var(--mio-primary);
+  background: #eff5ff;
+}
+
+/* Tabs */
+
+.left-tabs .tab,
+.tabs .tab {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.left-tabs .tab.selected,
+.tabs .tab.selected {
+  color: var(--mio-primary);
+  background: #eff5ff;
+}
+
+.left-tabs .tab.selected em,
+.tabs .tab.selected em {
+  background: var(--mio-primary);
+}
+
+/* Search and filters */
+
+.search-line .search {
+  background: #fff;
+  border: 1px solid #dfe6ef;
+  border-radius: 9px;
+}
+
+.search-line .search:focus-within {
+  border-color: #93b4f5;
+}
+
+.chip {
+  border: 1px solid var(--mio-border);
+  background: #fff;
+  color: #64748b;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.chip.active {
+  background: #eaf1ff;
+  border-color: #b8cffc;
+  color: var(--mio-primary);
+}
+
+.chips {
+  border-bottom-color: var(--mio-border);
+}
+
+/* Panels and content */
+
+.panel-content {
+  background: #fff;
+}
+
+.panel-bottom {
+  border-color: var(--mio-border);
+}
+
+.empty {
+  color: #64748b;
+}
+
+.empty strong {
+  color: var(--mio-text);
+}
+
+/* Popovers and modal windows */
+
+.popover {
+  background: #fff;
+  color: var(--mio-text);
+  border: 1px solid var(--mio-border);
+  border-radius: 11px;
+  box-shadow: 0 12px 32px rgba(15,23,42,.12);
+}
+
+.modal {
+  background: #fff;
+  color: var(--mio-text);
+  border-radius: 13px;
+  box-shadow: 0 18px 50px rgba(15,23,42,.17);
+}
+
+.modal-head {
+  border-color: var(--mio-border);
+}
+
+.modal-footer {
+  border-color: var(--mio-border);
+}
+
+/* Inputs */
+
+.modal input:not([type="checkbox"]):not([type="radio"]),
+.modal select,
+.modal textarea,
+.filter-panel input,
+.filter-panel select {
+  border-color: #dfe6ef;
+  border-radius: 8px;
+}
+
+.modal input:focus-visible,
+.modal select:focus-visible,
+.modal textarea:focus-visible {
+  outline: 2px solid #93b4f5;
+  outline-offset: 1px;
+}
+
+/* Keyboard access */
+
+button:focus-visible,
+a:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--mio-focus);
+  outline-offset: 2px;
+}
+
+/* Tables */
+
+table {
+  font-variant-numeric: tabular-nums;
+}
+
+th {
+  color: #64748b;
+}
+
+td {
+  border-color: var(--mio-border);
+}
+
+/* Keep status and floor occupancy colors semantic.
+   Table positions, shapes and floor geometry are untouched. */
+
+/* Responsive */
+
+@media (max-width: 750px) {
+  .sidebar .mio-sidebar-brand {
+    display: none !important;
+  }
+
+  .sidebar .side-top {
+    position: static !important;
+    width: auto !important;
+  }
+
+  .left-panel {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar .home-side-link,
+  .sidebar #navigation .nav {
+    transition: none;
+  }
+}

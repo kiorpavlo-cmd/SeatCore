@@ -1,4 +1,4 @@
-export class ApiError extends Error {
+class ApiError extends Error {
   constructor(status, code, message, details) {
     super(message);
     this.status = status;
@@ -6,7 +6,7 @@ export class ApiError extends Error {
     this.details = details;
   }
 }
-export function createApi(fetcher = globalThis.fetch, base = "/api") {
+export function createApi(fetcher = globalThis.fetch, base = "/api", { timeoutMs = 10000 } = {}) {
   return {
     async request(path, { method = "GET", body } = {}) {
       let response;
@@ -18,7 +18,7 @@ export function createApi(fetcher = globalThis.fetch, base = "/api") {
             ...(body ? { "content-type": "application/json" } : {}),
           },
           body: body ? JSON.stringify(body) : undefined,
-          signal: AbortSignal.timeout(10000),
+          signal: AbortSignal.timeout(timeoutMs),
         });
       } catch (error) {
         throw new ApiError(0, "NETWORK_ERROR", "Нет связи с сервером");

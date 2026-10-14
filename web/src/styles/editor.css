@@ -1,0 +1,557 @@
+.plan-shape {position:absolute;display:flex;align-items:center;justify-content:center;border:0;border-radius:8px;font-size:10px;overflow:hidden;z-index:1;transform-origin:center;pointer-events:none;color:#334155;}
+.plan-shape-circle {border-radius:50%;}
+.plan-shape-tree {font-size:30px;line-height:1;}
+.table-object {transform-origin:center;}
+.rich-floor-editor .floor-editor-top {margin:0;padding:10px 18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;min-height:44px;height:auto;font-size:13px;}
+.rich-floor-editor .floor-editor-body {margin:0;border-radius:0;}
+.rich-floor-editor .floor-editor-sidebar {width:280px;max-height:none;}
+.rich-floor-editor .editor-pad {padding:16px;text-align:left;}
+.rich-floor-editor .editor-tab-switch {display:flex;gap:8px;margin-top:12px;}
+.rich-floor-editor .editor-tab-switch button {flex:1;font-size:13px;white-space:nowrap;}
+.editor-hint {font-size:12px;line-height:1.5;color:#737373;}
+.editor-palette {display:flex;gap:8px;}
+.editor-palette-item {border:1px solid #d1d5db;border-radius:8px;min-width:0;flex:1;min-height:82px;padding:8px;cursor:grab;touch-action:none;background:white;}
+.editor-palette-item > span {font-size:28px;display:block;}
+.editor-palette-item > small {font-size:11px;display:block;}
+.rich-floor-editor label {display:block;font-size:13px;margin:12px 0;}
+.rich-floor-editor input:not([type=checkbox]):not([type=file]):not([type=color]) {width:100%;min-width:0;border:1px solid #d1d5db;border-radius:6px;background:white;padding:8px;margin-top:5px;min-height:36px;}
+.rich-floor-editor input[type=file] {max-width:100%;font-size:11px;}
+.rich-floor-editor .editor-toggle {display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.editor-toggle input {flex-shrink:0;accent-color:#58855b;width:18px;height:18px;}
+.editor-stepper {display:flex;gap:4px;align-items:center;}
+.editor-stepper input {text-align:center;}
+.editor-stepper button {border:1px solid #d1d5db;border-radius:6px;flex:0 0 32px;height:36px;margin-top:5px;}
+.editor-dimensions {display:flex;gap:8px;}
+.editor-dimensions label {min-width:0;flex:1;}
+.rich-floor-editor .floor-editor-tabs {padding:8px;min-height:58px;}
+.rich-floor-editor .floor-editor-tabs > button {font-size:13px;flex-shrink:0;}
+.editor-helpbar {display:flex;align-items:center;gap:8px;flex-shrink:0;padding:6px 12px;border-bottom:1px solid #ddd;font-size:11px;color:#737373;}
+.editor-helpbar > span:first-child {flex:1;}
+.editor-helpbar button {font-size:22px;width:32px;height:32px;border:1px solid #ddd;border-radius:5px;background:white;}
+.rich-floor-editor button:disabled {opacity:.45;cursor:default;}
+.rich-floor-editor .floor-editor-canvas {background:#f4f4f4;cursor:grab;touch-action:none;min-height:0;}
+.rich-floor-editor .floor-editor-canvas.panning {cursor:grabbing;}
+.editor-stage {position:relative;margin:12px;flex-shrink:0;}
+.rich-floor-editor .floor-editor-floor {position:absolute;top:0;left:0;min-height:0;transform-origin:top left;background-color:white;background-image:linear-gradient(#e8e8e8 1px,transparent 1px),linear-gradient(90deg,#e8e8e8 1px,transparent 1px);background-size:13px 13px;box-shadow:0 0 0 1px #ddd;}
+.rich-floor-editor .table-object {touch-action:none;cursor:move;user-select:none;overflow:visible;}
+.rich-floor-editor .table-object small {position:absolute;bottom:2px;font-size:8px;color:#737373;}
+.rich-floor-editor .plan-shape {pointer-events:auto;touch-action:none;cursor:move;user-select:none;}
+.editor-selection-frame {position:absolute;border:1px solid #688ca4;z-index:5;pointer-events:none;transform-origin:center;}
+.editor-resize-handle {position:absolute;width:9px;height:9px;border:1px solid #64748b;border-radius:2px;background:white;padding:0;pointer-events:auto;touch-action:none;}
+.handle-nw {left:-5px;top:-5px;cursor:nwse-resize;}.handle-n {left:calc(50% - 4px);top:-5px;cursor:ns-resize;}.handle-ne {right:-5px;top:-5px;cursor:nesw-resize;}.handle-e {right:-5px;top:calc(50% - 4px);cursor:ew-resize;}.handle-se {right:-5px;bottom:-5px;cursor:nwse-resize;}.handle-s {left:calc(50% - 4px);bottom:-5px;cursor:ns-resize;}.handle-sw {left:-5px;bottom:-5px;cursor:nesw-resize;}.handle-w {left:-5px;top:calc(50% - 4px);cursor:ew-resize;}
+.editor-rotate-handle {position:absolute;left:calc(50% - 12px);bottom:-34px;width:24px;height:24px;border:1px solid #64748b;background:white;border-radius:50%;pointer-events:auto;touch-action:none;cursor:grab;}
+.editor-zoom-tools {display:flex;gap:8px;padding:8px;background:white;flex-shrink:0;border-top:1px solid #ddd;}
+.editor-zoom-tools button {height:34px;min-width:38px;border:1px solid #ddd;border-radius:5px;background:white;}
+.editor-feedback {padding:0 12px;background:#fff;color:#ad3434;font-size:13px;flex-shrink:0;}
+.editor-feedback:not(:empty) {padding:8px 12px;}
+.editor-drag-ghost {position:fixed;width:50px;height:50px;border:2px dashed #58855b;display:flex;align-items:center;justify-content:center;font-size:32px;pointer-events:none;z-index:150;background:#ffffffa0;}
+@media (max-width:750px) {.rich-floor-editor .floor-editor-body {flex-direction:column;overflow:hidden;}.rich-floor-editor .floor-editor-sidebar {width:100%;flex:0 0 32%;min-height:130px;overflow:auto;border-bottom:1px solid #ddd;}.rich-floor-editor .floor-editor-map-wrap {flex:1;min-height:0;}.rich-floor-editor .floor-editor-tabs {flex-wrap:wrap;}.rich-floor-editor .floor-editor-rooms {order:1;flex-basis:100%;}.editor-helpbar > span:first-child {display:none;}.rich-floor-editor .floor-editor-top {font-size:11px;padding:8px;}.rich-floor-editor .editor-tab-switch {margin-top:8px;}.rich-floor-editor .editor-pad {padding:12px;}}
+
+/* MIO_FLOOR_VISUAL_V2_START */
+
+/* Светлый фон основного плана */
+#floorCanvas {
+  background-color: #F5F7FA;
+  background-repeat: no-repeat;
+}
+
+/* Редактор плана */
+.rich-floor-editor .floor-editor-canvas {
+  background-color: #E9EEF5;
+}
+
+.rich-floor-editor .floor-editor-floor {
+  background-color: #F5F7FA;
+  background-image: none;
+  box-shadow: 0 0 0 1px #DCE3EC;
+}
+
+/* Столы: единая плоская поверхность */
+.rich-floor-editor .table-object,
+#floorCanvas .table-object,
+#floorCanvas .floor-table,
+#floorCanvas .plan-table {
+  background-color: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-radius: 9px;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, .08);
+  color: #17253A;
+  font-weight: 600;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+/* Круглые столы */
+.rich-floor-editor .table-object.round,
+#floorCanvas .table-object.round,
+#floorCanvas .floor-table.round,
+#floorCanvas .plan-table.round {
+  border-radius: 50%;
+}
+
+/* Растения */
+.plan-shape-tree {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow: visible;
+}
+
+.mio-plant-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Стены и декоративные фигуры */
+.plan-shape-rect {
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+.plan-shape-circle {
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+/* MIO_FLOOR_VISUAL_V2_END */
+
+/* MIO_PALM_TREE_START */
+.plan-shape-tree {
+  background-image: url("../assets/floor/plant-top-view.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: contain !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  overflow: visible !important;
+}
+
+.rich-floor-editor .plan-shape-tree {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+#floorCanvas .plan-shape-tree {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+/* если нужно сделать крупнее/меньше — меняй только width/height выше */
+/* MIO_PALM_TREE_END */
+
+
+/* Same tree image in palette and floor plan */
+.editor-palette-item[data-palette="tree"] > span {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  background: url("../assets/floor/plant-top-view.png")
+              center / contain no-repeat;
+}
+
+
+/* Tree drag preview uses the same image as the floor */
+.editor-drag-ghost.editor-drag-ghost-tree {
+  width: 48px;
+  height: 48px;
+  background: transparent url("../assets/floor/plant-top-view.png")
+              center / contain no-repeat;
+  border: none;
+  box-shadow: none;
+  font-size: 0;
+  pointer-events: none;
+}
+
+
+/* MIO_UNIFIED_OBJECT_PREVIEWS_V1 */
+
+/* Shared preview geometry */
+.editor-preview-object {
+  position: relative;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex: none;
+  width: 44px;
+  height: 43px;
+  margin: 5px auto 8px;
+  padding: 0;
+  font-size: 11px;
+  line-height: 1.2;
+  color: #17253a;
+  transform-origin: center;
+}
+
+/* Tables */
+.editor-preview-side,
+.editor-preview-round {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  box-shadow: 0 2px 5px rgba(15,23,42,.08);
+  font-weight: 600;
+  overflow: visible;
+}
+
+.editor-preview-round {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+}
+
+.editor-preview-side::before,
+.editor-preview-side::after,
+.editor-preview-round::before,
+.editor-preview-round::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  width: 60%;
+  height: 7px;
+  box-sizing: border-box;
+  background: #cbd5e1;
+  border: 1px solid #b6c2d0;
+  border-radius: 4px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.editor-preview-side::before,
+.editor-preview-round::before {
+  top: -9px;
+}
+
+.editor-preview-side::after,
+.editor-preview-round::after {
+  bottom: -9px;
+}
+
+.editor-preview-object b {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.editor-preview-object i {
+  position: absolute;
+  bottom: 2px;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 400;
+  color: #737373;
+}
+
+/* Decorative shapes */
+.editor-preview-rect {
+  width: 56px;
+  height: 25px;
+  background: #b2bce9;
+  border-radius: 4px;
+}
+
+.editor-preview-circle {
+  width: 45px;
+  height: 45px;
+  background: #cbe8b2;
+  border-radius: 50%;
+}
+
+/* Tree */
+.editor-preview-tree,
+.editor-palette-item[data-palette="tree"] > .editor-preview-tree {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 0;
+  background: transparent url("../assets/floor/plant-top-view.png")
+              center / contain no-repeat;
+}
+
+/* Palette */
+.editor-palette-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.editor-palette-item > .editor-preview-object {
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.editor-palette-item > small {
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Drag preview */
+.editor-drag-ghost.editor-preview-container {
+  width: 76px;
+  height: 76px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent !important;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editor-preview-container > .editor-preview-object {
+  margin: 0;
+}
+
+.editor-preview-container > .editor-preview-tree {
+  width: 48px;
+  height: 48px;
+}
+
+.rich-floor-editor .table-object,
+.editor-preview-side,
+.editor-preview-round {
+  overflow: visible !important;
+}
+
+.mio-table-seat {
+  position: absolute;
+  width: 11px;
+  height: 7px;
+  box-sizing: border-box;
+  border: 1px solid #B6C2D0;
+  border-radius: 3px;
+  background: #CBD5E1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mio-table-seat.vertical {
+  width: 7px;
+  height: 11px;
+}
+
+.mio-table-number {
+  position: relative;
+  z-index: 2;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.editor-preview-side,
+.editor-preview-round {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.editor-preview-side {
+  width: 44px;
+  height: 43px;
+}
+
+.editor-preview-round {
+  width: 62px;
+  height: 62px;
+}
+
+.editor-preview-object small {
+  position: absolute;
+  bottom: 2px;
+  font-size: 8px;
+  font-weight: 400;
+  color: #737373;
+}
+
+.editor-drag-ghost .editor-preview-object {
+  margin: 0;
+}
+
+
+/* Chairs are rendered by table-renderer.js */
+.table-object::before,
+.table-object::after {
+  content: none;
+}
+
+
+/* MIO floating object toolbar */
+.editor-object-actions {
+  position: absolute;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 6px 22px rgba(15,23,42,.14);
+}
+
+.editor-object-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #475569;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+
+.editor-object-actions button:hover {
+  background: #f1f5f9;
+  color: #2563eb;
+}
+
+.editor-object-actions button.is-active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.editor-object-actions button[data-object-action="delete"] {
+  margin-left: 4px;
+  color: #dc2626;
+}
+
+.editor-object-actions button[data-object-action="delete"]:hover {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.editor-object-actions svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+
+/* MIO SMART ALIGNMENT */
+.rich-floor-editor .floor-editor-floor {
+  background-size: 13px 13px;
+}
+
+.rich-floor-editor .floor-editor-floor.editor-grid-hidden {
+  background-image: none !important;
+}
+
+.editor-alignment-controls {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.editor-alignment-controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.editor-alignment-controls input {
+  width: 15px;
+  height: 15px;
+  accent-color: #2563eb;
+}
+
+.editor-alignment-controls > span {
+  color: #64748b;
+  white-space: nowrap;
+}
+
+#editorGuides {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.editor-smart-guide {
+  position: absolute;
+  pointer-events: none;
+  border-color: #2563eb;
+  z-index: 9;
+}
+
+.editor-smart-guide.vertical {
+  top: 0;
+  height: 100%;
+  border-left: 1px dashed #2563eb;
+}
+
+.editor-smart-guide.horizontal {
+  left: 0;
+  width: 100%;
+  border-top: 1px dashed #2563eb;
+}
+
+.editor-smart-guide-label {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  background: #2563eb;
+  color: white;
+  font-size: 10px;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0,0,0,.12);
+}
+
+.editor-smart-guide.horizontal .editor-smart-guide-label {
+  top: 4px;
+}
+
+@media (max-width: 750px) {
+  .editor-alignment-controls {
+    gap: 7px;
+  }
+  .editor-alignment-controls > span {
+    display: none;
+  }
+}
+
+
+/* MIO MULTI TABLE SELECTION */
+.rich-floor-editor #editorFloor .table-object.editor-multi-selected {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+}
+
+
+/* MIO GROUP SELECTION V2 */
+.rich-floor-editor #editorFloor
+.table-object.editor-multi-selected {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+  cursor: move;
+}
+
+.rich-floor-editor #editorFloor
+.table-object.editor-multi-selected:hover {
+  outline-color: #1d4ed8;
+}

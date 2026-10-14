@@ -1,6 +1,6 @@
 import { storage, usePersistence, localStorageRepository } from "./storage.js";
 import { createApi } from "./api.js";
-import { createServerStorage, SERVER_MARKER } from "./server-storage.js";
+import { createServerStorage } from "./server-storage.js";
 export function disconnectedStorage(local, message, report, retry) {
   return {
     ...local,
@@ -30,33 +30,18 @@ export async function initializePersistence() {
         ),
     });
     usePersistence(repository);
-  } catch (error) {
-    if (localStorageRepository.getItem(SERVER_MARKER)) {
-      const message =
-        "Сервер недоступен. Запустите сервер и нажмите здесь для повторного подключения. Сохранение приостановлено.";
-      usePersistence(
-        disconnectedStorage(
-          localStorageRepository,
-          message,
-          (issue) =>
-            document.dispatchEvent(
-              new CustomEvent("storage:error", { detail: issue }),
-            ),
-          () => location.reload(),
+  } catch {
+    const message = "Локальный сервер недоступен. Запустите Mio из папки проекта и нажмите здесь для повторного подключения. Сохранение приостановлено: данные хранятся в server/data/mio.sqlite.";
+    usePersistence(
+      disconnectedStorage(
+        localStorageRepository,
+        message,
+        (issue) => document.dispatchEvent(
+          new CustomEvent("storage:error", { detail: issue }),
         ),
-      );
-    } else if (
-      !["NOT_FOUND", "NETWORK_ERROR", "INVALID_RESPONSE"].includes(error.code)
-    ) {
-      localStorageRepository.persistence = {
-        mode: "local",
-        status: "error",
-        message:
-          "Перенос на сервер не выполнен: " +
-          error.message +
-          ". Исходные данные остаются в браузере.",
-      };
-    }
+        () => location.reload(),
+      ),
+    );
     announce(storage.persistence);
   }
   return storage.persistence;

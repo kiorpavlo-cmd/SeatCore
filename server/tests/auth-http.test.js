@@ -42,6 +42,9 @@ test("HTTP login, me и logout", async () => {
 
     assert.equal(login.status, 200);
 
+    const anonymous = await fetch(base + "/api/v1/state");
+    assert.equal(anonymous.status, 401);
+
     const cookie = login.headers
       .get("set-cookie").split(";")[0];
 
@@ -72,6 +75,22 @@ test("HTTP login, me и logout", async () => {
     });
 
     assert.equal(after.status, 401);
+
+    const privateState = await fetch(base + "/api/v1/state", {
+      headers: { Cookie: cookie }
+    });
+    assert.equal(privateState.status, 401);
+
+    const privateReservations = await fetch(
+      base + "/api/v1/reservations",
+      { headers: { Cookie: cookie } }
+    );
+    assert.equal(privateReservations.status, 401);
+
+    const anonymousReservations = await fetch(
+      base + "/api/v1/reservations"
+    );
+    assert.equal(anonymousReservations.status, 401);
 
     const invalid = await fetch(base + "/api/auth/login", {
       method: "POST",

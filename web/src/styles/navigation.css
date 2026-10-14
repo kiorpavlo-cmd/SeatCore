@@ -123,3 +123,35 @@
   padding-top: 11px;
   padding-bottom: 11px;
 }
+
+
+/* MIO UNIFIED CHEVRONS */
+.sidebar .nav .nav-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  margin-left: auto;
+  font-size: 0;
+  line-height: 1;
+}
+
+.sidebar .mio-chevron {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform 160ms ease;
+}
+
+.sidebar .nav.expanded .nav-arrow .mio-chevron {
+  transform: rotate(180deg);
+}
+
+.sidebar .mio-account-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

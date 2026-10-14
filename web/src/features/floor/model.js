@@ -1,5 +1,8 @@
+import { tableContent } from "./table-renderer.js";
+import { tableGeometry, geometryStyle, roomScene, sceneMarkup } from "./geometry.js";
 import { tableLabel, labelShifts } from "./labels.js";
 import { SEATED } from "../../services/reservation-queries.js";
+import { reservationTables } from "../../services/reservations.js";
 import { normalizeFloor } from "../../services/repositories.js";
 import { $, escapeHTML as esc } from "../../lib/dom.js";
 import { storage } from "../../services/storage.js";
@@ -25,7 +28,7 @@ export function createFloor({ state, save, render, openReservation }) {
   let blocked = storage.read("mio-stage2-blocked", []);
   if (!Array.isArray(blocked)) blocked = [];
   function persistPositions() {
-    storage.setItem(
+    return storage.setItem(
       "mio-stage2-positions",
       JSON.stringify(editingPositions),
     );
@@ -43,13 +46,13 @@ export function createFloor({ state, save, render, openReservation }) {
       return h * 60 + m;
     };
     return arr
-      .map(([num, x, y, shape, capacity], i) => {
+      .map(([num, x, y, shape, capacity, metadata], i) => {
         const key = room + ":" + num;
         const bookings = state.reservations.filter(
           (r) =>
             r.date === state.date &&
             (r.room || "main") === room &&
-            String(r.table) === String(num) &&
+            reservationTables(r).includes(String(num)) &&
             ![
               "Отменено",
               "Отменено гостем",
@@ -84,35 +87,12 @@ export function createFloor({ state, save, render, openReservation }) {
           })
           .join("");
         return `<button class="table-object ${shape || "side"} ${blocked.includes(key) ? "blocked-table" : ""} ${occupied ? "occupied-table" : bookings.length ? "reserved-table" : ""} ${state.selectedTable === num ? "chosen" : ""}"
- aria-label="${esc(num)}" title="Стол ${esc(num)}${bookings.length ? ": " + bookings.map((r) => esc(r.time) + " " + esc(r.name)).join(", ") : ""}" data-table-index="${i}" style="left:${x}px;top:${y}px;${server ? "border-color:" + esc(server.color) : ""}"><span>${esc(num)}</span>${labels}</button>`;
+ aria-label="${esc(num)}" title="Стол ${esc(num)}${bookings.length ? ": " + bookings.map((r) => esc(r.time) + " " + esc(r.name)).join(", ") : ""}" data-table-index="${i}" style="${geometryStyle(tableGeometry([num, x, y, shape, capacity, metadata]))}${server ? "border-color:" + esc(server.color) : ""}">${tableContent(shape || "side", num, null, capacity, labels)}</button>`;
       })
       .join("");
   }
-  function mainDecor() {
-    let s = `<div class="decor" style="left:28px;top:66px;width:25px;height:72px"></div>
- <div class="decor label" style="left:85px;top:66px;width:290px;height:26px">ВИТРИНА</div>
- <div class="decor" style="left:540px;top:66px;width:134px;height:26px"></div>
- <div class="decor" style="left:28px;top:170px;width:25px;height:323px"></div>
- <div class="decor label" style="left:477px;top:185px;width:33px;height:126px">БАР</div>
- <div class="decor" style="left:355px;top:282px;width:154px;height:33px"></div>`;
-    for (let i = 0; i < 7; i++)
-      s += `<span class="plant" style="left:9px;top:${91 + i * 49}px">🌳</span>`;
-    return s;
-  }
-  function terraceDecor() {
-    return `<div class="decor" style="left:27px;top:30px;width:49px;height:515px"></div>
- <div class="decor label" style="left:65px;top:54px;width:225px;height:49px">ВИННЫЙ МАГАЗИН</div>
- <div class="decor" style="left:323px;top:38px;width:305px;height:270px"></div>
- <div class="decor" style="left:323px;top:396px;width:295px;height:140px"></div>`;
-  }
   function mapMarkup(room) {
-    return (
-      (room === "main"
-        ? mainDecor()
-        : room === "terrace"
-          ? terraceDecor()
-          : "") + decorateTables(editingPositions[room] || [], room)
-    );
+    return sceneMarkup(roomScene(storage.read("mio-ru-resources-v1", {}), room)) + decorateTables(editingPositions[room] || [], room);
   }
   function bindMapTables(container, callback) {
     container.querySelectorAll("[data-table-index]").forEach((el) => {
@@ -143,7 +123,7 @@ export function createFloor({ state, save, render, openReservation }) {
     const number = editingPositions[room][index][0];
     const matches = state.reservations.filter(
       (r) =>
-        String(r.table) === String(number) &&
+        reservationTables(r).includes(String(number)) &&
         r.date === state.date &&
         (r.room || "main") === room,
     );
@@ -200,6 +180,15 @@ export function createFloor({ state, save, render, openReservation }) {
     bindMapTables,
     openTable,
     persistPositions,
+    setBlocked(value) {
+      blocked = [...value];
+      return storage.write("mio-stage2-blocked", blocked);
+    },
+    reload() {
+      editingPositions = normalizeFloor(storage.read("mio-stage2-positions", null), {main: originalTables, terrace: terraceTables});
+      blocked = storage.read("mio-stage2-blocked", []);
+      if (!Array.isArray(blocked)) blocked = [];
+    },
     closeBooking,
     closeDialog,
     dialog,
@@ -213,7 +202,7 @@ export function createFloor({ state, save, render, openReservation }) {
       const unassigned = state.reservations.filter(
         (r) =>
           r.date === state.date &&
-          !r.table &&
+          !reservationTables(r).length &&
           ![
             "Отменено",
             "Отменено гостем",

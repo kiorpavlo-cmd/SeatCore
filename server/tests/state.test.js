@@ -345,3 +345,27 @@ test("Повтор CRUD-запроса с автоматически созда�
     (error) => error.code === "IDEMPOTENCY_REUSE",
   );
 });
+
+test('Отметки прочтения уведомлений сохраняются вместе с настройками виджета', (t) => {
+  const {service} = fixture(t);
+  const before = service.snapshot();
+  const read = [{id:'b1',key:JSON.stringify(['b1','Анна','2026-10-13','19:00','Не подтверждено',2,'1','main'])}];
+  const widgets = [{id:'widget-1',name:'Основной виджет'}];
+  const saved = update(service, before, {resources:{...before.collections.resources,bookingNotificationReads:read,widgetConfigs:widgets}}, 'notifications-read');
+  assert.deepEqual(saved.collections.resources.bookingNotificationReads, read);
+  assert.deepEqual(service.snapshot().collections.resources.widgetConfigs, widgets);
+});
+
+test('Удаление зала сохраняет брони без стола и удаляет план одним запросом', (t) => {
+  const {service} = fixture(t);
+  const before=service.snapshot();
+  const saved=update(service,before,{
+    app:{...before.collections.app,rooms:{terrace:'Терраса'},reservations:[{...booking,room:'terrace',table:''}]},
+    floor:{terrace:[]},blocked:[],backgrounds:{},
+    resources:{...before.collections.resources,floorScenes:[{id:'terrace',room:'terrace',objects:[]}]},
+  },'delete-room');
+  assert.equal(saved.collections.app.reservations[0].id,booking.id);
+  assert.equal(saved.collections.app.reservations[0].table,'');
+  assert.equal(saved.collections.floor.main,undefined);
+  assert.deepEqual(service.snapshot().collections.app.rooms,{terrace:'Терраса'});
+});

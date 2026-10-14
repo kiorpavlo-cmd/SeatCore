@@ -52,7 +52,6 @@ export function createPage(app) {
       return importPage();
     if (label === "Очистка базы данных") return cleanup();
     if (label === "Импорт плана зала") return floorImport();
-    if (label === "Ссылки на чат WhatsApp") return links();
     if (label === "Настройки принтера") {
       chrome(
         "<p>Распечатайте текущий план или список бронирований средствами браузера.</p>",
@@ -134,24 +133,7 @@ export function createPage(app) {
       );
   }
 
-  function links() {
-    chrome(
-      '<label class="settings-field">Телефон<input id="whatsapp-phone" placeholder="37060000000"></label><label class="settings-field">Текст<textarea id="whatsapp-text"></textarea></label><p><a id="whatsapp-link" target="_blank" rel="noopener noreferrer">Ссылка</a></p>',
-    );
-    function update() {
-      const phone = $("#whatsapp-phone").value.replace(/\D/g, "");
-      const link = $("#whatsapp-link");
-      link.href =
-        "https://wa.me/" +
-        phone +
-        "?text=" +
-        encodeURIComponent($("#whatsapp-text").value);
-      link.textContent = phone ? link.href : "Введите телефон";
-    }
-    $("#whatsapp-phone").oninput = update;
-    $("#whatsapp-text").oninput = update;
-    update();
-  }
+
   function connection() {
     chrome(
       `<div class="connection-card"><h2>${esc(label)}</h2><p>Требуется серверный сервис и авторизованное подключение провайдера. В исходном проекте подключения нет.</p><p>Платежи, отправка сообщений и работа внешних сервисов недоступны в локальной версии.</p><button class="outline-green" id="connection-back">Профиль ресторана</button></div>`,

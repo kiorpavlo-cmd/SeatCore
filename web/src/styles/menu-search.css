@@ -1,0 +1,244 @@
+
+/* MIO! — Global navigation search */
+
+.sidebar {
+  position: relative;
+}
+
+#mio-menu-search[hidden],
+#mio-menu-search [hidden] {
+  display: none !important;
+}
+
+#mio-menu-search {
+  position: fixed;
+  z-index: 1200;
+  top: 72px;
+  left: 12px;
+  width: min(380px, calc(100vw - 36px));
+  max-height: min(480px, calc(100dvh - 100px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
+  color: #111827;
+  border: 1px solid #e1e7f0;
+  border-radius: 12px;
+  box-shadow: 0 18px 50px rgba(12,23,43,.22);
+}
+
+.mio-menu-search-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 12px;
+  border-bottom: 1px solid #e5eaf1;
+  flex: 0 0 auto;
+}
+
+.mio-menu-search-icon {
+  color: #64748b;
+  font-size: 22px;
+}
+
+#mio-menu-search-input {
+  flex: 1;
+  min-width: 0;
+  height: 34px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #111827;
+  font-size: 13px;
+}
+
+#mio-menu-search-close {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 7px;
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+#mio-menu-search-close:hover {
+  background: #e5eaf1;
+}
+
+.mio-menu-search-results {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 7px;
+}
+
+.mio-search-result {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 11px;
+  min-height: 52px;
+  padding: 9px 11px;
+  background: transparent;
+  color: #111827;
+  border: none;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mio-search-result:hover,
+.mio-search-result[aria-selected="true"] {
+  background: #eaf1ff;
+}
+
+.mio-search-result-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  border-radius: 8px;
+  background: #f0f4fa;
+  color: #2563eb;
+  font-size: 15px;
+  flex: 0 0 29px;
+}
+
+.mio-search-result-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.mio-search-result-text strong {
+  font-size: 12.5px;
+  font-weight: 650;
+  color: #15233b;
+}
+
+.mio-search-result-text small {
+  font-size: 11px;
+  line-height: 1.35;
+  color: #8190a6;
+}
+
+.mio-search-empty {
+  padding: 27px 12px;
+  text-align: center;
+  color: #8190a6;
+  font-size: 13px;
+}
+
+.mio-menu-search-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid #e5eaf1;
+  color: #94a3b8;
+  font-size: 10px;
+  background: #f8fafc;
+  flex: 0 0 auto;
+}
+
+#mio-sidebar-search {
+  cursor: pointer;
+}
+
+#mio-sidebar-search:focus-visible {
+  outline: 2px solid #93b4f5;
+  outline-offset: 2px;
+}
+
+/* Keep brand and controls in the sidebar flow, including compact mode. */
+.sidebar .mio-sidebar-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  flex: 0 0 80px;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 18px 13px 12px 21px;
+}
+.sidebar .mio-sidebar-header .mio-sidebar-brand {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: auto;
+  padding: 0;
+}
+.sidebar .mio-sidebar-header .side-top {
+  position: static;
+  width: auto;
+  height: 32px;
+  padding: 0;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+}
+.sidebar .mio-sidebar-header .icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  min-width: 28px;
+  height: 32px;
+  padding: 0;
+}
+.sidebar .mio-sidebar-header .icon-button svg,
+.mio-menu-search-icon svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.sidebar.compact .mio-sidebar-header {
+  flex-basis: auto;
+  padding: 12px 4px;
+  justify-content: center;
+}
+.sidebar.compact .mio-sidebar-header .mio-sidebar-brand { display: none; }
+.sidebar.compact .mio-sidebar-header .side-top {
+  flex-direction: column;
+  height: auto;
+}
+.mio-menu-search-icon { display: inline-flex; }
+@media (max-width: 750px) {
+  .sidebar .mio-sidebar-header {
+    flex-basis: auto;
+    padding: 12px 4px;
+    justify-content: center;
+  }
+  .sidebar .mio-sidebar-header .side-top {
+    flex-direction: column;
+    height: auto;
+  }
+}
+
+
+/* MIO CLICKABLE LOGO */
+.sidebar .mio-sidebar-brand {
+  border: 0;
+  outline: 0;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  appearance: none;
+}
+
+.sidebar .mio-sidebar-brand:hover {
+  opacity: 0.9;
+}
+
+.sidebar .mio-sidebar-brand:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: -4px;
+  border-radius: 6px;
+}

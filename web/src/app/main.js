@@ -1,3 +1,4 @@
+import { installBookingNotifications } from "../components/booking-notifications.js";
 import { openTableLabels } from "../features/floor/labels.js";
 import { initializePersistence } from "../services/persistence.js";
 import { installPersistenceStatus } from "../components/persistence-status.js";
@@ -22,6 +23,7 @@ import { createEditor } from "../features/floor/editor.js";
 import { createReservationForm } from "../features/reservations/form.js";
 import { createRouter } from "../routes/router.js";
 import { createTopbarActions as createToolbar } from "../components/topbar-actions.js";
+import { can } from "../services/access.js";
 $("#app").innerHTML = shell;
 installDialogAccessibility();
 await initializePersistence();
@@ -65,14 +67,17 @@ const app = {
 };
 const floor = createFloor({ ...app, openReservation: app.bookingModal });
 app.floor = floor;
-app.openEditor = () => editor();
+app.openEditor = () => {
+  if (can("admin")) editor();
+  else toast("Недостаточно прав для изменения плана зала");
+};
 openBooking = createReservationForm({ ...app, getFields: app.getFields });
 const editor = createEditor({ ...app, floor });
 const serverModal = createServers(app);
 app.showFilter = createFilters(app);
 const panel = createPanel({ ...app, serverModal });
 const calendar = createCalendar(app);
-document.querySelector("#home-link").onclick = () => app.navigate("home");
+
 function render() {
   $("#currentDate").textContent = new Intl.DateTimeFormat("ru-RU", {
     weekday: "short",
@@ -109,6 +114,7 @@ function render() {
   fitFloor();
   $("#timeLabel").textContent = state.floorTime || "Сейчас";
   router?.refresh();
+  app.notifications?.refresh();
 }
 function switchDate(delta) {
   const d = new Date(state.date + "T12:00:00");
@@ -162,7 +168,7 @@ $("#timeButton").onclick = (e) =>
   );
 $("#floorOptions").onclick = (e) =>
   showMenu(e.currentTarget, ["Подписи столов", "Редактировать план"], (v) => {
-    if (v === "Редактировать план") editor();
+    if (v === "Редактировать план") app.openEditor();
     else openTableLabels(app);
   });
 
@@ -216,27 +222,60 @@ window.addEventListener("storage", (e) => {
 const navigation = createNavigation(app.navigate);
 router = createRouter(app, navigation);
 app.toolbar = createToolbar(app);
-$('.top-actions [title="Уведомления"]').onclick = () => {
-  const list = state.reservations.filter(
-    (r) => r.date === state.date && r.status === "Гость опаздывает",
-  );
-  toast(
-    list.length
-      ? list.map((r) => r.name + " — " + r.time).join("; ")
-      : "Нет гостей с отметкой об опоздании",
-  );
-};
+app.notifications = installBookingNotifications(app);
 $('.top-actions [title="Печать"]').onclick = () => window.print();
-$(".navi").onclick = () => app.toolbar.dailyHighlights($(".navi"));
-$(".side-top .icon-button:last-child").onclick = () => {
-  router.navigate("view/Список");
-  setTimeout(() => $("#overview-search")?.focus(), 0);
+$("#mio-sidebar-search").onclick = () => {
+  navigation.openSearch();
 };
-$(".logout button").onclick = () =>
-  toast("Работа ведётся локально: авторизация не настроена");
+$(".logout button").onclick = async () => {
+  if (
+    storage.persistence?.status === "saving" ||
+    storage.persistence?.status === "error"
+  ) {
+    toast("Сначала завершите сохранение данных.");
+    return;
+  }
+
+  const button = $(".logout button");
+  button.disabled = true;
+
+  try {
+    const response = await window.fetch("/api/auth/logout", {
+      method: "POST",
+      credentials: "same-origin",
+      cache: "no-store",
+    });
+
+    if (!response.ok) throw new Error("Не удалось выйти");
+
+    const keys = new Set([
+      ...Object.values(STORAGE_KEYS),
+      "mio-server-connected-v1",
+      "mio-browser-before-server-v1",
+      "mio-server-unsaved-v1",
+    ]);
+
+    for (const key of Object.keys(window.localStorage)) {
+      if (key.startsWith("mio-") || key.startsWith("mio_")) {
+        keys.add(key);
+      }
+    }
+
+    for (const key of keys) {
+      window.localStorage.removeItem(key);
+      window.sessionStorage.removeItem(key);
+    }
+
+    window.location.replace("/");
+  } catch {
+    button.disabled = false;
+    toast("Не удалось завершить выход или очистить данные.");
+  }
+};
 installPersistenceStatus(storage);
 document.addEventListener("persistence:update", (event) => {
   store.reload();
+  floor.reload();
   render();
   if (event.detail.reload) router.reload();
 });

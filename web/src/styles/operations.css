@@ -324,7 +324,6 @@ pre {
 }
 .sidebar.compact .nav > span:nth-child(2),
 .sidebar.compact .nav-arrow,
-.sidebar.compact .side-top > button:last-child,
 .sidebar.compact .account > div:not(.avatar),
 .sidebar.compact .account > span,
 .sidebar.compact .logout button {
@@ -517,4 +516,59 @@ pre {
 }
 .persistence-status[data-status="error"] {
   color: #ffb4b4;
+}
+
+
+/* Manual services checklist item */
+#setup-page .setup-task--service {
+  display: flex;
+  align-items: stretch;
+  padding: 0;
+}
+
+#setup-page .setup-service-toggle,
+#setup-page .setup-service-link {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+#setup-page .setup-service-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 62px;
+  padding: 0;
+}
+
+#setup-page .setup-service-link {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+  padding: 20px 20px 20px 0;
+}
+
+#setup-page .setup-service-link > div {
+  flex: 1;
+}
+
+#setup-page .setup-service-link strong,
+#setup-page .setup-service-link small {
+  display: block;
+}
+
+#setup-page .setup-service-link small {
+  margin-top: 6px;
+  color: #888;
+}
+
+#setup-page .setup-service-toggle:focus-visible,
+#setup-page .setup-service-link:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: -3px;
 }

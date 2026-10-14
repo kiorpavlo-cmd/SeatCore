@@ -42,6 +42,7 @@ app.server.on("error", async (error) => {
   process.exitCode = 1;
 });
 app.server.listen(options.port, options.host, () => {
+  app.viberNotifications.start();
   const port = app.server.address().port;
   const url = address(port);
   console.log("Mio!: " + url);

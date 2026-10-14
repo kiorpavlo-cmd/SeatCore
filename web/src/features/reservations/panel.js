@@ -1,9 +1,12 @@
+import { reservationTables } from "../../services/reservations.js";
 import {
   filterReservations,
   groupReservations,
   totalGuests,
 } from "../../services/reservation-queries.js";
 import { readResources, readGuests } from "../../services/repositories.js";
+import { storage } from "../../services/storage.js";
+import { tablePositions } from "../../config/defaults.js";
 import { $, $$, escapeHTML as esc } from "../../lib/dom.js";
 
 export function createPanel({
@@ -93,7 +96,7 @@ export function createPanel({
     `
   }
     <select id="panel-shift" aria-label="Смена"><option value="">Все смены</option>${(readResources().shifts || []).map((s) => `<option value="${esc(s.id)}" ${state.shift === s.id ? "selected" : ""}>${esc(s.name)}</option>`).join("")}</select>
-    <div class="stats"><span>⚒<br>${filtered.length}</span><span>♟<br>${filtered.reduce((n, x) => n + Number(x.guests), 0)}</span></div>
+    <div class="stats"><span><svg class="booking-field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><br>${filtered.length}</span><span><svg class="booking-field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.13a4 4 0 0 1 0 7.75M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg><br>${filtered.reduce((n, x) => n + Number(x.guests), 0)}</span></div>
   </div>
   ${
     filtered.length
@@ -111,7 +114,7 @@ export function createPanel({
             (
               x,
             ) => `<div role="button" tabindex="0" class="reservation-card ${state.cardType === "compact" ? "compact-card" : ""}" data-booking="${esc(x.id)}">
-  <div class="res-time">${esc(x.time || "—")}</div><div class="res-detail"><strong>${esc(x.name)}</strong><small>♟ ${x.guests}　▦ ${esc(x.table || "—")}</small></div>
+  <div class="res-time">${esc(x.time || "—")}</div><div class="res-detail"><strong>${esc(x.name)}</strong><small><svg class="booking-field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.13a4 4 0 0 1 0 7.75M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg> ${x.guests}　<svg class="booking-field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> ${esc(reservationTables(x).join(", ") || "—")}</small></div>
   ${state.cardType === "timer" ? `<span class="reservation-timer">${Math.floor((x.duration || 90) / 60)} ч ${(x.duration || 90) % 60} мин</span>` : ""}<div class="res-check">✓</div></div>`,
           )
           .join("")
@@ -122,9 +125,31 @@ export function createPanel({
    ${!isWait && entries.length ? '<p>Измените или очистите фильтр</p><button class="outline-green" id="modify">Изменить фильтр</button><br><button class="link-green" id="clear">Очистить фильтры</button>' : ""}
   </div>`
   }`;
+    const savedPositions = storage.read("mio-stage2-positions", null);
+    const walkinTables = Array.isArray(savedPositions?.[state.room])
+      ? savedPositions[state.room]
+      : state.room === "main"
+        ? tablePositions
+        : [];
+
     foot.innerHTML = isWait
       ? '<button class="outline-green full" id="addWait">◷ Добавить в лист ожидания</button>'
-      : `<div class="walkin"><div class="walkin-head">Быстрая посадка <span>⌄</span></div><div class="walkin-numbers">${Array.from({ length: 20 }, (_, i) => `<button data-guests="${i + 1}">${i + 1}</button>`).join("")}</div></div>`;
+      : `<div class="walkin"><div class="walkin-head">Быстрая посадка <span>⌄</span></div><div class="walkin-numbers">${[...walkinTables].sort(([a], [b]) => {
+  const x = String(a).trim();
+  const y = String(b).trim();
+
+  const xNumber = /^\d+$/.test(x);
+  const yNumber = /^\d+$/.test(y);
+
+  if (xNumber !== yNumber) {
+    return xNumber ? -1 : 1;
+  }
+
+  return x.localeCompare(y, "ru", {
+    numeric: true,
+    sensitivity: "base"
+  });
+}).map(([name]) => `<button data-walkin-table="${esc(String(name))}">${esc(String(name))}</button>`).join("")}</div></div>`;
     $("#panel-shift").onchange = (e) => {
       state.shift = e.target.value;
       save();
@@ -198,10 +223,14 @@ export function createPanel({
       );
 
     if ($("#addWait")) $("#addWait").onclick = () => bookingModal(true);
-    $$("[data-guests]").forEach(
+    $$("[data-walkin-table]").forEach(
       (e) =>
         (e.onclick = () =>
-          bookingModal(false, +e.dataset.guests, null, { walkIn: true })),
+          bookingModal(false, null, null, {
+            walkIn: true,
+            room: state.room,
+            table: e.dataset.walkinTable,
+          })),
     );
     $$("[data-booking]").forEach(
       (e) =>

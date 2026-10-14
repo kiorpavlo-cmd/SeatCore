@@ -252,47 +252,69 @@ export function createTopbarActions(app) {
       );
     };
   }
-  function dailyHighlights(anchor) {
-    notes = storage.read(KEY_NOTES, {});
-    const date = today();
-    const html = `
- <h3>Главное за день</h3>
- <div class="toolbar-notes-tabs">
-  <button id="toolbarNotesTab" class="on">Заметки</button>
-  <button id="toolbarSummaryTab">Сводка Navi</button>
- </div>
- <div id="toolbarNotesContent">
-  <textarea id="toolbarNote" placeholder="Введите заметки за день. Они сохраняются автоматически.">${safe(notes[date] || "")}</textarea>
-  <div class="toolbar-small" id="toolbarNoteStatus">Дата: ${safe(date)}</div>
- </div>`;
-    const panel = create(anchor, "toolbar-notes", html);
-    const notesTab = panel.querySelector("#toolbarNotesTab");
-    const summaryTab = panel.querySelector("#toolbarSummaryTab");
-    const content = panel.querySelector("#toolbarNotesContent");
 
-    function showNotes() {
-      notesTab.classList.add("on");
-      summaryTab.classList.remove("on");
-      content.innerHTML = `
-   <textarea id="toolbarNote" placeholder="Введите заметки за день. Они сохраняются автоматически.">${safe(notes[date] || "")}</textarea>
-   <div class="toolbar-small">Дата: ${safe(date)} · Автосохранение</div>`;
-      content.querySelector("textarea").oninput = (e) => {
-        notes[date] = e.target.value;
-        storage.setItem(KEY_NOTES, JSON.stringify(notes));
-      };
+  function dailyComment(anchor) {
+    const date = today();
+    notes = storage.read(KEY_NOTES, {});
+
+    const existing = pop?.classList.contains("toolbar-daily-comment");
+
+    if (existing && pop?.dataset.date === date) {
+      close();
+      return;
     }
-    notesTab.onclick = showNotes;
-    summaryTab.onclick = () => {
-      summaryTab.classList.add("on");
-      notesTab.classList.remove("on");
-      content.innerHTML = `<div style="min-height:320px;padding:18px;border:1px solid #ddd;border-radius:5px">
-   <strong>Сводка Navi</strong>
-   <p>Бронирований: ${state.reservations.filter((r) => r.date === date).length}; гостей: ${state.reservations.filter((r) => r.date === date).reduce((n, r) => n + Number(r.guests), 0)}.</p><p>В листе ожидания: ${state.waitlist.length}. За столом: ${state.reservations.filter((r) => r.date === date && r.status === "За столом").length}.</p>
-   <p class="toolbar-small">Для работы потребуется отдельная логика обработки данных ресторана.</p>
-   </div>`;
-    };
-    showNotes();
+
+    const dialog = create(
+      anchor,
+      "toolbar-daily-comment",
+      `<div class="mio-day-comment-heading">
+        <h3>Комментарий на день</h3>
+        <button type="button" data-close-comment
+          aria-label="Закрыть">×</button>
+      </div>
+      <div class="mio-day-comment-date">${safe(
+        date.split("-").reverse().join(".")
+      )}</div>
+      <textarea id="mioDayComment"
+        aria-label="Комментарий на выбранный день"
+        placeholder="Введите комментарий для этого дня..."
+        rows="6">${safe(notes[date] || "")}</textarea>
+      <div class="mio-day-comment-status"
+        role="status">Сохраняется автоматически</div>`
+    );
+
+    dialog.dataset.date = date;
+
+    const input = dialog.querySelector("#mioDayComment");
+    const status = dialog.querySelector(".mio-day-comment-status");
+
+    input.addEventListener("input", () => {
+      const current = storage.read(KEY_NOTES, {});
+      const updated = current && typeof current === "object" &&
+        !Array.isArray(current) ? { ...current } : {};
+
+      if (input.value.trim()) {
+        updated[date] = input.value;
+      } else {
+        delete updated[date];
+      }
+
+      const result = storage.setItem(
+        KEY_NOTES,
+        JSON.stringify(updated)
+      );
+
+      notes = updated;
+
+      status.textContent = result === false
+        ? "Не удалось сохранить комментарий"
+        : "Изменения отправлены на сохранение";
+    });
+
+    dialog.querySelector("[data-close-comment]").onclick = close;
+    input.focus();
   }
+
   function bind() {
     const actions = document.querySelector(".top-actions");
     if (!actions) return;
@@ -308,7 +330,7 @@ export function createTopbarActions(app) {
     if (list)
       list.onclick = (e) => {
         e.stopPropagation();
-        dailyHighlights(list);
+        dailyComment(list);
       };
 
     document.addEventListener("pointerdown", (e) => {
@@ -326,5 +348,5 @@ export function createTopbarActions(app) {
     window.addEventListener("resize", close);
   }
   bind();
-  return { close, blockHours, dailyHighlights };
+  return { close, blockHours, dailyComment };
 }

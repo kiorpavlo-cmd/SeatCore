@@ -7,27 +7,48 @@ import {
   COLLECTIONS,
 } from "../../contracts/storage.js";
 import { protectUsers, publicAccount } from "./credentials.js";
+import { linkReservationGuests } from "./guest-linking.js";
+import { deriveStaff } from "../../contracts/staff.js";
 export class StateService {
-  constructor(store) {
+  constructor(store, { onCommit, auth, access } = {}) {
     this.store = store;
+    this.onCommit = onCommit;
+    this.auth = auth;
+    this.access = access;
+    const current = store.read();
+    const servers = deriveStaff(current.account.users, current.app.servers);
+    if (
+      auth &&
+      JSON.stringify(servers) !== JSON.stringify(current.app.servers)
+    ) {
+      store.transaction(() => {
+        store.write({ app: { ...current.app, servers } });
+        store.setMeta("revision", Number(store.getMeta("revision")) + 1);
+        store.log("Сотрудники", "Согласование списка официантов с профилями");
+      });
+    }
   }
-  snapshot() {
+  snapshot(actor = null) {
     const collections = this.store.read();
     collections.account = publicAccount(collections.account);
+    if (this.auth)
+      collections.account = this.auth.describeEmployees(collections.account);
     collections.resources.audit = [
       ...(collections.resources.audit || []),
       ...this.store.audit(),
     ].slice(-500);
-    return {
+    const result = {
       revision: Number(this.store.getMeta("revision")),
       initialized: this.store.getMeta("initialized") === "1",
       collections,
     };
+    return this.access ? this.access.snapshot(result, actor) : result;
   }
   commit(
     { baseRevision, changes, mutationId = randomUUID() },
     migration = false,
     receiptHash = null,
+    actor = null,
   ) {
     if (
       !Number.isInteger(baseRevision) ||
@@ -51,7 +72,7 @@ export class StateService {
             "IDEMPOTENCY_REUSE",
             "Идентификатор запроса уже использован",
           );
-        return this.snapshot();
+        return this.snapshot(actor);
       }
       const revision = Number(this.store.getMeta("revision"));
       if (baseRevision !== revision)
@@ -76,6 +97,7 @@ export class StateService {
           invalid("Неверная коллекция: " + name);
         projected[name] = projectCollection(name, value);
         if (name === "resources") {
+          projected[name] = { ...current.resources, ...projected[name] };
           const audit = migration ? value.audit : current.resources.audit;
           if (Array.isArray(audit))
             projected[name].audit = audit
@@ -90,11 +112,35 @@ export class StateService {
               .map(({ date, name, action }) => ({ date, name, action }));
         }
       }
+      this.access?.changes(current, projected, actor, migration);
+      if (projected.account && this.auth)
+        projected.app = {
+          ...current.app,
+          ...projected.app,
+          servers: deriveStaff(projected.account.users, current.app.servers),
+        };
+      if (
+        projected.app &&
+        (Object.hasOwn(projected.app, "reservations") ||
+          Object.hasOwn(projected.app, "waitlist"))
+      ) {
+        const linked = linkReservationGuests(
+          { ...current.app, ...projected.app },
+          projected.guests ?? current.guests,
+        );
+
+        projected.app = linked.app;
+        projected.guests = linked.guests;
+      }
+
       const next = { ...current, ...projected };
       validateState(next, current, Object.keys(projected));
-      if (projected.account)
+      if (projected.account) {
+        this.auth?.syncEmployees(projected.account, current.account, migration);
         projected.account = protectUsers(projected.account, current.account);
+      }
       this.store.write(projected);
+      this.onCommit?.(current, next, { revision: revision + 1, migration });
       this.store.setMeta("revision", revision + 1);
       this.store.setMeta("initialized", "1");
       for (const name of Object.keys(projected))
@@ -115,10 +161,10 @@ export class StateService {
           migration ? "Перенос данных браузера" : "Сохранение на сервере",
         );
       this.store.addReceipt(mutationId, hash, revision + 1);
-      return this.snapshot();
+      return this.snapshot(actor);
     });
   }
-  migrate({ legacy, baseRevision, mutationId }) {
+  migrate({ legacy, baseRevision, mutationId }, actor = null) {
     if (!legacy || typeof legacy !== "object" || Array.isArray(legacy))
       invalid("Неверный экспорт браузера");
     const changes = {};
@@ -133,9 +179,14 @@ export class StateService {
           invalid("Повреждены данные браузера: " + name);
         }
       }
-    return this.commit({ changes, baseRevision, mutationId }, true);
+    return this.commit(
+      { changes, baseRevision, mutationId },
+      true,
+      null,
+      actor,
+    );
   }
-  updateRecord(collection, method, id, record, meta) {
+  updateRecord(collection, method, id, record, meta, actor = null) {
     const paths = {
       reservations: ["app", "reservations"],
       waitlist: ["app", "waitlist"],
@@ -161,9 +212,9 @@ export class StateService {
           "IDEMPOTENCY_REUSE",
           "Идентификатор запроса уже использован",
         );
-      return this.snapshot();
+      return this.snapshot(actor);
     }
-    const state = this.snapshot();
+    const state = this.snapshot(actor);
     const [name, key] = pair;
     const document = state.collections[name];
     const rows = key ? document[key] : document;
@@ -186,10 +237,12 @@ export class StateService {
       },
       false,
       receiptHash,
+      actor,
     );
   }
-  records(collection) {
-    const state = this.snapshot();
+  records(collection, actor = null) {
+    this.access?.readCollection(actor, collection);
+    const state = this.snapshot(actor);
     const paths = {
       reservations: state.collections.app.reservations,
       waitlist: state.collections.app.waitlist,

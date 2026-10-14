@@ -1,6 +1,7 @@
 import { validateReservation } from "../../contracts/reservations.js";
 import { COLLECTIONS } from "../../contracts/storage.js";
 import { invalid } from "./errors.js";
+import { ROLES, PERMISSION_IDS } from "../../contracts/permissions.js";
 const object = (value) =>
   value && typeof value === "object" && !Array.isArray(value);
 function list(value, label) {
@@ -162,6 +163,7 @@ export function validateState(state, previous, changed) {
   for (const user of state.account.users) {
     if (
       typeof user.email !== "string" ||
+      user.email.length > 254 ||
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email)
     )
       invalid("Неверная электронная почта пользователя");
@@ -172,6 +174,25 @@ export function validateState(state, previous, changed) {
       invalid("PIN должен содержать 4 цифры");
   }
   dictionary(state.permissions, "Настройки прав");
+  if (changed.includes("permissions"))
+    for (const [key, value] of Object.entries(state.permissions)) {
+      if (
+        !PERMISSION_IDS.includes(key) ||
+        !object(value) ||
+        !Array.isArray(value.roles) ||
+        value.roles.length !== ROLES.length ||
+        value.roles.some((flag) => typeof flag !== "boolean") ||
+        !Array.isArray(value.overrides) ||
+        value.overrides.some(
+          (row) =>
+            !object(row) ||
+            typeof row.email !== "string" ||
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(row.email) ||
+            !["allow", "deny"].includes(row.value),
+        )
+      )
+        invalid("Неверные настройки разрешения: " + key);
+    }
   dictionary(state.notes, "Заметки");
   for (const note of Object.values(state.notes))
     if (typeof note !== "string") invalid("Заметка должна содержать текст");

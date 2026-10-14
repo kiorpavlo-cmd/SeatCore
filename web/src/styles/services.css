@@ -1,0 +1,279 @@
+
+#services-page {
+  position: relative;
+  inset: auto;
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #f5f7fa;
+  overflow: hidden;
+  color: #111827;
+}
+
+#services-page .page-titlebar {
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.mio-services-scroll {
+  flex: 1;
+  overflow: auto;
+  padding: 29px 30px 45px;
+}
+
+.mio-services-scroll h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 24px;
+  letter-spacing: -.6px;
+}
+
+.mio-services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.mio-service-card {
+  min-height: 126px;
+  display: flex;
+  align-items: center;
+  gap: 27px;
+  padding: 20px 22px 20px 31px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 13px;
+  box-shadow: 0 2px 12px rgba(17,24,39,.025);
+}
+
+.mio-service-logo {
+  width: 57px;
+  height: 57px;
+  flex: 0 0 57px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  color: white;
+  font-size: 35px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.mio-service-logo--google {
+  color: #4285f4;
+  background: #f1f3f6;
+  font-family: var(--font-family);
+}
+.mio-service-logo--viber { background: #873be0; }
+.mio-service-logo--telegram { background: #159bd6; }
+.mio-service-logo--instagram {
+  background: linear-gradient(35deg,#ffcf32,#f42560,#9336d7);
+  font-size: 48px;
+}
+.mio-service-logo--facebook { background: #1264df; font-size: 52px; }
+.mio-service-logo--whatsapp { background: #05c967; }
+.mio-service-logo--sms { background: #09c96d; }
+.mio-service-logo--email { background: #299ce8; }
+.mio-service-logo--widget { background: #873be9; }
+.mio-service-logo--qr { background: #142033; }
+
+.mio-service-information {
+  flex: 1;
+  min-width: 0;
+}
+
+.mio-service-information h2 {
+  font-size: 16px;
+  margin: 0 0 6px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.mio-service-information p {
+  color: #667085;
+  font-size: 14px;
+  line-height: 1.45;
+  margin: 0 0 7px;
+}
+
+.mio-service-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: #87909f;
+}
+
+.mio-service-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #acb1bc;
+}
+
+.mio-service-action {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  flex-shrink: 0;
+}
+
+.mio-service-button {
+  min-width: 113px;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: #115cf5;
+  color: white;
+  border: 1px solid #115cf5;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.mio-service-button:hover { background: #0047d9; }
+
+.mio-service-arrow {
+  border: none;
+  background: transparent;
+  font-size: 29px;
+  color: #213755;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.mio-service-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(15,23,42,.45);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.mio-service-dialog {
+  width: min(100%, 450px);
+  border-radius: 14px;
+  background: white;
+  padding: 25px;
+  box-shadow: 0 20px 65px rgba(0,0,0,.18);
+}
+
+.mio-service-dialog-top,
+.mio-service-dialog-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mio-service-dialog h2 { font-size: 20px; margin: 0; }
+.mio-service-dialog p { color: #667085; line-height: 1.5; }
+
+.mio-service-close {
+  border: 0;
+  background: transparent;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.mio-service-notice {
+  background: #f5f7fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 9px;
+  padding: 14px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.mio-service-dialog-bottom { justify-content: flex-end; margin-top: 22px; }
+
+.mio-service-done {
+  background: #115cf5;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 11px 20px;
+  cursor: pointer;
+}
+
+@media (max-width: 1250px) {
+  .mio-services-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 650px) {
+  .mio-services-scroll { padding: 20px 14px; }
+  .mio-service-card { padding: 17px; gap: 14px; flex-wrap: wrap; }
+  .mio-service-logo { width: 47px; height: 47px; flex-basis: 47px; }
+  .mio-service-action { width: 100%; justify-content: flex-end; }
+}
+
+
+.mio-service-logo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.mio-service-logo--google {
+  background: transparent;
+}
+
+/* MIO LOCAL BRAND LOGOS */
+.mio-service-logo--google,
+.mio-service-logo--telegram,
+.mio-service-logo--instagram,
+.mio-service-logo--facebook,
+.mio-service-logo--whatsapp {
+  background: transparent !important;
+}
+
+.mio-service-logo--viber {
+  background: #7360f2 !important;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.mio-service-logo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+/* MIO SERVICE FUNCTION ICONS */
+.mio-service-logo--sms,
+.mio-service-logo--email,
+.mio-service-logo--widget,
+.mio-service-logo--qr {
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+.mio-service-logo--sms {
+  background: #16c766;
+}
+
+.mio-service-logo--email {
+  background: #309bf0;
+}
+
+.mio-service-logo--widget {
+  background: #903ce7;
+}
+
+.mio-service-logo--qr {
+  background: #142033;
+}
+
+.mio-service-logo--sms svg,
+.mio-service-logo--email svg,
+.mio-service-logo--widget svg,
+.mio-service-logo--qr svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

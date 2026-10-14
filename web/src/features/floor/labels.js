@@ -3,7 +3,7 @@ import { escapeHTML as esc } from "../../lib/dom.js";
 import { minutes } from "../../services/reservations.js";
 import { SEATED } from "../../services/reservation-queries.js";
 import { readResources, readGuests } from "../../services/repositories.js";
-export const LABELS = {
+const LABELS = {
   none: "Без подписи",
   upcoming: "Все ожидаемые",
   upcomingCovers: "Ожидаемые и гости",
@@ -133,6 +133,8 @@ export function openTableLabels(app) {
       .join("")}`,
     '<button class="green" id="apply-labels">Применить подписи</button>',
   );
+  dialog.querySelector(".booking-dialog")
+    .classList.add("mio-table-labels-dialog");
   dialog.querySelector("#apply-labels").onclick = () => {
     app.state.tableLabels = Object.fromEntries(
       ["size", "top", "bottom", "middle"].map((key) => [

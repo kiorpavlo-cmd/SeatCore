@@ -66,7 +66,7 @@ describe("Совместимость данных", () => {
       { main: [], terrace: [] },
     );
     expect(value.private).toHaveLength(1);
-    expect(value.terrace).toEqual([]);
+    expect(value.terrace).toBeUndefined();
   });
   it("восстанавливает некорректный план, не падает на null", () =>
     expect(

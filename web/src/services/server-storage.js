@@ -12,7 +12,13 @@ const copy = (value) => JSON.parse(JSON.stringify(value));
 const json = (value) => JSON.stringify(value);
 const publicValue = (name, value) =>
   name === "account"
-    ? { ...value, users: value.users.map(({ pin, pinHash, ...user }) => user) }
+    ? {
+        ...value,
+        users: value.users.map(
+          ({ pin, pinHash, password, passwordHash, password_hash, ...user }) =>
+            user,
+        ),
+      }
     : value;
 export async function createServerStorage({
   api,
@@ -56,6 +62,7 @@ export async function createServerStorage({
     mode: "server",
     status: "saved",
     message: "Сохранено на сервере",
+    access: snapshot.access,
   };
   function status(value, message) {
     persistence.status = value;
@@ -76,6 +83,7 @@ export async function createServerStorage({
     local.setItem(key, json(cached));
   }
   function apply(data, overlay = {}) {
+    persistence.access = data.access ?? persistence.access;
     confirmed = data.collections;
     revision = data.revision;
     for (const [name, value] of Object.entries({ ...confirmed, ...overlay }))
@@ -143,7 +151,14 @@ export async function createServerStorage({
           };
           lastDraft = draft;
           const durableDraft = local.setItem(UNSAVED_KEY, json(draft));
-          if (error.status === 409 || error.status === 422) {
+          if (error.status === 401) {
+            if (typeof window !== "undefined") window.location.replace("/");
+          }
+          if (
+            error.status === 409 ||
+            error.status === 422 ||
+            error.status === 403
+          ) {
             try {
               const latest = await api.request("/v1/state");
               flight = null;
@@ -171,6 +186,21 @@ export async function createServerStorage({
   }
   return {
     persistence,
+    async sync() {
+      if (running || flight || paused || Object.keys(pending).length)
+        return false;
+      const data = await api.request("/v1/state");
+      // A write may have started while the read request was in flight.
+      if (running || flight || paused || Object.keys(pending).length)
+        return false;
+      if (!Number.isInteger(data.revision) || !data.collections)
+        throw new Error("Неверное состояние сервера");
+      if (data.revision !== revision) {
+        apply(data);
+        onUpdate({ reload: false });
+      }
+      return true;
+    },
     getItem(key) {
       return cache.has(key) ? cache.get(key) : local.getItem(key);
     },

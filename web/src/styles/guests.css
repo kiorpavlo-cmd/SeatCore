@@ -1,7 +1,7 @@
 /* Этап 9 — Гости и теги */
 #guest-root {
-  --guest-green: #10894b;
-  --guest-pale: #e3f4e9;
+  --guest-green: var(--mio-primary);
+  --guest-pale: #eaf1ff;
   --guest-border: #dedede;
   --guest-bg: #fafafa;
   position: relative;
@@ -13,9 +13,7 @@
   background: var(--guest-bg);
   color: #303030;
   font:
-    15px Arial,
-    Helvetica,
-    sans-serif;
+    15px var(--font-family);
 }
 #guest-root * {
   box-sizing: border-box;
@@ -33,7 +31,7 @@
 .guest-topbar {
   height: 42px;
   flex-shrink: 0;
-  background: #393939;
+  background: #ffffff;
   color: white;
   display: flex;
   align-items: center;
@@ -59,7 +57,7 @@
   border: 1px solid #ddd;
   border-radius: 6px;
   padding: 0 13px;
-  outline-color: #10894b;
+  outline-color: var(--mio-primary);
   background: white;
 }
 .guest-guest-list {
@@ -97,7 +95,7 @@
   background: #f5f5f5;
 }
 .guest-guest-row.selected {
-  background: #dcf3e4;
+  background: #eaf1ff;
 }
 .guest-list-bottom {
   padding: 15px;
@@ -177,7 +175,7 @@
   background: transparent;
 }
 .guest-tab.active {
-  background: #9bd6ae;
+  background: #eaf1ff;
 }
 .guest-profile-scroll {
   flex: 1;
@@ -305,9 +303,10 @@
   border-radius: 8px;
 }
 .guest-tags-nav button.active {
-  background: #e4f5ea;
+  background: #eaf1ff;
   font-weight: 600;
-}
+
+  color: #2563eb;}
 .guest-tags-content {
   overflow: auto;
   padding: 26px 22px;
@@ -445,7 +444,7 @@
   border-radius: 7px;
 }
 .guest-choice button.active {
-  background: #9bd6ae;
+  background: #eaf1ff;
 }
 .guest-checkbox {
   display: flex;
@@ -455,7 +454,7 @@
 .guest-checkbox input {
   width: 17px;
   height: 17px;
-  accent-color: #10894b;
+  accent-color: var(--mio-primary);
 }
 @media (max-width: 1000px) {
   .guest-guest-list {
@@ -470,4 +469,15 @@
   .guest-tags-layout {
     grid-template-columns: 180px 1fr;
   }
+}
+
+/* MIO GUEST AVATAR SVG */
+.guest-avatar .guest-avatar-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: #64748b;
+  fill: none;
+  stroke: currentColor;
 }

@@ -322,3 +322,139 @@
     width: 275px;
   }
 }
+
+/* MIO RESERVATION FLOATING WINDOW START */
+#bookingScreen {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  z-index: 20000 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 24px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  background: rgba(15, 23, 42, 0.35) !important;
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+}
+
+#bookingScreen > .booking-header,
+#bookingScreen > .booking-content {
+  width: min(1100px, 100%) !important;
+  max-width: 1100px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  margin: 0 !important;
+  background: #fff !important;
+}
+
+#bookingScreen > .booking-header {
+  flex: 0 0 auto !important;
+  border-radius: 16px 16px 0 0 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  box-shadow: 0 12px 45px rgba(15,23,42,.16);
+}
+
+#bookingScreen > .booking-content {
+  flex: 0 1 auto !important;
+  min-height: 0 !important;
+  max-height: calc(100dvh - 120px) !important;
+  overflow: hidden !important;
+  border-radius: 0 0 16px 16px !important;
+  box-shadow: 0 25px 65px rgba(15,23,42,.25);
+}
+
+#bookingScreen .booking-form {
+  min-height: 0 !important;
+}
+
+#bookingScreen .booking-form-scroll {
+  overflow-y: auto !important;
+  min-height: 0 !important;
+}
+
+#bookingScreen .booking-plan-area {
+  min-width: 0 !important;
+  min-height: 0 !important;
+  overflow: auto !important;
+}
+
+@media (max-width: 760px) {
+  #bookingScreen {
+    padding: 12px !important;
+  }
+
+  #bookingScreen > .booking-content {
+    overflow-y: auto !important;
+    max-height: calc(100dvh - 90px) !important;
+  }
+
+  #bookingScreen .booking-content {
+    flex-direction: column !important;
+  }
+
+  #bookingScreen .booking-form,
+  #bookingScreen .booking-plan-area {
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+/* MIO RESERVATION FLOATING WINDOW END */
+
+
+/* Reservation form icons */
+#bookingScreen .booking-field-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  flex-shrink: 0;
+  vertical-align: -3px;
+  margin-right: 6px;
+  color: #64748b;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+#bookingScreen .booking-label .booking-field-icon,
+#bookingScreen .booking-row .row-name .booking-field-icon,
+#bookingScreen .booking-plan-header .booking-field-icon {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* Multiple selected reservation tables */
+#bookingScreen .booking-selected {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+#bookingScreen .booking-table-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 20px;
+  background: #fff;
+  color: #334155;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+#bookingScreen .booking-table-chip:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}

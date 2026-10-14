@@ -1,0 +1,70 @@
+.viber-error {
+  color: #b42318 !important;
+  overflow-wrap: anywhere;
+}
+.viber-error:empty {
+  display: none;
+}
+.viber-setup-note {
+  padding: 14px;
+  border: 1px solid #dfd5fa;
+  border-radius: 8px;
+  background: #faf7ff;
+}
+.viber-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0;
+}
+.viber-template-preview {
+  border-top: 1px solid #e5e7eb;
+  margin-top: 20px;
+}
+.viber-template-preview h3 {
+  font-size: 14px;
+}
+.viber-template-preview p {
+  padding: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 13px;
+}
+.viber-template-preview small {
+  color: #667085;
+}
+.mio-viber-overlay .mio-service-dialog {
+  width: min(100%, 660px);
+  max-height: calc(100dvh - 40px);
+  overflow: auto;
+  box-sizing: border-box;
+}
+.viber-enabled .mio-service-dot {
+  background: #16a34a;
+}
+.viber-delivery {
+  display: grid;
+  gap: 7px;
+  padding: 12px 0;
+  border-top: 1px solid #e5e7eb;
+}
+.viber-delivery small {
+  color: #667085;
+}
+.viber-delivery button {
+  justify-self: start;
+}
+[data-booking-viber] {
+  border-top: 1px solid #e5e7eb;
+  padding: 16px;
+  box-sizing: border-box;
+  font-size: 13px;
+}
+[data-booking-viber] h4 {
+  margin: 0;
+}
+.viber-actions button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

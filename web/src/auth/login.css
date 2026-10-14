@@ -1,0 +1,145 @@
+.mio-auth {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #f5f7fa;
+  padding: 24px;
+  font-family: var(--font-family);
+  color: #111827;
+  box-sizing: border-box;
+}
+
+.mio-auth *,
+.mio-auth *::before,
+.mio-auth *::after {
+  box-sizing: border-box;
+}
+
+.mio-auth-panel {
+  width: min(100%, 440px);
+}
+
+.mio-auth-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.mio-auth-logo {
+  color: #2563eb;
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -2px;
+}
+
+.mio-auth-header span {
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.mio-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 32px;
+  box-shadow: 0 5px 20px rgba(17,24,39,.04);
+}
+
+.mio-auth-form label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mio-auth-form input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font: inherit;
+  color: #111827;
+  background: #fff;
+}
+
+.mio-auth-form input:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
+.mio-auth-form button {
+  margin-top: 7px;
+  border: none;
+  border-radius: 8px;
+  padding: 14px;
+  background: #2563eb;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.mio-auth-form button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+#mio-login-error {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+#mio-login-error:empty {
+  display: none;
+}
+
+.mio-auth-message {
+  text-align: center;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.mio-auth-loading {
+  color: #64748b;
+}
+
+.mio-auth-form h1 {
+  margin: 0 0 8px;
+  font-size: 23px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.mio-auth-description {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #64748b;
+}
+
+.mio-auth-error {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+.mio-auth-error:empty {
+  display: none;
+}
+
+.mio-auth-form a {
+  text-align: center;
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 14px;
+  padding-top: 8px;
+}
+
+.mio-auth-form a:hover {
+  text-decoration: underline;
+}

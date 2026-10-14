@@ -76,6 +76,7 @@ export const storage = {
   },
   flush: () => activeRepository.flush?.() || Promise.resolve(),
   retry: () => activeRepository.retry?.(),
+  sync: () => activeRepository.sync?.(),
   legacyBackup: () => activeRepository.legacyBackup?.(),
   unsavedBackup: () => activeRepository.unsavedBackup?.(),
 };

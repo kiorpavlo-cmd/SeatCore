@@ -1,0 +1,36 @@
+{
+  "category": "TRANSACTIONAL",
+  "body": [
+    {
+      "language": "ru",
+      "template": "Здравствуйте, {{name}}! Ваше бронирование в {{restaurant}} на {{date}} в {{time}} отменено. Если это ошибка, свяжитесь с рестораном: {{phone}}."
+    }
+  ],
+  "params": [
+    {
+      "type": "TEXT",
+      "name": "name",
+      "example": "Анна"
+    },
+    {
+      "type": "TEXT",
+      "name": "restaurant",
+      "example": "Mio"
+    },
+    {
+      "type": "TEXT",
+      "name": "date",
+      "example": "14.10.2026"
+    },
+    {
+      "type": "TEXT",
+      "name": "time",
+      "example": "19:00"
+    },
+    {
+      "type": "TEXT",
+      "name": "phone",
+      "example": "+37060000123"
+    }
+  ]
+}

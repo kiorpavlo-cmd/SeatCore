@@ -1,5 +1,5 @@
 :root {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-family);
   color: #383838;
   background: #f5f5f5;
   font-size: 15px;
@@ -427,46 +427,11 @@ nav {
   font-weight: 600;
   z-index: 2;
 }
-.table-object:before,
-.table-object:after {
-  content: "";
-  position: absolute;
-  background: #ccc;
-  border-radius: 3px;
-  z-index: -1;
-}
-.table-object:before {
-  width: 22px;
-  height: 6px;
-  top: -5px;
-}
-.table-object:after {
-  width: 22px;
-  height: 6px;
-  bottom: -5px;
-}
-.table-object.side:before,
-.table-object.side:after {
-  width: 6px;
-  height: 21px;
-  top: 10px;
-}
-.table-object.side:before {
-  left: -6px;
-}
-.table-object.side:after {
-  left: auto;
-  right: -6px;
-}
 .table-object.round {
   border-radius: 50%;
   width: 62px;
   height: 62px;
   background: #fff;
-}
-.table-object.round:before,
-.table-object.round:after {
-  width: 26px;
 }
 .table-object.chosen {
   outline: 3px solid #138b4e;
@@ -780,4 +745,68 @@ nav {
     transform: scale(0.8);
     transform-origin: top left;
   }
+}
+
+
+/* Restaurant profile logo */
+#restaurant-sidebar-avatar {
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.account-logo-editor {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 0 20px;
+}
+.account-logo-preview {
+  width: 76px;
+  height: 76px;
+  min-width: 76px;
+  border-radius: 50%;
+  background: #b4dcc7;
+  color: #16251c;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  font-weight: 700;
+  overflow: hidden;
+}
+.account-logo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.account-logo-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+.account-logo-controls > span {
+  font-size: 12px;
+  color: #64748b;
+}
+.account-logo-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.account-logo-buttons button {
+  cursor: pointer;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  color: #334155;
+  font: inherit;
+}
+.account-logo-buttons button:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+#account-logo-error {
+  color: #dc2626;
+  font-size: 12px;
 }

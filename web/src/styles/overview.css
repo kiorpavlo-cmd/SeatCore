@@ -80,7 +80,9 @@
   flex: none;
 }
 .overview-bottom button.active {
-  background: #bce2cb;
+  background: #dbeafe;
+  color: #2563eb;
+  border-color: #93c5fd;
 }
 .overview-split-hour {
   min-width: 310px;
@@ -144,11 +146,11 @@
   margin-top: 8px;
 }
 .overview-add {
-  border: 1px solid #138b4d;
+  border: 1px solid #2563eb;
   border-radius: 7px;
   min-height: 46px;
   width: 100%;
-  color: #118c4a;
+  color: #2563eb;
   font-size: 23px;
   background: #fff;
 }

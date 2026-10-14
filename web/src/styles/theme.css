@@ -1,6 +1,6 @@
 /* Оформление по оригиналу Mio!, октябрь 2026. */
 :root {
-  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-family: var(--font-family);
 }
 .sidebar {
   width: 300px;
@@ -118,27 +118,6 @@
 }
 .table-object.wide {
   width: 62px;
-}
-.table-object.long:before,
-.table-object.long:after {
-  width: 22px;
-  height: 6px;
-  top: -5px;
-}
-.table-object.long:after {
-  top: auto;
-  bottom: -5px;
-}
-.table-object.wide:before,
-.table-object.wide:after {
-  width: 6px;
-  height: 22px;
-  top: 10px;
-  left: -6px;
-}
-.table-object.wide:after {
-  left: auto;
-  right: -6px;
 }
 .table-object.chosen {
   outline: 0;

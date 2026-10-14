@@ -16,6 +16,9 @@ export function createPage(app) {
     );
   };
 
+  const servicesKey = "mio.setup.services.completed";
+  const servicesDone = () => read(servicesKey, false) === true;
+
   const tasks = [
     [
       "Профиль ресторана",
@@ -69,6 +72,13 @@ export function createPage(app) {
       "guests/Пользовательские поля",
       () => hasRecords(read(STORAGE_KEYS.fields, [])),
     ],
+    [
+      "Интеграция с сервисами",
+      "Подключите необходимые сервисы",
+      "integrations/Сервисы",
+      servicesDone,
+      true,
+    ],
   ];
 
   function mount() {
@@ -80,13 +90,57 @@ export function createPage(app) {
     render();
   }
   function render() {
-    const done = tasks.filter((x) => x[3]()).length;
-    $("#setup-page").innerHTML =
-      `<header class="page-titlebar">ПЕРВОНАЧАЛЬНАЯ НАСТРОЙКА</header><div class="operations-scroll"><h1>Настроим всё необходимое!</h1><p>${done} из ${tasks.length} шагов выполнено</p><progress max="${tasks.length}" value="${done}"></progress><div class="setup-tasks">${tasks.map(([name, description, route, check]) => `<button class="setup-task" data-setup-route="${esc(route)}"><span class="setup-check ${check() ? "done" : ""}">${check() ? "✓" : ""}</span><div><strong>${name}</strong><small>${description}</small></div><span>›</span></button>`).join("")}</div></div>`;
+    const done = tasks.filter((task) => task[3]()).length;
+
+    const rows = tasks.map(([name, description, route, check, manual]) => {
+      const completed = check();
+      const mark = `<span class="setup-check ${completed ? "done" : ""}">${completed ? "✓" : ""}</span>`;
+      const detail = `<div><strong>${esc(name)}</strong><small>${esc(description)}</small></div>`;
+
+      if (manual) {
+        return `
+          <div class="setup-task setup-task--service">
+            <button type="button"
+                    class="setup-service-toggle"
+                    data-toggle-services
+                    aria-pressed="${completed}"
+                    aria-label="${completed ? "Снять отметку" : "Отметить выполненным"}">
+              ${mark}
+            </button>
+            <button type="button"
+                    class="setup-service-link"
+                    data-setup-route="${esc(route)}">
+              ${detail}<span>›</span>
+            </button>
+          </div>`;
+      }
+
+      return `<button class="setup-task" data-setup-route="${esc(route)}">${mark}${detail}<span>›</span></button>`;
+    }).join("");
+
+    $("#setup-page").innerHTML = `
+      <header class="page-titlebar">ПЕРВОНАЧАЛЬНАЯ НАСТРОЙКА</header>
+      <div class="operations-scroll">
+        <h1>Настроим всё необходимое!</h1>
+        <p>${done} из ${tasks.length} шагов выполнено</p>
+        <progress max="${tasks.length}" value="${done}"></progress>
+        <div class="setup-tasks">${rows}</div>
+      </div>`;
+
     $("#setup-page")
       .querySelectorAll("[data-setup-route]")
-      .forEach((b) => (b.onclick = () => app.navigate(b.dataset.setupRoute)));
+      .forEach((button) => {
+        button.onclick = () => app.navigate(button.dataset.setupRoute);
+      });
+
+    $("#setup-page")
+      .querySelector("[data-toggle-services]")
+      ?.addEventListener("click", () => {
+        storage.write(servicesKey, !servicesDone());
+        render();
+      });
   }
+
   return {
     mount,
     unmount() {

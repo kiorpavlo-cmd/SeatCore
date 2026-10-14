@@ -1,0 +1,144 @@
+.mio-google-overlay .mio-service-dialog {
+  width: min(100%, 760px);
+  max-height: calc(100dvh - 40px);
+  overflow: auto;
+  box-sizing: border-box;
+}
+.google-connected .mio-service-dot {
+  background: #16a34a;
+}
+.google-connection-status {
+  font-weight: 600;
+}
+.google-error {
+  color: #b42318 !important;
+  overflow-wrap: anywhere;
+}
+.google-error:empty {
+  display: none;
+}
+.google-muted {
+  color: #667085;
+  font-size: 13px;
+}
+.google-selection {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0;
+}
+.google-selection label {
+  display: grid;
+  gap: 8px;
+}
+.google-selection select {
+  width: 100%;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  background: white;
+  font: inherit;
+}
+.google-selection button {
+  justify-self: start;
+}
+.google-profile {
+  border-top: 1px solid #e5e7eb;
+  margin-top: 20px;
+}
+.google-profile:empty {
+  display: none;
+}
+.google-disconnect {
+  margin-top: 20px;
+  padding: 10px 14px;
+  border: 1px solid #fecdca;
+  border-radius: 8px;
+  background: #fff;
+  color: #b42318;
+  cursor: pointer;
+}
+.google-reviews-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.google-reviews-list {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0;
+}
+.google-review {
+  padding: 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  overflow-wrap: anywhere;
+}
+.google-review-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.google-review-heading span {
+  color: #a16207;
+  letter-spacing: 1px;
+}
+.google-review small {
+  color: #667085;
+}
+.google-review p {
+  white-space: pre-wrap;
+}
+.google-review-reply {
+  border-left: 3px solid #d0d5dd;
+  padding-left: 14px;
+  font-size: 13px;
+}
+#google-reviews-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  background: #f5f7fa;
+}
+.google-reviews-scroll {
+  overflow: auto;
+  flex: 1;
+  padding: 24px 30px;
+}
+.google-page-body {
+  max-width: 1000px;
+}
+.google-empty {
+  padding: 28px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+.google-connection button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.google-connection button:focus-visible,
+.google-connection select:focus-visible,
+.google-reviews-scroll button:focus-visible {
+  outline: 2px solid #115cf5;
+  outline-offset: 3px;
+}
+@media (max-width: 650px) {
+  .google-reviews-scroll {
+    padding: 16px;
+  }
+  .mio-google-overlay {
+    padding: 10px;
+  }
+  .mio-google-overlay .mio-service-dialog {
+    padding: 18px;
+    max-height: calc(100dvh - 20px);
+  }
+}

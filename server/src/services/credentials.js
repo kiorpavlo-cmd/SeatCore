@@ -20,7 +20,15 @@ export function protectUsers(account, previous = { users: [] }) {
   return {
     ...account,
     users: account.users.map((user) => {
-      const { pin, pinHash, ...profile } = user;
+      const {
+        pin,
+        pinHash,
+        password,
+        passwordHash,
+        password_hash,
+        hasPassword,
+        ...profile
+      } = user;
       const old = previous.users.find((x) => String(x.id) === String(user.id));
       return {
         ...profile,
@@ -36,6 +44,9 @@ export function protectUsers(account, previous = { users: [] }) {
 export function publicAccount(account) {
   return {
     ...account,
-    users: account.users.map(({ pin, pinHash, ...user }) => user),
+    users: account.users.map(
+      ({ pin, pinHash, password, passwordHash, password_hash, ...user }) =>
+        user,
+    ),
   };
 }

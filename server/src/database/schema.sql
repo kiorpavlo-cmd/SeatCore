@@ -67,6 +67,12 @@ CREATE INDEX IF NOT EXISTS idx_auth_sessions_user
 CREATE INDEX IF NOT EXISTS idx_memberships_restaurant
     ON restaurant_memberships(restaurant_id);
 
+CREATE TABLE IF NOT EXISTS auth_staff_accounts (
+    staff_id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL UNIQUE REFERENCES auth_users(id) ON DELETE CASCADE,
+    restaurant_id TEXT NOT NULL REFERENCES restaurants(id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS auth_tokens (
     token_hash TEXT PRIMARY KEY,
     user_id TEXT NOT NULL,
@@ -78,3 +84,23 @@ CREATE TABLE IF NOT EXISTS auth_tokens (
         REFERENCES auth_users(id)
         ON DELETE CASCADE
 );
+
+-- Kept outside shared application snapshots and browser backups.
+CREATE TABLE IF NOT EXISTS google_connection (
+    user_id TEXT PRIMARY KEY REFERENCES auth_users(id) ON DELETE CASCADE,
+    connection_id TEXT NOT NULL,
+    tokens TEXT NOT NULL,
+    account TEXT NOT NULL DEFAULT '',
+    location TEXT NOT NULL DEFAULT ''
+);
+CREATE TABLE IF NOT EXISTS google_oauth_states (
+    state_hash TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL REFERENCES auth_users(id) ON DELETE CASCADE,
+    session_hash TEXT NOT NULL,
+    verifier TEXT NOT NULL,
+    expires_at INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS viber_business_settings(config_key TEXT PRIMARY KEY,enabled INTEGER NOT NULL DEFAULT 0);
+CREATE TABLE IF NOT EXISTS viber_business_notifications(id TEXT PRIMARY KEY,config_key TEXT NOT NULL,reservation_id TEXT NOT NULL,kind TEXT NOT NULL,revision INTEGER NOT NULL,status TEXT NOT NULL,phone TEXT NOT NULL DEFAULT '',provider_id TEXT,error TEXT NOT NULL DEFAULT '',created_at INTEGER NOT NULL,attempted_at INTEGER);
+CREATE INDEX IF NOT EXISTS viber_business_queue ON viber_business_notifications(config_key,status,created_at);
