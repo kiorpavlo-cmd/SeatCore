@@ -29,11 +29,8 @@ const removedSections = new Set([
   "Поток гостей",
   "Временная шкала",
   "Оборот столов",
-  "Гостевой чат-бот Navi",
-  "База знаний чат-бота",
-  "Агент Navi",
-  "Настройка Navi",
 ]);
+const integrationRoutes = new Set(["Сервисы", "Виджет бронирования"]);
 
 const loaders = {
   home: () => import("../pages/home.js"),
@@ -142,6 +139,10 @@ export function createRouter(app, navigation) {
       param = label;
 
     if (removedSections.has(label)) {
+      location.hash = "#home";
+      return;
+    }
+    if (section === "integrations" && !integrationRoutes.has(label)) {
       location.hash = "#home";
       return;
     }
