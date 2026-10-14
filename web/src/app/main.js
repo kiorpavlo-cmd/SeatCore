@@ -6,6 +6,7 @@ import { fitFloorCanvas } from "../features/floor/viewport.js";
 import { readFields } from "../services/repositories.js";
 import { installDialogAccessibility } from "../components/dialog-accessibility.js";
 import "../styles/index.css";
+import "../styles/demo.css";
 import { shell } from "../components/shell.js";
 import { $, $$, escapeHTML as esc } from "../lib/dom.js";
 import { storage, STORAGE_KEYS } from "../services/storage.js";
@@ -25,6 +26,12 @@ import { createRouter } from "../routes/router.js";
 import { createTopbarActions as createToolbar } from "../components/topbar-actions.js";
 import { can } from "../services/access.js";
 $("#app").innerHTML = shell;
+if (import.meta.env?.VITE_DEMO_MODE === "true") {
+  document.querySelector(".workspace").insertAdjacentHTML(
+    "afterbegin",
+    '<aside class="mio-demo-banner" role="note"><strong>Демо-режим</strong><span>Изменения сохраняются только в этом браузере. Брони не отправляются ресторану.</span></aside>',
+  );
+}
 installDialogAccessibility();
 await initializePersistence();
 const store = createStore(),

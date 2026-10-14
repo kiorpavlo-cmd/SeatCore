@@ -233,6 +233,11 @@ function renderResult(waiting) {
     `<h1>${esc(waiting ? words().waitlist : words().success)}</h1><p class="booking-message success" role="status">${esc(waiting ? words().waiting : words().success)}</p>`,
   );
 }
+function renderDemo() {
+  document.documentElement.lang = "ru";
+  document.body.style.background = "#f5f7fa";
+  root.innerHTML = `<article class="booking-card"><p class="booking-brand">SeatCore</p><p class="booking-message booking-demo-note" role="note"><strong>Демо-режим.</strong> Эта форма показывает внешний вид виджета. Бронирования здесь не отправляются и не сохраняются.</p><h1>Забронируйте столик</h1><p class="booking-subtitle">Будем рады видеть вас в гостях</p><div class="booking-grid"><label class="booking-field">Гости<select aria-label="Гости"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label><label class="booking-field">Дата<input type="date" aria-label="Дата"></label></div><h2 class="booking-section-title">Выберите время</h2><div class="booking-slots">${["18:00", "18:30", "19:00", "19:30", "20:00", "20:30"].map((time) => `<button class="booking-time" type="button" aria-pressed="${time === "19:00"}">${time}</button>`).join("")}</div><button class="booking-submit" type="button" disabled>Отправка бронирования отключена</button><p class="booking-powered">Работает на <strong>SeatCore</strong></p></article>`;
+}
 async function loadAvailability(preserveTable = false) {
   selectedTime = "";
   if (!preserveTable) table = "";
@@ -335,6 +340,10 @@ root.addEventListener("submit", async (event) => {
   }
 });
 
-start().catch((error) => {
-  root.innerHTML = `<section class="booking-card"><p class="booking-message error" role="alert">${esc(error.message || copy.ru.error)}</p><button class="booking-submit" type="button" onclick="location.reload()">${esc(copy.ru.retry)}</button></section>`;
-});
+if (location.hostname.endsWith(".github.io")) {
+  renderDemo();
+} else {
+  start().catch((error) => {
+    root.innerHTML = `<section class="booking-card"><p class="booking-message error" role="alert">${esc(error.message || copy.ru.error)}</p><button class="booking-submit" type="button" onclick="location.reload()">${esc(copy.ru.retry)}</button></section>`;
+  });
+}

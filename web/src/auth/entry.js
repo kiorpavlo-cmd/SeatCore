@@ -292,4 +292,11 @@ async function start() {
   }
 }
 
-start();
+if (import.meta.env?.VITE_DEMO_MODE === "true" && !resetToken) {
+  import("../app/main.js").catch((error) => {
+    console.error("MIO DEMO START ERROR:", error);
+    layout('<div class="mio-auth-loading">Не удалось открыть демо Mio!. Обновите страницу.</div>');
+  });
+} else {
+  start();
+}

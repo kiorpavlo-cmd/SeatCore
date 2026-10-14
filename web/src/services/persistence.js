@@ -19,6 +19,20 @@ export function disconnectedStorage(local, message, report, retry) {
 export async function initializePersistence() {
   const announce = (detail) =>
     document.dispatchEvent(new CustomEvent("persistence:status", { detail }));
+  if (import.meta.env?.VITE_DEMO_MODE === "true") {
+    const demoRepository = {
+      ...localStorageRepository,
+      persistence: {
+        mode: "local",
+        status: "local",
+        message:
+          "Демо: изменения хранятся только в этом браузере. Бронирования не отправляются ресторану.",
+      },
+    };
+    usePersistence(demoRepository);
+    announce(demoRepository.persistence);
+    return demoRepository.persistence;
+  }
   try {
     const repository = await createServerStorage({
       api: createApi(),
