@@ -45,7 +45,8 @@ export function createApp({
       const hostname = host ? new URL("http://" + host).hostname : "";
       const expectedHost = publicHost ? publicHost : null;
       const allowedHost = expectedHost
-        ? hostname === expectedHost
+        ? hostname === expectedHost ||
+          ["localhost", "127.0.0.1", "[::1]"].includes(hostname)
         : ["localhost", "127.0.0.1", "[::1]"].includes(hostname);
       if (!allowedHost)
         throw new AppError(
@@ -56,6 +57,7 @@ export function createApp({
 
       if (
         publicHost &&
+        accessPassword &&
         !(
           (request.url?.split("?")[0] === "/api/v1/viber/webhook" &&
             request.method === "POST") ||
@@ -93,7 +95,7 @@ export function createApp({
       }
 
       const origin = request.headers.origin;
-      const expectedOrigin = publicHost
+      const expectedOrigin = publicHost && hostname === publicHost
         ? "https://" + publicHost
         : "http://" + host;
       if (origin && origin !== expectedOrigin)

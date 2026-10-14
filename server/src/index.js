@@ -4,6 +4,11 @@ import { execFile } from "node:child_process";
 process.umask(0o077);
 const options = configuration();
 const app = createApp(options);
+if (options.publicHost && !app.auth.ownerExists()) {
+  console.error("Перед публикацией настройте учётную запись владельца.");
+  app.store.close();
+  process.exit(1);
+}
 const address = (port) =>
   "http://" +
   (options.host === "::1" ? "[::1]" : options.host) +
@@ -46,6 +51,8 @@ app.server.listen(options.port, options.host, () => {
   const port = app.server.address().port;
   const url = address(port);
   console.log("Mio!: " + url);
+  if (options.publicHost)
+    console.log("Публичный адрес: https://" + options.publicHost + "/");
   console.log("База данных: " + options.database);
   if (process.argv.includes("--open") && process.platform === "darwin")
     openSite(url);

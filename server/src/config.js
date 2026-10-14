@@ -9,6 +9,25 @@ export function configuration(env = process.env) {
   const host = env.HOST || "127.0.0.1";
   if (!["127.0.0.1", "localhost", "::1"].includes(host))
     throw new Error("Mio работает локально. HOST должен указывать на localhost");
+  let publicHost = env.MIO_PUBLIC_HOST?.trim() || undefined;
+  if (publicHost) {
+    let parsed;
+    try {
+      parsed = new URL(`https://${publicHost}`);
+    } catch {
+      throw new Error("MIO_PUBLIC_HOST должен содержать только доменное имя");
+    }
+    if (
+      parsed.hostname !== publicHost.toLowerCase() ||
+      parsed.host !== publicHost.toLowerCase() ||
+      parsed.pathname !== "/" ||
+      parsed.search ||
+      parsed.hash ||
+      !publicHost.includes(".")
+    )
+      throw new Error("MIO_PUBLIC_HOST должен содержать только доменное имя");
+    publicHost = parsed.hostname;
+  }
   const database = path.resolve(root, env.DATABASE_PATH || "data/mio.sqlite");
   const relativeDatabase = path.relative(root, database);
   if (!relativeDatabase || relativeDatabase === ".." ||
@@ -20,6 +39,8 @@ export function configuration(env = process.env) {
   return {
     host,
     port,
+    publicHost,
+    accessPassword: env.MIO_ACCESS_PASSWORD || "",
     database,
     staticDirectory: path.resolve(root, env.WEB_DIST || "../web/dist"),
     seed: JSON.parse(readFileSync(path.join(root, "config/seed.json"), "utf8")),
