@@ -1,5 +1,7 @@
 import { storage } from "./storage.js";
 export function currentUser() {
+  if (import.meta.env?.VITE_DEMO_MODE === "true")
+    return { role: "owner", permissions: {} };
   return storage.persistence.access || null;
 }
 export function can(permission) {
