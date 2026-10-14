@@ -16,6 +16,7 @@ import {
   ViberNotifications,
   routeViberNotifications,
 } from "./services/viber-notifications.js";
+import { routePublicBooking } from "./services/public-booking.js";
 export function createApp({
   database = ":memory:",
   seed,
@@ -56,8 +57,13 @@ export function createApp({
       if (
         publicHost &&
         !(
-          request.url?.split("?")[0] === "/api/v1/viber/webhook" &&
-          request.method === "POST"
+          (request.url?.split("?")[0] === "/api/v1/viber/webhook" &&
+            request.method === "POST") ||
+          request.url?.split("?")[0].startsWith("/api/public/widgets/") ||
+          (["/booking.html", "/booking.css", "/booking.js"].includes(
+            request.url?.split("?")[0],
+          ) &&
+            ["GET", "HEAD"].includes(request.method))
         )
       ) {
         const authorization = request.headers.authorization || "";
@@ -110,7 +116,9 @@ export function createApp({
         await handleViberWebhook(request, response);
         return;
       }
-      if (url.pathname.startsWith("/api/v1/viber-notifications/")) {
+      if (url.pathname.startsWith("/api/public/widgets/")) {
+        await routePublicBooking(request, response, url, state);
+      } else if (url.pathname.startsWith("/api/v1/viber-notifications/")) {
         if (!user)
           throw new AppError(401, "UNAUTHORIZED", "Требуется вход в Mio!");
         access.require(

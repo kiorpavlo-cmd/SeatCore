@@ -9,6 +9,10 @@ import {
 import { protectUsers, publicAccount } from "./credentials.js";
 import { linkReservationGuests } from "./guest-linking.js";
 import { deriveStaff } from "../../contracts/staff.js";
+import {
+  checkPublicBookingInput,
+  publicWidgetConfig,
+} from "./public-booking-domain.js";
 export class StateService {
   constructor(store, { onCommit, auth, access } = {}) {
     this.store = store;
@@ -239,6 +243,71 @@ export class StateService {
       receiptHash,
       actor,
     );
+  }
+  createPublicBooking(widgetId, body) {
+    const mutationId = body?.mutationId;
+    if (
+      typeof mutationId !== "string" ||
+      !mutationId.trim() ||
+      mutationId.length > 128
+    )
+      invalid("Неверный идентификатор запроса");
+    const hash = createHash("sha256")
+      .update(JSON.stringify(["public-widget", widgetId, body]))
+      .digest("hex");
+    return this.store.transaction(() => {
+      const receipt = this.store.receipt(mutationId);
+      if (receipt) {
+        if (receipt.hash !== hash)
+          throw new AppError(
+            409,
+            "IDEMPOTENCY_REUSE",
+            "Идентификатор запроса уже использован",
+          );
+        return { accepted: true, duplicate: true, revision: receipt.revision };
+      }
+      const current = this.store.read();
+      const widget = publicWidgetConfig(current, widgetId);
+      const { record, waitlist } = checkPublicBookingInput(
+        current,
+        widget,
+        body,
+      );
+      record.id = randomUUID();
+      record.createdAt = new Date().toISOString();
+      record.tags = "";
+      record.employee = "";
+      record.preference = "";
+      record.teamChat = "";
+      const app = structuredClone(current.app);
+      (waitlist ? app.waitlist : app.reservations).push(record);
+      const linked = linkReservationGuests(app, current.guests);
+      const next = { ...current, app: linked.app, guests: linked.guests };
+      validateState(next, current, ["app", "guests"]);
+      this.store.write({ app: linked.app, guests: linked.guests });
+      const revision = Number(this.store.getMeta("revision")) + 1;
+      this.store.setMeta("revision", revision);
+      this.store.setMeta("initialized", "1");
+      this.store.log(
+        "Бронирования и залы",
+        waitlist
+          ? "Заявка добавлена в лист ожидания через виджет"
+          : "Создано бронирование через виджет",
+      );
+      this.store.addReceipt(mutationId, hash, revision);
+      this.onCommit?.(current, next, { revision, public: true });
+      return {
+        accepted: true,
+        booking: { id: record.id, waitlist },
+        revision,
+      };
+    });
+  }
+  publicWidget(widgetId) {
+    return publicWidgetConfig(this.store.read(), widgetId);
+  }
+  publicWidgetData() {
+    return this.store.read();
   }
   records(collection, actor = null) {
     this.access?.readCollection(actor, collection);
