@@ -48,7 +48,6 @@ const resourcePermissions = {
   automations: "crm_messages",
   campaigns: "crm_messages",
   segments: "segments",
-  knowledge: "navi",
   shifts: "shifts",
   surveys: "crm_messages",
   reviews: "manage_crm",

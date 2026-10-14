@@ -20,10 +20,7 @@ export function routePermission(section, label) {
     return label.includes("гост") || label.includes("Лояльность")
       ? "manage_crm"
       : "advanced_reports";
-  if (section === "integrations")
-    return label.includes("Navi") || label.includes("чат-бот")
-      ? "navi"
-      : "admin";
+  if (section === "integrations") return "admin";
   if (section === "marketing") return "crm_messages";
   if (section === "messaging")
     return label === "Библиотека сообщений"

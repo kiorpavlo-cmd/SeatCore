@@ -263,11 +263,6 @@
   border-color: #cbd5e1;
 }
 
-#home-page .top-actions .navi {
-  color: #2563eb;
-  font-weight: 600;
-}
-
 #home-page .top-actions .booking-notification-button {
   display: none;
 }
@@ -297,13 +292,6 @@
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-}
-
-.top-actions > button.navi {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
 }
 
 .top-actions > button[title="Ограничения"],

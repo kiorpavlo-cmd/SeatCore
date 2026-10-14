@@ -280,9 +280,6 @@ pre {
   .page-heading {
     flex-wrap: wrap;
   }
-  .top-actions .navi {
-    display: none;
-  }
   .setup-task {
     padding: 18px;
     gap: 12px;

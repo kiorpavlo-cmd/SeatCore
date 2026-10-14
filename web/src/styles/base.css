@@ -175,13 +175,6 @@ nav {
   font-size: 21px;
   color: #eee;
 }
-.top-actions .navi {
-  border: 1px solid #c6a9cd;
-  border-radius: 22px;
-  font-size: 14px;
-  padding: 6px 11px;
-  white-space: nowrap;
-}
 .content {
   display: flex;
   flex: 1;
@@ -737,9 +730,6 @@ nav {
   }
   .top-actions {
     gap: 3px;
-  }
-  .navi {
-    display: none;
   }
   .floor-canvas {
     transform: scale(0.8);

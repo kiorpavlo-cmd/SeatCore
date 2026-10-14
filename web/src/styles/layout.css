@@ -272,10 +272,6 @@ button:focus-visible {
     gap: 2px;
     flex-wrap: wrap;
   }
-  .top-actions .navi {
-    display: block;
-    font-size: 12px;
-  }
   .top-actions [title="Связь"],
   .top-actions [title="Уведомления"] {
     display: inline-flex;

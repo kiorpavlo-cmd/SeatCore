@@ -63,10 +63,6 @@ export const resources = {
       select("room", "Зал", ["Основной зал", "Летняя терраса"]),
     ],
   },
-  "База знаний чат-бота": {
-    id: "knowledge",
-    fields: [text("name", "Вопрос", true), area("body", "Ответ")],
-  },
   Опросы: {
     id: "surveys",
     fields: [text("name", "Название", true), area("body", "Вопросы")],
@@ -92,9 +88,6 @@ resources["Автоматизация"] = resources["Автоматически�
 resources["Онлайн-отзывы"] = resources["Отзывы за столом"];
 export const externalRoutes = new Set([
   "WhatsApp",
-  "Гостевой чат-бот Navi",
-  "Агент Navi",
-  "Настройка Navi",
   "Входящие чаты",
   "Счета",
   "Изменение тарифа",
